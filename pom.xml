@@ -36,13 +36,6 @@
 
     <dependencies>
 
-        <!--&lt;!&ndash;JSONObject&ndash;&gt;-->
-        <!--<dependency>-->
-            <!--<groupId>top.jfunc.common</groupId>-->
-            <!--<artifactId>converter</artifactId>-->
-            <!--<version>1.8.0</version>-->
-        <!--</dependency>-->
-
         <!--腾讯ai的快速开发第三方框架-->
         <dependency>
             <groupId>cn.xsshome</groupId>

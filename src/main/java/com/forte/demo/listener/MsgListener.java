@@ -1,9 +1,8 @@
 package com.forte.demo.listener;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.forte.demo.bean.TAipUtils;
 import com.forte.demo.mapper.MessageMapper;
+import com.forte.qqrobot.anno.Filter;
 import com.forte.qqrobot.anno.Listen;
 import com.forte.qqrobot.anno.depend.Beans;
 import com.forte.qqrobot.anno.depend.Depend;
@@ -62,14 +61,23 @@ public class MsgListener {
      * @param msg
      * @param sender
      */
+    @Filter(value = "来份色图")
     @Listen(MsgGetTypes.groupMsg)
     public void groupMsg(GroupMsg msg, MsgSender sender) throws Exception {
 
         String result = TAipUtils.getTAIP()
                 .nlpTextchat(TAipUtils.getSession(),msg.getMsg());
 
-        boolean b = sender.SENDER.sendGroupMsg(msg.getGroup(), TAipUtils.getAnswer(result));
-        System.out.println(b);
+        sender.SENDER.sendGroupMsg(msg.getGroup(), TAipUtils.getAnswer(result));
     }
 
+    @Filter(value = "啦啦啦")
+    @Listen(MsgGetTypes.groupMsg)
+    public void groupMsg2(GroupMsg msg, MsgSender sender) throws Exception {
+
+        String result = TAipUtils.getTAIP()
+                .nlpTextchat(TAipUtils.getSession(),msg.getMsg());
+
+        sender.SENDER.sendGroupMsg(msg.getGroup(), TAipUtils.getAnswer(result));
+    }
 }

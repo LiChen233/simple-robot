@@ -1,13 +1,10 @@
 package com.forte.demo;
 
-import com.forte.demo.listener.MsgListener;
 import com.forte.qqrobot.component.forhttpapi.HttpApp;
 import com.forte.qqrobot.component.forhttpapi.HttpConfiguration;
 import com.forte.qqrobot.depend.DependGetter;
 import com.forte.qqrobot.sender.MsgSender;
 import com.forte.qqrobot.utils.CQCodeUtil;
-import org.springframework.beans.factory.annotation.Autowired;
-
 /**
  * 这个是simple-robot框架的启动器类
  * 使用HTTP API组件进行示例, 实现{@link HttpApp}接口并进行相应的配置

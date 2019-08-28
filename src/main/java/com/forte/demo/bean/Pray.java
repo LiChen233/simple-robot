@@ -3,15 +3,27 @@ package com.forte.demo.bean;
 public class Pray {
 
     private String qq;
-    private Integer qujian;
-    private Integer baodi;
+    private Integer highqujian;
+    private Integer highbaodi;
+    private Integer customqujian;
+    private Integer custombaodi;
+    private Integer middlequjian;
+    private Integer middlebaodi;
+    private Integer specialqujian;
+    private Integer specialbaodi;
 
     @Override
     public String toString() {
         return "Pray{" +
                 "qq='" + qq + '\'' +
-                ", qujian=" + qujian +
-                ", baodi=" + baodi +
+                ", highqujian=" + highqujian +
+                ", highbaodi=" + highbaodi +
+                ", customqujian=" + customqujian +
+                ", custombaodi=" + custombaodi +
+                ", middlequjian=" + middlequjian +
+                ", middlebaodi=" + middlebaodi +
+                ", specialqujian=" + specialqujian +
+                ", specialbaodi=" + specialbaodi +
                 '}';
     }
 
@@ -23,28 +35,82 @@ public class Pray {
         this.qq = qq;
     }
 
-    public Integer getQujian() {
-        return qujian;
+    public Integer getHighqujian() {
+        return highqujian;
     }
 
-    public void setQujian(Integer qujian) {
-        this.qujian = qujian;
+    public void setHighqujian(Integer highqujian) {
+        this.highqujian = highqujian;
     }
 
-    public Integer getBaodi() {
-        return baodi;
+    public Integer getHighbaodi() {
+        return highbaodi;
     }
 
-    public void setBaodi(Integer baodi) {
-        this.baodi = baodi;
+    public void setHighbaodi(Integer highbaodi) {
+        this.highbaodi = highbaodi;
     }
 
-    public Pray(String qq, Integer qujian, Integer baodi) {
-        this.qq = qq;
-        this.qujian = qujian;
-        this.baodi = baodi;
+    public Integer getCustomqujian() {
+        return customqujian;
+    }
+
+    public void setCustomqujian(Integer customqujian) {
+        this.customqujian = customqujian;
+    }
+
+    public Integer getCustombaodi() {
+        return custombaodi;
+    }
+
+    public void setCustombaodi(Integer custombaodi) {
+        this.custombaodi = custombaodi;
+    }
+
+    public Integer getMiddlequjian() {
+        return middlequjian;
+    }
+
+    public void setMiddlequjian(Integer middlequjian) {
+        this.middlequjian = middlequjian;
+    }
+
+    public Integer getMiddlebaodi() {
+        return middlebaodi;
+    }
+
+    public void setMiddlebaodi(Integer middlebaodi) {
+        this.middlebaodi = middlebaodi;
+    }
+
+    public Integer getSpecialqujian() {
+        return specialqujian;
+    }
+
+    public void setSpecialqujian(Integer specialqujian) {
+        this.specialqujian = specialqujian;
+    }
+
+    public Integer getSpecialbaodi() {
+        return specialbaodi;
+    }
+
+    public void setSpecialbaodi(Integer specialbaodi) {
+        this.specialbaodi = specialbaodi;
     }
 
     public Pray() {
+    }
+
+    public Pray(String qq, Integer highqujian, Integer highbaodi, Integer customqujian, Integer custombaodi, Integer middlequjian, Integer middlebaodi, Integer specialqujian, Integer specialbaodi) {
+        this.qq = qq;
+        this.highqujian = highqujian;
+        this.highbaodi = highbaodi;
+        this.customqujian = customqujian;
+        this.custombaodi = custombaodi;
+        this.middlequjian = middlequjian;
+        this.middlebaodi = middlebaodi;
+        this.specialqujian = specialqujian;
+        this.specialbaodi = specialbaodi;
     }
 }

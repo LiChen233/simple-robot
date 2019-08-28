@@ -20,6 +20,7 @@ import java.util.Random;
  * 获取所有扭蛋json并写入文件
  * 提供其中之一的扭蛋json
  * 提供扭蛋功能，返回状态信息以便其他类进行数据库操作
+ * @author
  */
 public class PrayUtils {
 
@@ -57,7 +58,7 @@ public class PrayUtils {
      * @return
      * @throws IOException
      */
-    private static JSONObject getJsonString(PrayEnum name) throws IOException {
+    public static JSONObject getJsonString(PrayEnum name) throws IOException {
 
         File jsonFile = new File("src/static/PrayJson.txt");
         //读取文件中的数据
@@ -72,25 +73,23 @@ public class PrayUtils {
 
         //转成对象
         JSONObject json = JSON.parseObject(pray.toString());
-        JSONObject high = (JSONObject) json.get(name);
-        return json;
+        JSONObject prayJson = (JSONObject) json.get(name.toString());
+        return prayJson;
     }
 
     /**
      * 传入要抽的蛋池，进行一次单抽
-     * @param high 当前蛋池的json数据
+     * @param prayJson 当前蛋池的json数据
      * @param baodi 当前是否为保底，抽到金就重置，下次区间也重置，防止保底位移
      * @return
      */
-    public static Map<String,String> gacha(JSONObject high, Boolean baodi){
-
+    public static Map<String,String> gacha(JSONObject prayJson, Boolean baodi){
         //返回抽中的装备，以及是否出金，以便后面判断
         Map<String,String> result = new HashMap();
-
         //获取扭蛋总概率
-        Integer total = (Integer) high.get("total");
+        Integer total = (Integer) prayJson.get("total");
         //获取神器概率区间
-        Integer god = (Integer) high.get("god");
+        Integer god = (Integer) prayJson.get("god");
 
         Integer myRate;
 
@@ -103,7 +102,7 @@ public class PrayUtils {
         }
 
         //拿到装备数组
-        JSONArray equips = high.getJSONArray("equips");
+        JSONArray equips = prayJson.getJSONArray("equips");
 
         //判断随机数小于那个装备区间，就是抽中这个装备了
         for (int i = 0; i < equips.size(); i++) {
@@ -116,7 +115,7 @@ public class PrayUtils {
                 result.put("equip",(String) equip.get("name"));
                 //如果随机数在神器区间内，就是出金了
                 if (myRate<=god){
-                    result.put("baodi","true");
+                    result.put("gold","true");
                 }
                 return result;
             }

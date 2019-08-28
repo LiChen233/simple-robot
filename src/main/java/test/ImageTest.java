@@ -25,10 +25,13 @@ public class ImageTest {
         Image img = javax.imageio.ImageIO.read(file2);
         g.drawImage(img.getScaledInstance(484,467,Image.SCALE_SMOOTH), 0, 0, null);
 
-        String s="我要加的水印";
+        String s="医疗兵作战服[4★]";
         g.setColor(Color.RED);
-        g.setFont(new Font("宋体",Font.PLAIN,150));
-        g.drawString(s,0,300);
+        g.setFont(new Font("黑体",Font.PLAIN,50));
+        g.drawString(s,100,100);
+
+        s="医疗兵作战服[4★]";
+        g.drawString(s,100,150);
         g.dispose();
 
         String path = "C:\\Users\\Chen\\Desktop\\123.jpg";

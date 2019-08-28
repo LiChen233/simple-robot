@@ -1,4 +1,4 @@
-package com.forte.demo.bean;
+package com.forte.demo.utils;
 
 import cn.xsshome.taip.nlp.TAipNlp;
 import com.alibaba.fastjson.JSON;

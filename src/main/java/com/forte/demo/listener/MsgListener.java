@@ -1,11 +1,9 @@
 package com.forte.demo.listener;
 
-import com.forte.demo.bean.TAipUtils;
-import com.forte.demo.mapper.MessageMapper;
+import com.forte.demo.utils.TAipUtils;
 import com.forte.qqrobot.anno.Filter;
 import com.forte.qqrobot.anno.Listen;
 import com.forte.qqrobot.anno.depend.Beans;
-import com.forte.qqrobot.anno.depend.Depend;
 import com.forte.qqrobot.beans.messages.msgget.GroupMsg;
 import com.forte.qqrobot.beans.messages.msgget.PrivateMsg;
 import com.forte.qqrobot.beans.messages.types.MsgGetTypes;
@@ -31,8 +29,8 @@ public class MsgListener {
      *
      * 这个mapper是群主写的一个访问数据库的类，用不到
      * */
-    @Depend
-    private MessageMapper mapper;
+    /*@Depend
+    private MessageMapper mapper;*/
 
     /**
      * 这个是监听私聊的方法，@Listen注解括号里的是枚举，专门用来监听私聊消息的

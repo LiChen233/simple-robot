@@ -1,9 +1,7 @@
 package com.forte.demo;
 
-import com.forte.demo.mapper.MessageMapper;
 import com.forte.qqrobot.component.forhttpapi.HttpApplication;
 import com.forte.qqrobot.depend.DependGetter;
-import com.forte.qqrobot.log.QQLog;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ConfigurableApplicationContext;

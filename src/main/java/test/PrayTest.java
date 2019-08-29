@@ -24,13 +24,8 @@ public class PrayTest {
 
     @Test
     public void test1() throws IOException {
-        ArrayList<String> equips = prayService.highTen();
-        System.out.println(equips);
-    }
-
-
-    @Test
-    public void gacha() throws IOException {
+        String path = prayService.highTen();
+        System.out.println(path);
     }
 
     /**

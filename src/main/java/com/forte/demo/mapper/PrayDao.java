@@ -32,4 +32,8 @@ public interface PrayDao {
     //获取某一保底
     @Select("SELECT ${baodi} FROM pray WHERE qq = ${qq}")
     Integer getBaodi (@Param("baodi") String baodi,@Param("qq") String qq);
+
+    //查询保底还有多少
+    @Select("SELECT ${highqujian} FROM pray WHERE ${highbaodi} = 0 AND qq = ${qq}")
+    Integer getBaodiNum(@Param("highqujian")String highqujian,@Param("highbaodi") String highbaodi,@Param("qq")String qq);
 }

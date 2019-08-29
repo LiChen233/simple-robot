@@ -3,27 +3,26 @@ package com.forte.demo.utils;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.UUID;
 
 public class ImageUtils {
     private static final Integer HEIGHT = 210;
     private static final Integer LINE_HEIGHT = 45;
     private static final Integer SIZE = 26;
-    private static final String IN = "/Users/lichen/Desktop/十连图片.png";
-    private static final String OUT = "/Users/lichen/Desktop/十连合成.png";
+    private static final String IN = "src/static/bg.png";
+    private static final String OUT = "./temp/";
     private static final Integer EQ = 485;
     private static final Integer SM = 500;
     private static final Integer TIME = 100;
     private static final Integer D_WIDTH = 984;
     private static final Integer D_HEIGHT = 649;
 
-    public static void composeImg(ArrayList<String> equips) throws IOException {
+    public static String composeImg(ArrayList<String> equips) throws IOException {
 
         BufferedImage thumbImage = new BufferedImage(D_WIDTH, D_HEIGHT, BufferedImage.TYPE_INT_RGB);
         Graphics2D g = thumbImage.createGraphics();
@@ -35,11 +34,11 @@ public class ImageUtils {
 
         //消除文字锯齿
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
-        //消除画图锯齿，不要开，不然数字就不像了！
+        //消除画图锯齿，很诡异，有时候有变化有时候没变化，建议关
         //g.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL,RenderingHints.VALUE_STROKE_DEFAULT);
         //设置白色黑体
         g.setColor(Color.WHITE);
-        g.setFont(new Font("黑体",Font.BOLD,SIZE));
+        g.setFont(new Font("微软雅黑-粗",Font.PLAIN,SIZE));
 
         //设置日期格式，获取当前时间
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -59,7 +58,7 @@ public class ImageUtils {
             equip = equip.replace("]","】");
 
             //神器装备最后标记了1，判断是不是神器
-            if ("1".equals(equip.substring(equip.length()-1))){
+            if ("*".equals(equip.substring(equip.length()-1))){
                 //拿到真正的装备
                 equip = equip.substring(0,equip.length()-1);
                 equip = reverse(equip);
@@ -86,13 +85,14 @@ public class ImageUtils {
         //处理文字
         g.dispose();
 
+        //生成uuid作为名字，防止图片相互覆盖
+        String uuid = UUID.randomUUID().toString().replaceAll("-","");
+
         //输出图片
-        String path = OUT;
-        BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(path));
+        String path = OUT+uuid+".jpg";
         String formatName = path.substring(path.lastIndexOf(".") + 1);
         ImageIO.write(thumbImage, /*"GIF"*/ formatName /* format desired */ , new File(path) /* target */ );
-
-        out.close();
+        return path;
     }
 
     /**

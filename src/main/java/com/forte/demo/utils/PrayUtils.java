@@ -92,7 +92,7 @@ public class PrayUtils {
 
         Integer myRate;
 
-        if (baodi){
+        if (baodi && 0!=god){
             //保底了,就从神器区间生成随机数
             myRate = new Random().nextInt(god)+1;
         }else {

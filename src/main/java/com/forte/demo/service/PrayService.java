@@ -28,11 +28,11 @@ public class PrayService {
         return gachaOne(prayJson, qq,PrayEnum.high);
     }
 
-    public ArrayList<String> highTen() throws IOException {
+    public String highTen() throws IOException {
         JSONObject prayJson = PrayUtils.getJsonString(PrayEnum.high);
         ArrayList<String> equips = gachaTen(prayJson, PrayEnum.high);
-        ImageUtils.composeImg(equips);
-        return equips;
+        String path = ImageUtils.composeImg(equips);
+        return path;
     }
 
     public String customOne(String qq) throws IOException {
@@ -40,9 +40,11 @@ public class PrayService {
         return gachaOne(prayJson, qq,PrayEnum.custom);
     }
 
-    public ArrayList<String> customTen() throws IOException {
+    public String customTen() throws IOException {
         JSONObject prayJson = PrayUtils.getJsonString(PrayEnum.custom);
-        return gachaTen(prayJson,PrayEnum.custom);
+        ArrayList<String> equips = gachaTen(prayJson, PrayEnum.custom);
+        String path = ImageUtils.composeImg(equips);
+        return path;
     }
 
     public String middleOne(String qq) throws IOException {
@@ -50,9 +52,11 @@ public class PrayService {
         return gachaOne(prayJson, qq,PrayEnum.middle);
     }
 
-    public ArrayList<String> middleTen() throws IOException {
+    public String middleTen() throws IOException {
         JSONObject prayJson = PrayUtils.getJsonString(PrayEnum.middle);
-        return gachaTen(prayJson,PrayEnum.middle);
+        ArrayList<String> equips = gachaTen(prayJson, PrayEnum.middle);
+        String path = ImageUtils.composeImg(equips);
+        return path;
     }
 
     public String specialOne(String qq) throws IOException {
@@ -60,9 +64,11 @@ public class PrayService {
         return gachaOne(prayJson, qq,PrayEnum.special);
     }
 
-    public ArrayList<String> specialTen() throws IOException {
+    public String specialTen() throws IOException {
         JSONObject prayJson = PrayUtils.getJsonString(PrayEnum.special);
-        return gachaTen(prayJson,PrayEnum.special);
+        ArrayList<String> equips = gachaTen(prayJson, PrayEnum.special);
+        String path = ImageUtils.composeImg(equips);
+        return path;
     }
 
     /**
@@ -150,7 +156,7 @@ public class PrayService {
             if("true".equals(gacha.get("gold"))){
                 baodi = 10;
                 //抽到金，字符串后面加一个标记，以便后面识别
-                equip+="1";
+                equip+="*";
             }else{
                 baodi--;
             }

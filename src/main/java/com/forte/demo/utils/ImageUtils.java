@@ -1,6 +1,4 @@
-package test;
-
-import org.junit.Test;
+package com.forte.demo.utils;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -13,9 +11,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class ImageTest {
-
-    /*private static final Integer HEIGHT = 210;
+public class ImageUtils {
+    private static final Integer HEIGHT = 210;
     private static final Integer LINE_HEIGHT = 45;
     private static final Integer SIZE = 26;
     private static final String IN = "/Users/lichen/Desktop/十连图片.png";
@@ -26,20 +23,7 @@ public class ImageTest {
     private static final Integer D_WIDTH = 984;
     private static final Integer D_HEIGHT = 649;
 
-    @Test
-    public void test1() throws IOException {
-
-        ArrayList<String> equips = new ArrayList<>();
-        equips.add("遗迹之心×6");
-        equips.add("春之声圆舞曲[5★]1");
-        equips.add("龙血之魂[5★]");
-        equips.add("猛士MS-F1军斧[4★]");
-        equips.add("水银子弹×4");
-        equips.add("专业护目镜×5");
-        equips.add("西太平洋舰队制服[3★]");
-        equips.add("V制式试作型霰弹枪[3★]");
-        equips.add("Thunder50[4★]");
-        equips.add("V制式战斗服·司祭[3★]");
+    public static void composeImg(ArrayList<String> equips) throws IOException {
 
         BufferedImage thumbImage = new BufferedImage(D_WIDTH, D_HEIGHT, BufferedImage.TYPE_INT_RGB);
         Graphics2D g = thumbImage.createGraphics();
@@ -106,17 +90,17 @@ public class ImageTest {
         String path = OUT;
         BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(path));
         String formatName = path.substring(path.lastIndexOf(".") + 1);
-        ImageIO.write(thumbImage, *//*"GIF"*//* formatName *//* format desired *//* , new File(path) *//* target *//* );
+        ImageIO.write(thumbImage, /*"GIF"*/ formatName /* format desired */ , new File(path) /* target */ );
 
         out.close();
     }
 
-    *//**
+    /**
      * 装备星级和装备名字反转
      * @param equip 装备名字
      * @return 处理过的装备
-     *//*
-    private String reverse(String equip){
+     */
+    private static String reverse(String equip){
         String star = equip.substring(equip.length() - 3, equip.length() - 2);
         if ("3".equals(star) || "4".equals(star) ||
                 "5".equals(star) || "2".equals(star) ||
@@ -124,5 +108,5 @@ public class ImageTest {
             equip = equip.substring(equip.length()-4)+equip.substring(0,equip.length()-4);
         }
         return equip;
-    }*/
+    }
 }

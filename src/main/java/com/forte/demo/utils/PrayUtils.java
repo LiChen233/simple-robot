@@ -20,15 +20,15 @@ import java.util.Random;
  * 获取所有扭蛋json并写入文件
  * 提供其中之一的扭蛋json
  * 提供扭蛋功能，返回状态信息以便其他类进行数据库操作
- * @author
+ * @author li
  */
 public class PrayUtils {
 
-    public static final String GAO = "https://hsod2.hongshn.xyz/gacha/data";
+    private static final String GAO = "https://hsod2.hongshn.xyz/gacha/data";
 
     /**
      * 该方法用于刷新扭蛋json文件
-     * @throws IOException
+     * @throws IOException 异常啥的，到时候再捕获吧，不应该抛的
      */
     public static void flushJson() throws IOException {
         //使用Jsoup获取搞事学园的祈愿概率json，并写入文件中，以免更换接口导致祈愿不能使用
@@ -53,10 +53,10 @@ public class PrayUtils {
     }
 
     /**
-     * 传入蛋池名字，蛋池名字从枚举类中拿，拿到文件中的蛋池json，并返回Json对象
+     * 传入蛋池名字，蛋池名字从枚举类中拿，拿到文件中的蛋池json
      * @param name 蛋池名字
-     * @return
-     * @throws IOException
+     * @return 返回Json对象
+     * @throws IOException 再说
      */
     public static JSONObject getJsonString(PrayEnum name) throws IOException {
 
@@ -73,19 +73,18 @@ public class PrayUtils {
 
         //转成对象
         JSONObject json = JSON.parseObject(pray.toString());
-        JSONObject prayJson = (JSONObject) json.get(name.toString());
-        return prayJson;
+        return (JSONObject) json.get(name.toString());
     }
 
     /**
      * 传入要抽的蛋池，进行一次单抽
      * @param prayJson 当前蛋池的json数据
      * @param baodi 当前是否为保底，抽到金就重置，下次区间也重置，防止保底位移
-     * @return
+     * @return 返回带有Map，内有装备名字，是否是金
      */
     public static Map<String,String> gacha(JSONObject prayJson, Boolean baodi){
         //返回抽中的装备，以及是否出金，以便后面判断
-        Map<String,String> result = new HashMap();
+        Map<String,String> result = new HashMap<>();
         //获取扭蛋总概率
         Integer total = (Integer) prayJson.get("total");
         //获取神器概率区间

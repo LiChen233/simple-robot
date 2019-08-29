@@ -2,6 +2,7 @@ package com.forte.demo.service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.forte.demo.mapper.PrayDao;
+import com.forte.demo.utils.ImageUtils;
 import com.forte.demo.utils.PrayEnum;
 import com.forte.demo.utils.PrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,9 @@ public class PrayService {
 
     public ArrayList<String> highTen() throws IOException {
         JSONObject prayJson = PrayUtils.getJsonString(PrayEnum.high);
-        return gachaTen(prayJson,PrayEnum.high);
+        ArrayList<String> equips = gachaTen(prayJson, PrayEnum.high);
+        ImageUtils.composeImg(equips);
+        return equips;
     }
 
     public String customOne(String qq) throws IOException {
@@ -143,13 +146,15 @@ public class PrayService {
             }
             //抽到的装备
             String equip = gacha.get("equip");
-            res.add(equip);
             //判断是否出金，抽到金就重置保底
             if("true".equals(gacha.get("gold"))){
                 baodi = 10;
+                //抽到金，字符串后面加一个标记，以便后面识别
+                equip+="1";
             }else{
                 baodi--;
             }
+            res.add(equip);
         }
         return res;
     }

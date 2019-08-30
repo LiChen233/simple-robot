@@ -11,8 +11,8 @@ import org.springframework.core.env.Environment;
  *
  * main函数所在的主程序
  *
- * @author ForteScarlet <[email]ForteScarlet@163.com>
  * @since JDK1.8
+ * @p00author ForteScarlet <[email]ForteScarlet@163.com>
  **/
 public class MainApplication {
 

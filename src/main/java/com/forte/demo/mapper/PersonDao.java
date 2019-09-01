@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 public interface PersonDao {
 
 
-    @Insert("INSERT INTO person VALUES(#{qq},#{star},#{signin},#{siginTime})")
+    @Insert("INSERT INTO person VALUES(#{qq},#{star},#{signin})")
     void addPerson(Person person);
 
     //根据QQ号获取个人信息
@@ -24,6 +24,7 @@ public interface PersonDao {
     @Update("UPDATE person SET star = star - #{star} WHERE qq = #{qq}")
     void  reduceStar(Person person);
 
+    //总签到数量
     @Select("select count(signin) from person where signin = 1")
     Integer countSignin();
 }

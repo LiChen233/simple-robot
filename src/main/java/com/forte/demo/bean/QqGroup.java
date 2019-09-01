@@ -5,15 +5,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Person {
+public class QqGroup {
 
-    private String qq;
-    private Integer star;
-    private Integer signin;
+    private String groupid;
+    private Integer signinCount;
+
 }

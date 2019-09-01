@@ -16,6 +16,8 @@ import org.springframework.core.env.Environment;
  **/
 public class MainApplication {
 
+    public static  DependGetter depends;
+
     public static void main(String[] args) {
         //首先，启动Spring
         ConfigurableApplicationContext spring = SpringApplication.run(SpringRunApplication.class, args);
@@ -91,6 +93,7 @@ public class MainApplication {
         HttpApplication httpApplication = new HttpApplication();
         //启动组件服务
         httpApplication.run(qqRunApplication);
+        depends = httpApplication.getDependGetter();
     }
 
 

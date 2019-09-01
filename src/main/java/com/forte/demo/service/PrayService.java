@@ -23,6 +23,23 @@ public class PrayService {
     @Autowired
     PrayDao prayDao;
 
+    /**
+     * 获取保底数
+     * @param prayEnum
+     * @param qq
+     * @return
+     */
+    public Integer getBaodiNum(PrayEnum prayEnum,String qq){
+        String qujian = prayEnum.toString()+"qujian";
+        String baodi = prayEnum.toString()+"baodi";
+        Integer baodiNum = prayDao.getBaodiNum(qujian, baodi, qq);
+        if (baodiNum==null){
+            return 10;
+        }else {
+            return baodiNum;
+        }
+    }
+
     public String highOne(String qq) throws IOException {
         JSONObject prayJson = PrayUtils.getJsonString(PrayEnum.high);
         return gachaOne(prayJson, qq,PrayEnum.high);
@@ -77,7 +94,7 @@ public class PrayService {
      * @param qq
      * @return
      */
-    private String  gachaOne(JSONObject prayJson,String qq,PrayEnum prayEnum){
+    private String gachaOne(JSONObject prayJson,String qq,PrayEnum prayEnum){
 
         //当前区间以及保底的字段名就是：某蛋池+"qujian" 或者 某蛋池+"保底"
         String nowQujian = prayEnum.toString()+"qujian";

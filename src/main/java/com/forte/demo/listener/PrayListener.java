@@ -1,6 +1,7 @@
 package com.forte.demo.listener;
 
-import com.forte.demo.mapper.PrayDao;
+import com.forte.demo.bean.Person;
+import com.forte.demo.service.PersonService;
 import com.forte.demo.service.PrayService;
 import com.forte.demo.utils.PrayEnum;
 import com.forte.qqrobot.anno.Filter;
@@ -24,7 +25,11 @@ public class PrayListener {
     @Depend
     PrayService prayService;
     @Depend
-    PrayDao prayDao;
+    PersonService personService;
+
+    private static final Integer ONE = 1;
+    private static final Integer TEN = 10;
+    private static final Integer BAODI = 3;
 
     /**
      * 监听群消息，暂时写成多个方法，之后可以更换成通过单条消息判断
@@ -34,11 +39,12 @@ public class PrayListener {
     @Filter(value = "公主单抽")
     @Listen(MsgGetTypes.groupMsg)
     public void highOne(GroupMsg msg, MsgSender sender) throws Exception {
+        personService.reduceStar(new Person(msg.getQQ(),ONE,null));
         String high = prayService.highOne(msg.getQQ());
         CQCode cqCode_at = CQCodeUtil.build().getCQCode_At(msg.getQQ());
-        Integer baodiNum = getBaodiNum(PrayEnum.high, msg.getQQ());
+        Integer baodiNum = prayService.getBaodiNum(PrayEnum.high, msg.getQQ());
         String baodila = "";
-        if (baodiNum<=3){
+        if (baodiNum<=BAODI){
             baodila = " 剩"+baodiNum+"发保底";
         }
         sender.SENDER.sendGroupMsg(msg.getGroup(),cqCode_at+high+baodila);
@@ -47,6 +53,7 @@ public class PrayListener {
     @Filter(value = "公主十连")
     @Listen(MsgGetTypes.groupMsg)
     public void highTen(GroupMsg msg, MsgSender sender) throws Exception {
+        personService.reduceStar(new Person(msg.getQQ(),TEN,null));
         String path = prayService.highTen();
         File file = new File(path);
         CQCode cqCode_at = CQCodeUtil.build().getCQCode_At(msg.getQQ());
@@ -58,11 +65,12 @@ public class PrayListener {
     @Filter(value = "魔女单抽")
     @Listen(MsgGetTypes.groupMsg)
     public void customOne(GroupMsg msg, MsgSender sender) throws Exception {
+        personService.reduceStar(new Person(msg.getQQ(),ONE,null));
         String high = prayService.customOne(msg.getQQ());
         CQCode cqCode_at = CQCodeUtil.build().getCQCode_At(msg.getQQ());
-        Integer baodiNum = getBaodiNum(PrayEnum.custom, msg.getQQ());
+        Integer baodiNum = prayService.getBaodiNum(PrayEnum.custom, msg.getQQ());
         String baodila = "";
-        if (baodiNum<=3){
+        if (baodiNum<=BAODI){
             baodila = " 剩"+baodiNum+"发保底";
         }
         sender.SENDER.sendGroupMsg(msg.getGroup(),cqCode_at+high+baodila);
@@ -71,6 +79,7 @@ public class PrayListener {
     @Filter(value = "魔女十连")
     @Listen(MsgGetTypes.groupMsg)
     public void customTen(GroupMsg msg, MsgSender sender) throws Exception {
+        personService.reduceStar(new Person(msg.getQQ(),TEN,null));
         String path = prayService.customTen();
         File file = new File(path);
         CQCode cqCode_at = CQCodeUtil.build().getCQCode_At(msg.getQQ());
@@ -84,9 +93,9 @@ public class PrayListener {
     public void middleOne(GroupMsg msg, MsgSender sender) throws Exception {
         String high = prayService.middleOne(msg.getQQ());
         CQCode cqCode_at = CQCodeUtil.build().getCQCode_At(msg.getQQ());
-        Integer baodiNum = getBaodiNum(PrayEnum.middle, msg.getQQ());
+        Integer baodiNum = prayService.getBaodiNum(PrayEnum.middle, msg.getQQ());
         String baodila = "";
-        if (baodiNum<=3){
+        if (baodiNum<=BAODI){
             baodila = " 剩"+baodiNum+"发保底";
         }
         sender.SENDER.sendGroupMsg(msg.getGroup(),cqCode_at+high+baodila);
@@ -101,22 +110,5 @@ public class PrayListener {
         String cqCode_image = CQCodeUtil.build().getCQCode_image("file://" + file.getAbsolutePath());
         sender.SENDER.sendGroupMsg(msg.getGroup(), cqCode_at.toString()+cqCode_image);
         file.delete();
-    }
-
-    /**
-     * 获取保底数
-     * @param prayEnum
-     * @param qq
-     * @return
-     */
-    private Integer getBaodiNum(PrayEnum prayEnum,String qq){
-        String qujian = prayEnum.toString()+"qujian";
-        String baodi = prayEnum.toString()+"baodi";
-        Integer baodiNum = prayDao.getBaodiNum(qujian, baodi, qq);
-        if (baodiNum==null){
-            return 10;
-        }else {
-            return baodiNum;
-        }
     }
 }

@@ -62,10 +62,11 @@ public class StarListener {
                 qqGroup = new QqGroup(groupid, 0);
                 qqGroupService.addGroup(qqGroup);
             }
-            star = RandomNum.randomNumber(20, 50);
             System.out.println(qqGroup.getSigninCount());
             if (qqGroup.getSigninCount() >= 0 && qqGroup.getSigninCount() <= 2) {
-                star = RandomNum.randomNumber(50, 100);
+                star = RandomNum.randomNumber(10, 20);
+            }else {
+                star = 10;
             }
             qqGroupService.updateGroup(groupid);
             person = new Person(person.getQq(), person.getStar() + star, 1);

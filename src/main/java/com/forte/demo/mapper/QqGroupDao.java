@@ -24,7 +24,8 @@ public interface QqGroupDao {
     @Select("select signin_count from qqgroup where groupid = #{groupid}")
     Integer getSigninCount(String groupid);
 
-
-
+    //每日重置签到名次
+    @Update("UPDATE qqgroup SET signin_count = 0")
+    void resetSigninCount();
 
 }

@@ -38,7 +38,7 @@ public class ImageUtils {
         //g.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL,RenderingHints.VALUE_STROKE_DEFAULT);
         //设置白色黑体
         g.setColor(Color.WHITE);
-        g.setFont(new Font("微软雅黑-粗",Font.PLAIN,SIZE));
+        g.setFont(new Font("微软雅黑",Font.BOLD,SIZE));
 
         //设置日期格式，获取当前时间
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

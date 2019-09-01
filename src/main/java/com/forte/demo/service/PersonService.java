@@ -1,18 +1,34 @@
 package com.forte.demo.service;
 
+import com.forte.demo.bean.Person;
 import com.forte.demo.mapper.PersonDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class PersonService {
 
     @Autowired
     PersonDao personDao;
 
-    public void addStar(String qq,Integer star){
-        personDao.addStar(qq,star);
+
+    public Person getPerson(String qq){
+        return personDao.getPerson(qq);
     }
 
-    public void reduceStar(String qq,Integer star){
-        personDao.reduceStar(qq,star);
+    public void addStar(Person person){
+        personDao.addStar(person);
+    }
+
+    public void reduceStar(Person person){
+        personDao.reduceStar(person);
+    }
+
+    public void addPerson(Person person){
+        personDao.addPerson(person);
+    }
+
+    public Integer countSignin(){
+        return personDao.countSignin();
     }
 }

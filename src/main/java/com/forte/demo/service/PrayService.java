@@ -24,6 +24,13 @@ public class PrayService {
     PrayDao prayDao;
 
     /**
+     * 初始化扭蛋数据
+     */
+    public void addPray(String qq){
+        prayDao.addPray(qq);
+    }
+
+    /**
      * 获取保底数
      * @param prayEnum
      * @param qq

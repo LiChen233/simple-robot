@@ -1,10 +1,7 @@
 package com.forte.demo.mapper;
 
 import com.forte.demo.bean.Pray;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 @Mapper
 public interface PrayDao {
@@ -12,6 +9,10 @@ public interface PrayDao {
     //根据QQ获取祈愿信息
     @Select("SELECT * FROM pray WHERE qq = #{qq}")
     Pray getPray(String qq);
+
+    //新增一条用户数据
+    @Insert("INSERT INTO pray VALUES(#{qq},10,0,7,0,10,1,10,0)")
+    void addPray(String qq);
 
     //获取某一区间
     @Select("SELECT ${qujian} FROM pray WHERE qq = ${qq}")

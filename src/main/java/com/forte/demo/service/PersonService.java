@@ -31,4 +31,12 @@ public class PersonService {
     public Integer countSignin(){
         return personDao.countSignin();
     }
+
+    public Integer getStar(String qq){
+        return personDao.getStar(qq);
+    }
+
+    public void setDraw(Person person){
+        personDao.setDraw(person);
+    }
 }

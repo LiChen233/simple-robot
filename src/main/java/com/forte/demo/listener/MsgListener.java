@@ -16,6 +16,12 @@ import java.io.File;
 @Beans
 public class MsgListener {
 
+    /**
+     * 私聊使用ai
+     * @param msg
+     * @param sender
+     * @throws Exception
+     */
     @Listen(MsgGetTypes.privateMsg)
     public void priMsg(PrivateMsg msg, MsgSender sender) throws Exception{
         //获取消息
@@ -29,6 +35,12 @@ public class MsgListener {
         sender.SENDER.sendPrivateMsg(msg.getQQ(),answer);
     }
 
+    /**
+     * 群聊被@的时候使用ai
+     * @param msg
+     * @param sender
+     * @throws Exception
+     */
     @Filter(at = true)
     @Listen(MsgGetTypes.groupMsg)
     public void aiMsg(GroupMsg msg, MsgSender sender) throws Exception {
@@ -60,7 +72,7 @@ public class MsgListener {
                 "大小姐单抽/十连：免费\n" +
                 "来份色图：消耗5获取一份色图\n" +
                 "来份壁纸：消耗5获取一份壁纸\n" +
-                "---谁创造我---\n" +
+                "---我从哪来---\n" +
                 "作者介绍\n" +
                 "投食\n" +
                 "---注意事项---\n" +
@@ -72,10 +84,10 @@ public class MsgListener {
     @Listen(MsgGetTypes.groupMsg)
     public void authorMsg(GroupMsg msg, MsgSender sender) throws Exception {
         String res = "萌萌新由\n" +
-                "瑶光天枢&Macro\n" +
+                "瑶光天枢 & Macro\n" +
                 "于2019-08-26创造\n" +
                 "我们来自国服社团3373，欢迎加团！\n" +
-                "鸣谢 咸鱼鱼、搞事学园给予灵感与借鉴！";
+                "鸣谢 咸鱼鱼、搞事学园 给予灵感与借鉴！";
         File file = new File("src/static/3373.jpg");
         String imagePath = CQCodeUtil.build().getCQCode_image("file://" + file.getAbsolutePath());
         sender.SENDER.sendGroupMsg(msg.getGroup(),res+imagePath);

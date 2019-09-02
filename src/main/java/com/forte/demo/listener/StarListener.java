@@ -3,7 +3,9 @@ package com.forte.demo.listener;
 import com.forte.demo.bean.Person;
 import com.forte.demo.bean.QqGroup;
 import com.forte.demo.mapper.PersonDao;
+import com.forte.demo.mapper.PrayDao;
 import com.forte.demo.service.PersonService;
+import com.forte.demo.service.PrayService;
 import com.forte.demo.service.QqGroupService;
 import com.forte.demo.utils.RandomNum;
 import com.forte.qqrobot.anno.Filter;
@@ -32,6 +34,9 @@ public class StarListener {
     @Depend
     QqGroupService qqGroupService;
 
+    @Depend
+    PrayService prayService;
+
 
     @Listen(value = MsgGetTypes.groupMsg)
     @Filter(value = "签到")
@@ -43,77 +48,72 @@ public class StarListener {
         sender.SENDER.sendGroupMsg(groupMsg.getGroup(),at.toString()+message);
     }
 
-
-
-    public String qqGroupSignin(String groupid,String personid){
-        String message = "";
-        Integer star = 0;
-
-        Person person = personService.getPerson(personid);
+    @Listen(value = MsgGetTypes.groupMsg)
+    @Filter(value = "抽签")
+    public void draw(GroupMsg msg, MsgSender sender){
+        String qq = msg.getQQ();
+        CQCode cqCode_at = CQCodeUtil.build().getCQCode_At(qq);
+        //如果数据库中没有用户数据，发一句话就返回
+        Person person = personService.getPerson(qq);
         if(person==null){
-            person = new Person(personid,100,0);
-            personService.addPerson(person);
+            sender.SENDER.sendGroupMsg(msg.getGroup(),cqCode_at+"你还没有注册哦，发送签到，开启萌萌新！");
+            return;
         }
-        if(person.getSignin() == 1){
-            message = "今天已经签到！明日再来";
-        }else {
-            QqGroup qqGroup = qqGroupService.selectGroup(groupid);
-            if (qqGroup == null) {
-                qqGroup = new QqGroup(groupid, 0);
-                qqGroupService.addGroup(qqGroup);
-            }
-            System.out.println(qqGroup.getSigninCount());
-            if (qqGroup.getSigninCount() >= 0 && qqGroup.getSigninCount() <= 2) {
-                star = RandomNum.randomNumber(10, 20);
-            }else {
-                star = 10;
-            }
-            qqGroupService.updateGroup(groupid);
-            person = new Person(person.getQq(), person.getStar() + star, 1);
-            personService.addStar(person);
-            Integer countSignin = qqGroupService.getSigninCount(groupid);
-            message = "签到成功，今天你是第" + (qqGroup.getSigninCount()+1) + "个签到。\n" +
-                    "获得积分：" + star + "。剩余积分：" + person.getStar() + "。";
+        if (person.getDraw()!=0){
+            sender.SENDER.sendGroupMsg(msg.getGroup(),cqCode_at+"你已经抽过签啦！不要贪心哦~");
+            return;
         }
-        return message;
+        Integer star = RandomNum.randomNumber(20, 50);
+        person = new Person(person.getQq(), person.getStar() + star, 1,0);
+        personService.addStar(person);
+        String message = "";
+        if (star>=40){
+            message="抽到上上签！";
+        }else if (star>=30){
+            message="抽到上签！";
+        }else if (star>=20){
+            message="抽到上平签！";
+        }
+        sender.SENDER.sendGroupMsg(msg.getGroup(),cqCode_at+message+"获得"+star+"积分！");
+        person.setDraw(1);
+        person.setStar(person.getStar()+star);
+        personService.setDraw(person);
     }
 
 
-}
 
+        public String qqGroupSignin(String groupid,String personid){
+            String message;
+            Integer star;
 
-
-//    String message = "";
-//    int star = 20+(int)(Math.random()*30);
-//
-//
-//    Person person = personService.getPerson(qq);
-//        if(person==null){
-//                person = new Person(qq,100,0);
-//                personService.addPerson(person);
-//                }
-//                if(person.getSignin() == 1){
-//                sender.SENDER.sendGroupMsg(groupMsg.getGroup(),at.toString()+"今天已经签到！明日再来");
-//                return;
-//                }
-//
-//
-//
-//                QqGroup qqGroup = qqGroupService.selectGroup(qqgroupId);
-//                if(qqGroup == null){
-//                qqGroup = new QqGroup(qqgroupId,0);
-//                qqGroupService.addGroup(qqGroup);
-//                }else{
-//                qqGroupService.updateGroup(qqgroupId);
-//                }
-//                if(qqGroup.getSigninCount() == 0){
-//                message = "签到成功，今天你是第"+qqGroup.getSigninCount()+1+"个签到";
-//                }
-//
-//
-//
-//
-//                person = new Person(person.getQq(),person.getStar()+star,1);
-//                personService.addStar(person);
-//                Integer countSignin = personService.countSignin();
-//                String success = "签到成功，获得积分"+star+",积分剩余："+person.getStar()+"。\n今天已签到"+countSignin+"人";
+            //如果数据库中没有用户数据，就插入一条数据
+            Person person = personService.getPerson(personid);
+            if(person==null){
+                //初始化用户
+                person = new Person(personid,100,0,0);
+                personService.addPerson(person);
+                //初始化祈愿数据
+                prayService.addPray(personid);
+            }
+            if(person.getSignin() == 1){
+                message = "今天已经签到！明日再来";
+            }else {
+                QqGroup qqGroup = qqGroupService.selectGroup(groupid);
+                if (qqGroup == null) {
+                    qqGroup = new QqGroup(groupid, 0);
+                    qqGroupService.addGroup(qqGroup);
+                }
+                if (qqGroup.getSigninCount() >= 0 && qqGroup.getSigninCount() <= 2) {
+                    star = RandomNum.randomNumber(15, 25);
+                }else {
+                    star = 10;
+                }
+                qqGroupService.updateGroup(groupid);
+                person = new Person(person.getQq(), person.getStar() + star, 1,0);
+                personService.addStar(person);
+                message = "签到成功，你是本群第" + (qqGroup.getSigninCount()+1) + "个签到。\n" +
+                        "获得积分：" + star + "。剩余积分：" + person.getStar() + "。";
+            }
+            return message;
+        }
+    }

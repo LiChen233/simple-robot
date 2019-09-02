@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 public interface PersonDao {
 
 
+    //初始化用户
     @Insert("INSERT INTO person VALUES(#{qq},#{star},#{signin})")
     void addPerson(Person person);
 
@@ -27,4 +28,20 @@ public interface PersonDao {
     //总签到数量
     @Select("select count(signin) from person where signin = 1")
     Integer countSignin();
+
+    //通过qq获取积分
+    @Select("SELECT star FROM person WHERE qq = #{qq}")
+    Integer getStar(String qq);
+
+    //设置签到
+    @Update("UPDATE person SET draw = #{draw} WHERE qq = #{qq}")
+    void setDraw(Person person);
+
+    //重置所有人的签到记录
+    @Update("UPDATE person SET signin = 0")
+    void resetAllSign();
+
+    //重置签到
+    @Update("UPDATE person SET draw = 0")
+    void resetDraw();
 }

@@ -16,4 +16,5 @@ public class Person {
     private String qq;
     private Integer star;
     private Integer signin;
+    private Integer draw;
 }

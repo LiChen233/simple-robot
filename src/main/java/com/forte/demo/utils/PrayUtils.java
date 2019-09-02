@@ -26,6 +26,21 @@ public class PrayUtils {
 
     private static final String GAO = "https://hsod2.hongshn.xyz/gacha/data";
 
+    public static boolean findSpecial(){
+        JSONObject jsonString = null;
+        try {
+            jsonString = getJsonString(PrayEnum.special);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        JSONArray equips = (JSONArray) jsonString.get("equips");
+        if (equips.size()==0){
+            return false;
+        }else {
+            return true;
+        }
+    }
+
     /**
      * 该方法用于刷新扭蛋json文件
      * @throws IOException 异常啥的，到时候再捕获吧，不应该抛的

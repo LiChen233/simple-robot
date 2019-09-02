@@ -2,8 +2,6 @@ package com.forte.demo.listener;
 
 import com.forte.demo.bean.Person;
 import com.forte.demo.bean.QqGroup;
-import com.forte.demo.mapper.PersonDao;
-import com.forte.demo.mapper.PrayDao;
 import com.forte.demo.service.PersonService;
 import com.forte.demo.service.PrayService;
 import com.forte.demo.service.QqGroupService;
@@ -18,8 +16,6 @@ import com.forte.qqrobot.beans.messages.types.MsgGetTypes;
 import com.forte.qqrobot.sender.MsgSender;
 import com.forte.qqrobot.utils.CQCodeUtil;
 
-import java.util.Date;
-import java.util.Random;
 
 /**
  * 积分监听

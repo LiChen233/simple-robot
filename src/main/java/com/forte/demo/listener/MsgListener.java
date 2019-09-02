@@ -54,7 +54,7 @@ public class MsgListener {
         //发送私信，两个参数一个QQ号一个文本
         String answer = TAipUtils.getAnswer(result);
         CQCode cqCode_at = CQCodeUtil.build().getCQCode_At(msg.getQQ());
-        sender.SENDER.sendGroupMsg(msg.getGroup(),cqCode_at+answer);
+        sender.SENDER.sendGroupMsg(msg.getGroup(),cqCode_at+" "+answer);
     }
 
     @Filter("功能")
@@ -62,16 +62,17 @@ public class MsgListener {
     public void functionMsg(GroupMsg msg, MsgSender sender) throws Exception {
         String res = "萌萌新还在持续开发中！\n" +
                 "现有如下功能(指令无需@)：\n" +
-                "---积分获取---\n" +
-                "签到：获得10祈愿之星，每日前三有特殊加成哦！\n" +
-                "抽签：获得20-50祈愿之星\n" +
-                "---主要功能---\n" +
+                "---积分相关---\n" +
+                "签到：获得10积分，每日前三有特殊加成哦！\n" +
+                "抽签：获得20-50积分\n" +
+                "积分查询\n" +
+                "---主要玩法---\n" +
                 "@萌萌新 和我聊天\n" +
-                "公主单抽/十连：消耗1/10\n" +
-                "魔女单抽/十连：消耗1/10\n" +
+                "公主单抽/十连：消耗1/10积分\n" +
+                "魔女单抽/十连：消耗1/10积分\n" +
                 "大小姐单抽/十连：免费\n" +
-                "来份色图：消耗5获取一份色图\n" +
-                "来份壁纸：消耗5获取一份壁纸\n" +
+                "来份色图：消耗5积分获取一份色图\n" +
+                "来份壁纸：消耗5积分获取一份壁纸\n" +
                 "---我从哪来---\n" +
                 "作者介绍\n" +
                 "投食\n" +

@@ -41,7 +41,7 @@ public class StarListener {
         String qqgroupId = groupMsg.getGroup();
         CQCode at = CQCodeUtil.build().getCQCode_At(groupMsg.getQQ());
         String message = this.qqGroupSignin(qqgroupId,qq);
-        sender.SENDER.sendGroupMsg(groupMsg.getGroup(),at.toString()+message);
+        sender.SENDER.sendGroupMsg(groupMsg.getGroup(),at.toString()+" "+message);
     }
 
     @Listen(value = MsgGetTypes.groupMsg)
@@ -52,11 +52,11 @@ public class StarListener {
         //如果数据库中没有用户数据，发一句话就返回
         Person person = personService.getPerson(qq);
         if(person==null){
-            sender.SENDER.sendGroupMsg(msg.getGroup(),cqCode_at+"你还没有注册哦，发送签到，开启萌萌新！");
+            sender.SENDER.sendGroupMsg(msg.getGroup(),cqCode_at+" 你还没有注册哦，发送签到，开启萌萌新！");
             return;
         }
         if (person.getDraw()!=0){
-            sender.SENDER.sendGroupMsg(msg.getGroup(),cqCode_at+"你已经抽过签啦！不要贪心哦~");
+            sender.SENDER.sendGroupMsg(msg.getGroup(),cqCode_at+" 你今天已经抽过签啦！不要贪心哦~");
             return;
         }
         Integer star = RandomNum.randomNumber(20, 50);
@@ -64,16 +64,30 @@ public class StarListener {
         personService.addStar(person);
         String message = "";
         if (star>=40){
-            message="抽到上上签！";
+            message=" 抽到上上签！";
         }else if (star>=30){
-            message="抽到上签！";
+            message=" 抽到上签！";
         }else if (star>=20){
-            message="抽到上平签！";
+            message=" 抽到上平签！";
         }
         sender.SENDER.sendGroupMsg(msg.getGroup(),cqCode_at+message+"获得"+star+"积分！");
         person.setDraw(1);
         person.setStar(person.getStar()+star);
         personService.setDraw(person);
+    }
+
+    @Listen(value = MsgGetTypes.groupMsg)
+    @Filter(value = "积分查询")
+    public void getStar(GroupMsg msg, MsgSender sender){
+        String qq = msg.getQQ();
+        CQCode cqCode_at = CQCodeUtil.build().getCQCode_At(qq);
+        //如果数据库中没有用户数据，发一句话就返回
+        Person person = personService.getPerson(qq);
+        if(person==null){
+            sender.SENDER.sendGroupMsg(msg.getGroup(),cqCode_at+" 你还没有注册哦，发送签到，开启萌萌新！");
+            return;
+        }
+        sender.SENDER.sendGroupMsg(msg.getGroup(),cqCode_at+" 剩余积分："+personService.getStar(qq));
     }
 
 
@@ -92,7 +106,7 @@ public class StarListener {
                 prayService.addPray(personid);
             }
             if(person.getSignin() == 1){
-                message = "今天已经签到！明日再来";
+                message = "今天已经签到！明日再来~";
             }else {
                 QqGroup qqGroup = qqGroupService.selectGroup(groupid);
                 if (qqGroup == null) {

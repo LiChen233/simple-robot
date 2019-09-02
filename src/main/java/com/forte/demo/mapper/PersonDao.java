@@ -10,7 +10,7 @@ public interface PersonDao {
 
 
     //初始化用户
-    @Insert("INSERT INTO person VALUES(#{qq},#{star},#{signin})")
+    @Insert("INSERT INTO person VALUES(#{qq},#{star},#{signin},#{draw})")
     void addPerson(Person person);
 
     //根据QQ号获取个人信息

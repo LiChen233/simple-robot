@@ -118,6 +118,7 @@ public class PrayService {
         }
 
         Map<String, String> gacha;
+        //
         if (1 == qujian && 0 == baodi){
             //进行一次单抽，吃保底
             gacha= PrayUtils.gacha(prayJson, true);

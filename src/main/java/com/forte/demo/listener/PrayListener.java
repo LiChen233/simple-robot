@@ -42,6 +42,13 @@ public class PrayListener {
     public void highOne(GroupMsg msg, MsgSender sender) throws Exception {
         String qq = msg.getQQ();
         CQCode cqCode_at = CQCodeUtil.build().getCQCode_At(qq);
+        //如果数据库中没有用户数据，发一句话就返回
+        Person person = personService.getPerson(qq);
+        if(person==null){
+            sender.SENDER.sendGroupMsg(msg.getGroup(),cqCode_at+" 你还没有注册哦，发送签到，开启萌萌新！");
+            return;
+        }
+        //积分不足
         if (personService.getStar(qq)<ONE){
             sender.SENDER.sendGroupMsg(msg.getGroup(),cqCode_at+" 积分不足！");
             return;
@@ -53,7 +60,7 @@ public class PrayListener {
         if (baodiNum<=BAODI){
             baodila = " 剩"+baodiNum+"发保底";
         }
-        sender.SENDER.sendGroupMsg(msg.getGroup(),cqCode_at+high+baodila);
+        sender.SENDER.sendGroupMsg(msg.getGroup(),cqCode_at+" "+high+baodila);
     }
 
     @Filter(value = "公主十连")
@@ -61,6 +68,13 @@ public class PrayListener {
     public void highTen(GroupMsg msg, MsgSender sender) throws Exception {
         String qq = msg.getQQ();
         CQCode cqCode_at = CQCodeUtil.build().getCQCode_At(qq);
+        //如果数据库中没有用户数据，发一句话就返回
+        Person person = personService.getPerson(qq);
+        if(person==null){
+            sender.SENDER.sendGroupMsg(msg.getGroup(),cqCode_at+" 你还没有注册哦，发送签到，开启萌萌新！");
+            return;
+        }
+        //积分不足
         if (personService.getStar(qq)<TEN){
             sender.SENDER.sendGroupMsg(msg.getGroup(),cqCode_at+" 积分不足！");
             return;
@@ -78,6 +92,13 @@ public class PrayListener {
     public void customOne(GroupMsg msg, MsgSender sender) throws Exception {
         String qq = msg.getQQ();
         CQCode cqCode_at = CQCodeUtil.build().getCQCode_At(qq);
+        //如果数据库中没有用户数据，发一句话就返回
+        Person person = personService.getPerson(qq);
+        if(person==null){
+            sender.SENDER.sendGroupMsg(msg.getGroup(),cqCode_at+" 你还没有注册哦，发送签到，开启萌萌新！");
+            return;
+        }
+        //积分不足
         if (personService.getStar(qq)<ONE){
             sender.SENDER.sendGroupMsg(msg.getGroup(),cqCode_at+" 积分不足！");
             return;
@@ -89,7 +110,7 @@ public class PrayListener {
         if (baodiNum<=BAODI){
             baodila = " 剩"+baodiNum+"发保底";
         }
-        sender.SENDER.sendGroupMsg(msg.getGroup(),cqCode_at+high+baodila);
+        sender.SENDER.sendGroupMsg(msg.getGroup(),cqCode_at+" "+high+baodila);
     }
 
     @Filter(value = "魔女十连")
@@ -97,6 +118,13 @@ public class PrayListener {
     public void customTen(GroupMsg msg, MsgSender sender) throws Exception {
         String qq = msg.getQQ();
         CQCode cqCode_at = CQCodeUtil.build().getCQCode_At(qq);
+        //如果数据库中没有用户数据，发一句话就返回
+        Person person = personService.getPerson(qq);
+        if(person==null){
+            sender.SENDER.sendGroupMsg(msg.getGroup(),cqCode_at+" 你还没有注册哦，发送签到，开启萌萌新！");
+            return;
+        }
+        //积分不足
         if (personService.getStar(qq)<TEN){
             sender.SENDER.sendGroupMsg(msg.getGroup(),cqCode_at+" 积分不足！");
             return;
@@ -114,10 +142,17 @@ public class PrayListener {
     public void specialOne(GroupMsg msg, MsgSender sender) throws Exception {
         String qq = msg.getQQ();
         CQCode cqCode_at = CQCodeUtil.build().getCQCode_At(qq);
-        if (!PrayUtils.findSpecial()){
-            sender.SENDER.sendGroupMsg(msg.getGroup(), cqCode_at+"魔法少女关门啦！请下次再来！");
+        //如果数据库中没有用户数据，发一句话就返回
+        Person person = personService.getPerson(qq);
+        if(person==null){
+            sender.SENDER.sendGroupMsg(msg.getGroup(),cqCode_at+" 你还没有注册哦，发送签到，开启萌萌新！");
             return;
         }
+        if (!PrayUtils.findSpecial()){
+            sender.SENDER.sendGroupMsg(msg.getGroup(), cqCode_at+" 魔法少女关门啦！请下次再来！");
+            return;
+        }
+        //积分不足
         if (personService.getStar(qq)<TEN){
             sender.SENDER.sendGroupMsg(msg.getGroup(),cqCode_at+" 积分不足！");
             return;
@@ -129,7 +164,7 @@ public class PrayListener {
         if (baodiNum<=BAODI){
             baodila = " 剩"+baodiNum+"发保底";
         }
-        sender.SENDER.sendGroupMsg(msg.getGroup(),cqCode_at+high+baodila);
+        sender.SENDER.sendGroupMsg(msg.getGroup(),cqCode_at+" "+high+baodila);
     }
 
     @Filter(value = "魔法少女十连")
@@ -137,10 +172,17 @@ public class PrayListener {
     public void specialTen(GroupMsg msg, MsgSender sender) throws Exception {
         String qq = msg.getQQ();
         CQCode cqCode_at = CQCodeUtil.build().getCQCode_At(qq);
-        if (!PrayUtils.findSpecial()){
-            sender.SENDER.sendGroupMsg(msg.getGroup(), cqCode_at+"魔法少女关门啦！请下次再来！");
+        //如果数据库中没有用户数据，发一句话就返回
+        Person person = personService.getPerson(qq);
+        if(person==null){
+            sender.SENDER.sendGroupMsg(msg.getGroup(),cqCode_at+" 你还没有注册哦，发送签到，开启萌萌新！");
             return;
         }
+        if (!PrayUtils.findSpecial()){
+            sender.SENDER.sendGroupMsg(msg.getGroup(), cqCode_at+" 魔法少女关门啦！请下次再来！");
+            return;
+        }
+        //积分不足
         if (personService.getStar(qq)<TEN){
             sender.SENDER.sendGroupMsg(msg.getGroup(),cqCode_at+" 积分不足！");
             return;

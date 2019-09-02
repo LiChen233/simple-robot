@@ -37,4 +37,12 @@ public interface PrayDao {
     //查询保底还有多少
     @Select("SELECT ${highqujian} FROM pray WHERE ${highbaodi} = 0 AND qq = ${qq}")
     Integer getBaodiNum(@Param("highqujian")String highqujian,@Param("highbaodi") String highbaodi,@Param("qq")String qq);
+
+    //重置魔法少女保底
+    @Update("UPDATE pray SET customqujian = 7,custombaodi = 0")
+    void resetCustom();
+
+    //重置魔女保底
+    @Update("UPDATE pray SET specialqujian = 10,specialbaodi = 0")
+    void resetSpecial();
 }

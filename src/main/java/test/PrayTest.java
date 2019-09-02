@@ -2,6 +2,7 @@ package test;
 
 import com.forte.demo.SpringRunApplication;
 import com.forte.demo.service.PrayService;
+import com.forte.demo.utils.PrayUtils;
 import com.forte.plusutils.consoleplus.ConsolePlus;
 import com.forte.plusutils.consoleplus.console.Colors;
 import com.forte.plusutils.consoleplus.console.ColorsBuilder;
@@ -24,8 +25,7 @@ public class PrayTest {
 
     @Test
     public void test1() throws IOException {
-        String path = prayService.highTen();
-        System.out.println(path);
+        PrayUtils.flushJson();
     }
 
     /**

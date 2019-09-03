@@ -35,7 +35,7 @@ public class MsgPictrueListener {
 
 
     @Listen(value = MsgGetTypes.groupMsg)
-    @Filter(value = "来份色图")
+    @Filter(value = {"来份色图","来分色图"})
     public void forColorImage(GroupMsg groupMsg, MsgSender sender) throws IOException {
         CQCode at = CQCodeUtil.build().getCQCode_At(groupMsg.getQQ());
         String qq = groupMsg.getQQ();
@@ -48,22 +48,27 @@ public class MsgPictrueListener {
             sender.SENDER.sendGroupMsg(groupMsg.getGroup(),at.toString()+" 积分不足！");
             return;
         }
-        person = new Person();
-        person.setQq(qq);
-        person.setStar(5);
-        personService.reduceStar(person);
-        Document doc = Jsoup.connect(FORCOLORIMAGEURL).get();
-        String docJson = doc.toString();
-        String url = docJson.substring(docJson.indexOf('(')+1,docJson.lastIndexOf(')'));
-        String c = CQCodeUtil.build().getCQCode_image(url);
-        sender.SENDER.sendGroupMsg(groupMsg.getGroup(),at.toString()+c);
+        try{
+            Document doc = Jsoup.connect(FORCOLORIMAGEURL).get();
+            String docJson = doc.toString();
+            String url = docJson.substring(docJson.indexOf('(')+1,docJson.lastIndexOf(')'));
+            String c = CQCodeUtil.build().getCQCode_image(url);
+            person = new Person();
+            person.setQq(qq);
+            person.setStar(5);
+            personService.reduceStar(person);
+            sender.SENDER.sendGroupMsg(groupMsg.getGroup(),at.toString()+c);
+        }catch (Exception e){
+            sender.SENDER.sendGroupMsg(groupMsg.getGroup(),at+" 由于网络波动，色图加载失败！请重试 0.0");
+            throw new RuntimeException("色图加载失败",e);
+        }
+
     }
 
 
     @Listen(value = MsgGetTypes.groupMsg)
     @Filter(value = "来份壁纸")
     public void forWallpaper(GroupMsg groupMsg, MsgSender sender) throws IOException {
-        String wallpaper = CQCodeUtil.build().getCQCode_image(FORWALLPAPER);
         CQCode at = CQCodeUtil.build().getCQCode_At(groupMsg.getQQ());
         String qq = groupMsg.getQQ();
         Person person = personService.getPerson(groupMsg.getQQ());
@@ -78,8 +83,16 @@ public class MsgPictrueListener {
         person = new Person();
         person.setQq(qq);
         person.setStar(5);
-        personService.reduceStar(person);
-        sender.SENDER.sendGroupMsg(groupMsg.getGroup(),at.toString()+wallpaper);
+        try{
+            String wallpaper = CQCodeUtil.build().getCQCode_image(FORWALLPAPER);
+            personService.reduceStar(person);
+            sender.SENDER.sendGroupMsg(groupMsg.getGroup(),at.toString()+wallpaper);
+        }catch (Exception e){
+            personService.addPerson(person);
+            sender.SENDER.sendGroupMsg(groupMsg.getGroup(),at+" 由于网络波动，壁纸加载失败！请重试 0.0");
+            throw new RuntimeException("壁纸加载失败",e);
+        }
+
     }
 
 }

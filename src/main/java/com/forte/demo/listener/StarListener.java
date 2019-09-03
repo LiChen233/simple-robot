@@ -108,7 +108,9 @@ public class StarListener {
             if(person.getSignin() == 1){
                 message = "今天已经签到！明日再来~";
             }else {
+                //查询群信息
                 QqGroup qqGroup = qqGroupService.selectGroup(groupid);
+                //判断群是否已存在数据库，否则初始化群
                 if (qqGroup == null) {
                     qqGroup = new QqGroup(groupid, 0);
                     qqGroupService.addGroup(qqGroup);

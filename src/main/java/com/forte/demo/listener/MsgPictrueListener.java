@@ -40,6 +40,10 @@ public class MsgPictrueListener {
         CQCode at = CQCodeUtil.build().getCQCode_At(groupMsg.getQQ());
         String qq = groupMsg.getQQ();
         Person person = personService.getPerson(groupMsg.getQQ());
+        if(person==null){
+            sender.SENDER.sendGroupMsg(groupMsg.getGroup(),at+" 你还没有注册哦，发送签到，开启萌萌新！");
+            return;
+        }
         if(person.getStar() < 5){
             sender.SENDER.sendGroupMsg(groupMsg.getGroup(),at.toString()+" 积分不足！");
             return;
@@ -63,6 +67,10 @@ public class MsgPictrueListener {
         CQCode at = CQCodeUtil.build().getCQCode_At(groupMsg.getQQ());
         String qq = groupMsg.getQQ();
         Person person = personService.getPerson(groupMsg.getQQ());
+        if(person==null){
+            sender.SENDER.sendGroupMsg(groupMsg.getGroup(),at+" 你还没有注册哦，发送签到，开启萌萌新！");
+            return;
+        }
         if(person.getStar() < 5){
             sender.SENDER.sendGroupMsg(groupMsg.getGroup(),at.toString()+" 积分不足！");
             return;

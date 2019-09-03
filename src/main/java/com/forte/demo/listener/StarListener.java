@@ -122,7 +122,8 @@ public class StarListener {
                 person = new Person(person.getQq(), person.getStar() + star, 1,0);
                 personService.addStar(person);
                 message = "签到成功，你是本群第" + (qqGroup.getSigninCount()+1) + "个签到。\n" +
-                        "获得积分：" + star + "。剩余积分：" + person.getStar() + "。";
+                        "获得积分：" + star + "。剩余积分：" + person.getStar() + "。\n" +
+                        "发送“抽签”获得更多积分。";
             }
             return message;
         }

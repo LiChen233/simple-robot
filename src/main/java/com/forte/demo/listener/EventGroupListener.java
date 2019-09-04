@@ -27,7 +27,7 @@ public class EventGroupListener {
     public void addGroupMember(GroupMemberIncrease memberIncrease, MsgSender sender){
         //新人入群QQ号
         String qq = memberIncrease.getBeOperatedQQ();
-        CQCode at = CQCodeUtil.build().getCQCode_At(memberIncrease.getOperatorQQ());
+        CQCode at = CQCodeUtil.build().getCQCode_At(qq);
         File file = new File("src/static/shetuan.jpg");
         String imagePath = CQCodeUtil.build().getCQCode_image("file://" + file.getAbsolutePath());
         String message = "欢迎新人加入本群。本群是手游《崩坏学园2》的社团内部交流群。\n" +

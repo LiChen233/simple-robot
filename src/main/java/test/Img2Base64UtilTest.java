@@ -41,7 +41,7 @@ public class Img2Base64UtilTest {
 
     @Test
     public void random(){
-        System.out.println(target.countSignin());
+        System.out.println((int)(Math.random()*2));
     }
 
 

@@ -57,7 +57,7 @@ public class MsgListener {
         sender.SENDER.sendGroupMsg(msg.getGroup(),cqCode_at+" "+answer);
     }
 
-    @Filter("功能")
+    @Filter(value = {"功能","菜单"})
     @Listen(MsgGetTypes.groupMsg)
     public void functionMsg(GroupMsg msg, MsgSender sender) throws Exception {
         String res = "萌萌新还在持续开发中！\n" +
@@ -94,11 +94,28 @@ public class MsgListener {
         sender.SENDER.sendGroupMsg(msg.getGroup(),res+imagePath);
     }
 
-    @Filter("投食")
+    @Filter(value = {"投食","打赏"})
     @Listen(MsgGetTypes.groupMsg)
     public void giveMsg(GroupMsg msg, MsgSender sender) throws Exception {
         File ma = new File("src/static/zhifu.jpg");
         String zhifu = CQCodeUtil.build().getCQCode_image("file://"+ma.getAbsolutePath());
         sender.SENDER.sendGroupMsg(msg.getGroup(),zhifu);
     }
+
+
+
+    @Listen(MsgGetTypes.groupMsg)
+    public void addAueAndAns(GroupMsg msg,MsgSender sender){
+        String sendMsg = msg.getMsg();
+    }
+
+
+
+
+    @Listen(MsgGetTypes.groupMsg)
+    public void queAndAns(GroupMsg msg,MsgSender sender){
+        //当前发送的消息
+        String sendMsg = msg.getMsg();
+    }
+
 }

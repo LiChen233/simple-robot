@@ -77,7 +77,7 @@ public class StarListener {
     }
 
     @Listen(value = MsgGetTypes.groupMsg)
-    @Filter(value = "积分查询")
+    @Filter(value = {"积分查询","查询积分"})
     public void getStar(GroupMsg msg, MsgSender sender){
         String qq = msg.getQQ();
         CQCode cqCode_at = CQCodeUtil.build().getCQCode_At(qq);

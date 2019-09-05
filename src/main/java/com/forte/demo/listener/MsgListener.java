@@ -61,25 +61,56 @@ public class MsgListener {
     @Listen(MsgGetTypes.groupMsg)
     public void functionMsg(GroupMsg msg, MsgSender sender) throws Exception {
         String res = "萌萌新还在持续开发中！\n" +
-                "现有如下功能(指令无需@)：\n" +
-                "---积分相关---\n" +
-                "签到：获得10积分，每日前三有特殊加成哦！\n" +
-                "抽签：获得20-50积分\n" +
-                "积分查询\n" +
-                "---主要玩法---\n" +
-                "@萌萌新 和我聊天\n" +
-                "公主单抽/十连：消耗1/10积分\n" +
-                "魔女单抽/十连：消耗1/10积分\n" +
-                "大小姐单抽/十连：免费\n" +
-                "来份色图：消耗5积分获取一份色图\n" +
-                "来份壁纸：消耗5积分获取一份壁纸\n" +
-                "---我从哪来---\n" +
+                "现有如下功能：\n" +
+                "回复指令获得详情玩法：\n" +
+                "注意！指令不需要@\n" +
+                "1、@萌萌新 与萌萌新聊天\n" +
+                "2、积分功能\n" +
+                "3、图片功能\n" +
+                "4、扭蛋功能/抽奖功能\n" +
+                "-----我从哪来---\n" +
                 "作者介绍\n" +
-                "投食\n" +
-                "---注意事项---\n" +
-                "请遵守本群群规，禁止刷屏";
+                "投食/打赏\n" +
+                "-----注意事项-----\n" +
+                "勿频繁使用指令，禁止刷屏";
         sender.SENDER.sendGroupMsg(msg.getGroup(),res);
     }
+
+    @Filter(value = "积分功能")
+    @Listen(MsgGetTypes.groupMsg)
+    public void starFunction(GroupMsg msg, MsgSender sender){
+        String res = "积分功能介绍：\n" +
+                "签到：获得10积分，每日前三有特殊加成哦！\n" +
+                "抽签：获得20-50积分\n" +
+                "回复指令查询积分：\n" +
+                "积分查询/查询积分";
+        sender.SENDER.sendGroupMsg(msg.getGroup(),res);
+    }
+
+    @Filter(value = "图片功能")
+    @Listen(MsgGetTypes.groupMsg)
+    public void imageFunction(GroupMsg msg, MsgSender sender){
+        String res = "图片功能介绍\n" +
+                "回复指令获取壁纸/涩图：\n" +
+                "1、来/张份色图\n" +
+                "2、来/张份壁纸\n" +
+                "3、来/张份手机壁纸\n" +
+                "注:一次指令消耗5积分";
+        sender.SENDER.sendGroupMsg(msg.getGroup(),res);
+    }
+
+    @Filter(value = {"扭蛋功能","抽奖功能"})
+    @Listen(MsgGetTypes.groupMsg)
+    public void PrayFunction(GroupMsg msg, MsgSender sender){
+        String res = "抽奖功能介绍\n" +
+                "发送以下指令即可抽奖：\n" +
+                "1、公主单抽/十连 \n" +
+                "2、魔女单抽/十连\n" +
+                "3、大小姐单抽/十连：免费\n" +
+                "注:公主/魔女消耗1/10积分";
+        sender.SENDER.sendGroupMsg(msg.getGroup(),res);
+    }
+
 
     @Filter("作者介绍")
     @Listen(MsgGetTypes.groupMsg)

@@ -1,128 +1,20 @@
 package test;
 
+import cn.xsshome.taip.nlp.TAipNlp;
+import com.forte.demo.utils.TAipUtils;
 import org.junit.Test;
-
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 
 public class ImageTest {
 
-    /*private static final Integer HEIGHT = 210;
-    private static final Integer LINE_HEIGHT = 45;
-    private static final Integer SIZE = 26;
-    private static final String IN = "/Users/lichen/Desktop/十连图片.png";
-    private static final String OUT = "/Users/lichen/Desktop/十连合成.png";
-    private static final Integer EQ = 485;
-    private static final Integer SM = 500;
-    private static final Integer TIME = 100;
-    private static final Integer D_WIDTH = 984;
-    private static final Integer D_HEIGHT = 649;
 
     @Test
-    public void test1() throws IOException {
-
-        ArrayList<String> equips = new ArrayList<>();
-        equips.add("遗迹之心×6");
-        equips.add("春之声圆舞曲[5★]1");
-        equips.add("龙血之魂[5★]");
-        equips.add("猛士MS-F1军斧[4★]");
-        equips.add("水银子弹×4");
-        equips.add("专业护目镜×5");
-        equips.add("西太平洋舰队制服[3★]");
-        equips.add("V制式试作型霰弹枪[3★]");
-        equips.add("Thunder50[4★]");
-        equips.add("V制式战斗服·司祭[3★]");
-
-        BufferedImage thumbImage = new BufferedImage(D_WIDTH, D_HEIGHT, BufferedImage.TYPE_INT_RGB);
-        Graphics2D g = thumbImage.createGraphics();
-
-        //底图
-        File file = new File(IN);
-        Image src = javax.imageio.ImageIO.read(file);
-        g.drawImage(src.getScaledInstance(D_WIDTH,D_HEIGHT,Image.SCALE_SMOOTH), 0, 0, null);
-
-        //消除文字锯齿
-        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
-        //消除画图锯齿，不要开，不然数字就不像了！
-        //g.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL,RenderingHints.VALUE_STROKE_DEFAULT);
-        //设置白色黑体
-        g.setColor(Color.WHITE);
-        g.setFont(new Font("黑体",Font.BOLD,SIZE));
-
-        //设置日期格式，获取当前时间
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String date = df.format(new Date());
-
-        //写入当前时间
-        for (int i = 0; i < equips.size(); i++) {
-            g.drawString(date,TIME,HEIGHT+LINE_HEIGHT*i);
-        }
-
-        for (int i = 0; i < equips.size(); i++) {
-
-            //获取装备名
-            String equip = equips.get(i);
-            //替换数据中的不必要字符
-            equip = equip.replace("[","【");
-            equip = equip.replace("]","】");
-
-            //神器装备最后标记了1，判断是不是神器
-            if ("1".equals(equip.substring(equip.length()-1))){
-                //拿到真正的装备
-                equip = equip.substring(0,equip.length()-1);
-                equip = reverse(equip);
-
-                //改变文字颜色
-                g.setColor(new Color(206,146,255));
-
-                g.drawString(equip,EQ,HEIGHT+LINE_HEIGHT*i);
-            }else{
-                g.setColor(Color.WHITE);
-
-                //拿到反转后的装备
-                String reverse = reverse(equip);
-
-                //如果这个装备和原来一样，那么就是使魔
-                if (reverse.equals(equip)){
-                    g.drawString(reverse,SM,HEIGHT+LINE_HEIGHT*i);
-                }else {
-                    g.drawString(reverse,EQ,HEIGHT+LINE_HEIGHT*i);
-                }
-            }
-        }
-
-        //处理文字
-        g.dispose();
-
-        //输出图片
-        String path = OUT;
-        BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(path));
-        String formatName = path.substring(path.lastIndexOf(".") + 1);
-        ImageIO.write(thumbImage, *//*"GIF"*//* formatName *//* format desired *//* , new File(path) *//* target *//* );
-
-        out.close();
+    public void test1() throws Exception {
+        TAipNlp taip = TAipUtils.getTAIP();
+        String res = taip.nlpTextchat("1", "成语接龙");
+        String answer = TAipUtils.getAnswer(res);
+        System.out.println(answer);
+        String res2 = taip.nlpTextchat("1", "异想天开");
+        String answer2 = TAipUtils.getAnswer(res2);
+        System.out.println(answer2);
     }
-
-    *//**
-     * 装备星级和装备名字反转
-     * @param equip 装备名字
-     * @return 处理过的装备
-     *//*
-    private String reverse(String equip){
-        String star = equip.substring(equip.length() - 3, equip.length() - 2);
-        if ("3".equals(star) || "4".equals(star) ||
-                "5".equals(star) || "2".equals(star) ||
-                "6".equals(star) || "1".equals(star) || "7".equals(star)){
-            equip = equip.substring(equip.length()-4)+equip.substring(0,equip.length()-4);
-        }
-        return equip;
-    }*/
 }

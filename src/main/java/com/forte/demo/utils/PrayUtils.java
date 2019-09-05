@@ -74,20 +74,9 @@ public class PrayUtils {
      * @throws IOException 再说
      */
     public static JSONObject getJsonString(PrayEnum name) throws IOException {
-
-        File jsonFile = new File("src/static/PrayJson.txt");
-        //读取文件中的数据
-        FileInputStream fis = new FileInputStream(jsonFile);
-        int len;
-        byte[] buffer = new byte[1024];
-        StringBuilder pray = new StringBuilder();
-        while ((len=fis.read(buffer))!=-1){
-            pray.append(new String(buffer,0,len, StandardCharsets.UTF_8));
-        }
-        fis.close();
-
-        //转成对象
-        JSONObject json = JSON.parseObject(pray.toString());
+        String path = "src/static/PrayJson.txt";
+        String result = ReadJsonFileUtils.readJson(path);
+        JSONObject json = JSON.parseObject(result);
         return (JSONObject) json.get(name.toString());
     }
 

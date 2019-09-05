@@ -14,7 +14,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = SpringRunApplication.class)
@@ -27,6 +26,8 @@ public class PrayTest {
     public void test1() throws IOException {
         PrayUtils.flushJson();
     }
+
+
 
     /**
      * 彩色控制台

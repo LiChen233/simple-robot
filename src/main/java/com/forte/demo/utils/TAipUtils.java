@@ -16,6 +16,7 @@ public class TAipUtils {
      * 基于腾讯ai的基础闲聊
      */
     private static final TAipNlp TAIP = new TAipNlp(APP_ID, APP_KEY);
+    public static final String SESSION = System.currentTimeMillis()/1000+"";
 
     private TAipUtils() {
     }
@@ -26,7 +27,7 @@ public class TAipUtils {
 
     public static String getSession(){
         //session是秒级的时间戳
-        return System.currentTimeMillis()/1000+"";
+        return SESSION;
     }
 
     public static String getAnswer(String result){

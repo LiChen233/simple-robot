@@ -14,7 +14,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Map;
 
-public class EquipsUP {
+public class EquipsUPUtils {
 
     private static final String HIGHUP = "https://hsod2.hongshn.xyz/list/auto/high";
     private static final String CUSTOMUP = "https://hsod2.hongshn.xyz/list/auto/custom";
@@ -37,7 +37,9 @@ public class EquipsUP {
                 String item = (String) data.get(i);
                 if (item.indexOf(equip)!=-1){
                     String startTime = json.getString("startTime").substring(0,10);
-                    if (allUp.size()==0 || allUp.size()==1 || !allUp.get(allUp.size()-1).substring(0,7).equals(startTime.substring(0,7))){
+                    if (allUp.size()==0){
+                        allUp.add(startTime);
+                    }else if (!allUp.get(allUp.size()-1).substring(0,7).equals(startTime.substring(0,7))){
                         allUp.add(startTime);
                     }
                 }
@@ -82,5 +84,17 @@ public class EquipsUP {
             }
 
         }
+    }
+
+    public static ArrayList<String> searchUp(Integer index,String equip){
+        ArrayList<String> allUp = getAllUp(NAME[index],equip);
+        if (allUp.size()==0){
+            String petName = getPet(equip);
+            if (petName==null){
+                return null;
+            }
+            allUp = getAllUp(NAME[index],petName);
+        }
+        return allUp;
     }
 }

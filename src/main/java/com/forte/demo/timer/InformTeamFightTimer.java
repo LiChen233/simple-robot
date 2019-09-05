@@ -34,9 +34,4 @@ public class InformTeamFightTimer implements TimeJob {
             msgSender.SENDER.sendGroupMsg(FAMILYQQ[i],atAll+"\n"+message);
         }
     }
-
-    @Override
-    public void execute(JobExecutionContext context) {
-
-    }
 }

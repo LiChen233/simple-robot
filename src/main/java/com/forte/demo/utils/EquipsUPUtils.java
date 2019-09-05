@@ -73,6 +73,10 @@ public class EquipsUPUtils {
                         .get();
 
                 String result = doc.select("body").text();
+                //若是json拿不到，就返回，以免覆写文件
+                if ("".equals(result.trim())){
+                    return;
+                }
                 //写入文件，默认文件永久存在故不做异常处理，写入模式：覆盖
                 File jsonFile = new File("src/static/"+NAME[i]+".txt");
                 FileOutputStream fos = new FileOutputStream(jsonFile);

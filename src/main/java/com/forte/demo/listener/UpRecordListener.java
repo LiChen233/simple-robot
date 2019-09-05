@@ -17,7 +17,7 @@ import java.util.ArrayList;
 @Beans
 public class UpRecordListener {
 
-    @Filter(keywordMatchType = KeywordMatchType.TRIM_CONTAINS,value = {"上次up","上一次up","上次什么时候up","上一次什么时候up","什么时候up"})
+    @Filter(keywordMatchType = KeywordMatchType.TRIM_CONTAINS,value = {"上次up","上一次up","上次什么时候up","上一次什么时候up","什么时候up","up记录"})
     @Listen(MsgGetTypes.groupMsg)
     public void listenUp(GroupMsg msg, MsgSender sender){
         sender.SENDER.sendGroupMsg(msg.getGroup(),"查询装备最近三次up时间：\n" +
@@ -34,7 +34,9 @@ public class UpRecordListener {
             groupMsg = groupMsg.substring(2);
         }
         if (!groupMsg.substring(2,5).equals("up ")){
-            return;
+            if (!groupMsg.substring(4,7).equals("up ")){
+                return;
+            }
         }
         String type = groupMsg.substring(0,2);
         String question = groupMsg.substring(4).trim();

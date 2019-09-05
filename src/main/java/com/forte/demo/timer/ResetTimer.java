@@ -4,6 +4,7 @@ import com.forte.demo.MainApplication;
 import com.forte.demo.mapper.PersonDao;
 import com.forte.demo.mapper.PrayDao;
 import com.forte.demo.mapper.QqGroupDao;
+import com.forte.demo.utils.EquipsUPUtils;
 import com.forte.demo.utils.PrayUtils;
 import com.forte.qqrobot.anno.timetask.CronTask;
 import com.forte.qqrobot.sender.MsgSender;
@@ -14,8 +15,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-//每天0点触发
-@CronTask("0 0 0 * * ? ")
+//每天0点1分钟触发
+@CronTask("0 1 0 * * ? *")
 //每隔五秒触发
 //@CronTask("0/5 * * * * ? *")
 public class ResetTimer implements TimeJob {
@@ -55,6 +56,9 @@ public class ResetTimer implements TimeJob {
         if("星期一".equals(currSun) || "星期四".equals(currSun)){
             prayDao.resetCustom();
         }
+
+        //刷新up记录
+        EquipsUPUtils.flushJson();
         System.out.println("0点定时器已成功执行！");
     }
 }

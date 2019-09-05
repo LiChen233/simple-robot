@@ -34,7 +34,9 @@ public class UpRecordListener {
             groupMsg = groupMsg.substring(2);
         }
         if (!groupMsg.substring(2,5).equals("up ")){
-            return;
+            if (!groupMsg.substring(4,7).equals("up ")){
+                return;
+            }
         }
         String type = groupMsg.substring(0,2);
         String question = groupMsg.substring(4).trim();

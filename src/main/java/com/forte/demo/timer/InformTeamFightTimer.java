@@ -10,7 +10,7 @@ import org.quartz.JobExecutionContext;
 /**
  * 团本/团战 定时艾特全体    周五
  */
-@CronTask("0 0 20 0 0 5 ")
+@CronTask("0 0 21 ? * FRI")
 public class InformTeamFightTimer implements TimeJob {
 
     /**
@@ -21,7 +21,8 @@ public class InformTeamFightTimer implements TimeJob {
             "563721596",
             "110822922",
             "684966897",
-            "687726107"
+            "687726107",
+            "195943739"
     };
 
 

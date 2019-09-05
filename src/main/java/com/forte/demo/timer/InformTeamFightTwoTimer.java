@@ -10,7 +10,7 @@ import org.quartz.JobExecutionContext;
 /**
  * 团本/团战 定时艾特全体   周六
  */
-@CronTask("0 30 19 0 0 6 ")
+@CronTask("0 50 19 ? * SAT")
 public class InformTeamFightTwoTimer implements TimeJob {
 
     /**
@@ -21,14 +21,15 @@ public class InformTeamFightTwoTimer implements TimeJob {
             "563721596",
             "110822922",
             "684966897",
-            "687726107"
+            "687726107",
+            "195943739"
     };
 
 
     @Override
     public void execute(MsgSender msgSender, CQCodeUtil cqCodeUtil) {
         CQCode atAll = CQCodeUtil.build().getCQCode_AtAll();
-        String message = "还有30分钟就要打团啦，请各位准备好打团。到50分左右就可以上游戏做好准备啦~各位加油！！";
+        String message = "每周的打团活动快要开始啦，还有10分钟哦~，快快拿起你的手机做好打团的准备啦。加油哦~~";
         for(int i = 0;i < FAMILYQQ.length;i++){
             msgSender.SENDER.sendGroupMsg(FAMILYQQ[i],atAll+"\n"+message);
         }

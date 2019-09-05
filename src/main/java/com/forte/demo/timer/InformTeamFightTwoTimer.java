@@ -10,7 +10,7 @@ import org.quartz.JobExecutionContext;
 /**
  * 团本/团战 定时艾特全体   周六
  */
-@CronTask("0 30 19 0 0 6 ")
+@CronTask("0 30 19 ? * SAT")
 public class InformTeamFightTwoTimer implements TimeJob {
 
     /**
@@ -32,10 +32,5 @@ public class InformTeamFightTwoTimer implements TimeJob {
         for(int i = 0;i < FAMILYQQ.length;i++){
             msgSender.SENDER.sendGroupMsg(FAMILYQQ[i],atAll+"\n"+message);
         }
-    }
-
-    @Override
-    public void execute(JobExecutionContext context) {
-
     }
 }

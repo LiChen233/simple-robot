@@ -56,17 +56,23 @@ public class EventGroupListener {
      */
     private String welcome(String groupQQ){
         String family = "";
+        String familyId = "";
         File file = new File("src/static/shetuan.jpg");
         String imagePath = CQCodeUtil.build().getCQCode_image("file://" + file.getAbsolutePath());
         if(groupQQ.equals("452657413")){
             family = "Lost one";
+            familyId = "3373";
         }else if(groupQQ.equals("563721596")){
+            familyId = "47781";
             family = "御姐控";
         }else if(groupQQ.equals("110822922")){
+            familyId = "50055";
             family = "雷电芽衣的秘密";
         }else if(groupQQ.equals("684966897")){
+            familyId = "50625";
             family = "符华";
         }else if(groupQQ.equals("687726107")){
+            familyId = "50666";
             family = "雷电彩葵";
         }else if(groupQQ.equals("195943739")){
             return "欢迎新人加入本群。本群是手游《崩坏学园2》的社团内部交流群。\n" +
@@ -77,7 +83,7 @@ public class EventGroupListener {
                     "\n" +
                     "如果只是想加群聊天和观光的朋友，请在群名片上添加“观光”两字，管理需要，敬请理解，感谢合作。";
         }
-        return "欢迎新人加入本群。本群是手游《崩坏学园2》的国服50055社团“"+family+"”内部交流群。\n" +
+        return "欢迎新人加入本群。本群是手游《崩坏学园2》的国服"+familyId+"社团“"+family+"”内部交流群。\n" +
                 "（我们的社团有3373，47781，50055，50625，50666，均为国服活跃社团。）\n" +imagePath+
                 "已经加入本群的你，想必已经选择了我们。我们社团对加团的朋友不设门槛，然而连续3次缺席周六打团，会被请离社团（游戏内请离社团，群里不会踢人）。\n" +
                 "每周六晚20点打团，请记住时间，最好设置一个手机提醒功能。\n" +

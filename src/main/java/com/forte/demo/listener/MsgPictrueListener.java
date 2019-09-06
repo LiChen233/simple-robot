@@ -79,7 +79,7 @@ public class MsgPictrueListener {
 
 
     @Listen(value = MsgGetTypes.groupMsg)
-    @Filter(value = {"来份壁纸","来张壁纸"})
+    @Filter(value = {"来份壁纸","来张壁纸","一张壁纸","电脑壁纸"})
     public void forWallpaper(GroupMsg groupMsg, MsgSender sender) throws IOException {
         CQCode at = CQCodeUtil.build().getCQCode_At(groupMsg.getQQ());
         String qq = groupMsg.getQQ();

@@ -17,12 +17,12 @@ import java.util.ArrayList;
 @Beans
 public class UpRecordListener {
 
-    @Filter(keywordMatchType = KeywordMatchType.TRIM_CONTAINS,value = {"上次up","上一次up","上次什么时候up","上一次什么时候up","什么时候up","up记录"})
+    @Filter(keywordMatchType = KeywordMatchType.TRIM_CONTAINS,value = {"查询往期up功能","上次up","上一次up","上次什么时候up","上一次什么时候up","什么时候up","up记录"})
     @Listen(MsgGetTypes.groupMsg)
     public void listenUp(GroupMsg msg, MsgSender sender){
         sender.SENDER.sendGroupMsg(msg.getGroup(),"查询装备最近三次up时间：\n" +
                 "公主/魔女/魔法少女/使魔up+空格+装备名称(尽量精确名字)\n" +
-                "--例--\n" +
+                "---例---\n" +
                 "公主up 犹大的誓约");
     }
 

@@ -93,8 +93,8 @@ public class MsgListener {
     public void imageFunction(GroupMsg msg, MsgSender sender){
         String res = "图片功能介绍\n" +
                 "回复指令获取壁纸/涩图：\n" +
-                "1、来/张份色图\n" +
-                "2、来/张份壁纸\n" +
+                "1、来张/份色图\n" +
+                "2、来张/份壁纸\n" +
                 "3、来张/份手机壁纸\n" +
                 "注:一次指令消耗5积分";
         sender.SENDER.sendGroupMsg(msg.getGroup(),res);

@@ -33,5 +33,6 @@ public class InformTeamFightTimer implements TimeJob {
         for(int i = 0;i < FAMILYQQ.length;i++){
             msgSender.SENDER.sendGroupMsg(FAMILYQQ[i],atAll+"\n"+message);
         }
+        System.out.println("周五21点打团通知已发送");
     }
 }

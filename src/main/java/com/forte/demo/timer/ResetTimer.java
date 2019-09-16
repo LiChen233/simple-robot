@@ -16,7 +16,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 //每天0点1分钟触发
-@CronTask("0 1 0 * * ? *")
+@CronTask("0 5 0 * * ? *")
 //每隔五秒触发
 //@CronTask("0/5 * * * * ? *")
 public class ResetTimer implements TimeJob {

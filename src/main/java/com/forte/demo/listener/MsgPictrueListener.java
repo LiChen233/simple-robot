@@ -58,7 +58,7 @@ public class MsgPictrueListener {
             sender.SENDER.sendGroupMsg(groupMsg.getGroup(),at+" 你还没有注册哦，发送签到，开启萌萌新！");
             return;
         }
-        if(person.getStar() < 5){
+        if(person.getStar() < 10){
             sender.SENDER.sendGroupMsg(groupMsg.getGroup(),at.toString()+" 积分不足！");
             return;
         }
@@ -67,7 +67,7 @@ public class MsgPictrueListener {
             String forcolorimage = CQCodeUtil.build().getCQCode_image(FORCOLORIMAGEURL[i]);
             person = new Person();
             person.setQq(qq);
-            person.setStar(5);
+            person.setStar(10);
             personService.reduceStar(person);
             sender.SENDER.sendGroupMsg(groupMsg.getGroup(),at.toString()+forcolorimage);
         }catch (Exception e){
@@ -88,7 +88,7 @@ public class MsgPictrueListener {
             sender.SENDER.sendGroupMsg(groupMsg.getGroup(),at+" 你还没有注册哦，发送签到，开启萌萌新！");
             return;
         }
-        if(person.getStar() < 5){
+        if(person.getStar() < 10){
             sender.SENDER.sendGroupMsg(groupMsg.getGroup(),at.toString()+" 积分不足！");
             return;
         }
@@ -97,7 +97,7 @@ public class MsgPictrueListener {
             String wallpaper = CQCodeUtil.build().getCQCode_image(FORWALLPAPER[i]);
             person = new Person();
             person.setQq(qq);
-            person.setStar(5);
+            person.setStar(10);
             personService.reduceStar(person);
             sender.SENDER.sendGroupMsg(groupMsg.getGroup(),at.toString()+wallpaper);
         }catch (Exception e){
@@ -119,7 +119,7 @@ public class MsgPictrueListener {
             sender.SENDER.sendGroupMsg(groupMsg.getGroup(),at+" 你还没有注册哦，发送签到，开启萌萌新！");
             return;
         }
-        if(person.getStar() < 5){
+        if(person.getStar() < 10){
             sender.SENDER.sendGroupMsg(groupMsg.getGroup(),at.toString()+" 积分不足！");
             return;
         }
@@ -127,7 +127,7 @@ public class MsgPictrueListener {
             String phoneImage = CQCodeUtil.build().getCQCode_image(PHONEWALLPAPER);
             person = new Person();
             person.setQq(qq);
-            person.setStar(5);
+            person.setStar(10);
             personService.reduceStar(person);
             sender.SENDER.sendGroupMsg(groupMsg.getGroup(),at.toString()+phoneImage);
         }catch (Exception e){

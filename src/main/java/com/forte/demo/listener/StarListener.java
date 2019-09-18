@@ -60,7 +60,7 @@ public class StarListener {
             return;
         }
         Integer star = RandomNum.randomNumber(20, 50);
-        person = new Person(person.getQq(), person.getStar() + star, 1,0);
+        person = new Person(person.getQq(), person.getStar() + star, 0,1);
         personService.addStar(person);
         String message = "";
         if (star>=40){
@@ -77,7 +77,7 @@ public class StarListener {
     }
 
     @Listen(value = MsgGetTypes.groupMsg)
-    @Filter(value = {"积分查询","查询积分"})
+    @Filter(value = {"积分查询","查询积分","我的积分"})
     public void getStar(GroupMsg msg, MsgSender sender){
         String qq = msg.getQQ();
         CQCode cqCode_at = CQCodeUtil.build().getCQCode_At(qq);

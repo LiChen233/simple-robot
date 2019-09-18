@@ -96,7 +96,7 @@ public class MsgListener {
                 "1、来张/份色图\n" +
                 "2、来张/份壁纸\n" +
                 "3、来张/份手机壁纸\n" +
-                "注:一次指令消耗5积分";
+                "注:一次指令消耗10积分";
         sender.SENDER.sendGroupMsg(msg.getGroup(),res);
     }
 
@@ -108,7 +108,7 @@ public class MsgListener {
                 "1、公主单抽/十连 \n" +
                 "2、魔女单抽/十连\n" +
                 "3、大小姐单抽/十连：免费\n" +
-                "注:公主/魔女消耗1/10积分";
+                "注:公主/魔女消耗5/30积分";
         sender.SENDER.sendGroupMsg(msg.getGroup(),res);
     }
 

@@ -1,14 +1,18 @@
 package com.forte.demo.listener;
 
+import com.forte.qqrobot.anno.Filter;
 import com.forte.qqrobot.anno.Listen;
 import com.forte.qqrobot.anno.depend.Beans;
 import com.forte.qqrobot.beans.cqcode.CQCode;
 import com.forte.qqrobot.beans.messages.msgget.GroupMemberIncrease;
+import com.forte.qqrobot.beans.messages.msgget.GroupMsg;
 import com.forte.qqrobot.beans.messages.types.MsgGetTypes;
 import com.forte.qqrobot.sender.MsgSender;
 import com.forte.qqrobot.utils.CQCodeUtil;
 
 import java.io.File;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 /**
@@ -104,6 +108,24 @@ public class EventGroupListener {
         }
         return false;
     }
+
+
+    private Pattern pattern = Pattern.compile("领取套餐(.*?)");
+
+    @Listen(value = MsgGetTypes.groupMsg)
+    public void ListenerMessage(GroupMsg groupMsg,MsgSender sender){
+        Matcher m = pattern.matcher(groupMsg.getMsg());
+        if(m.find()){
+            sender.SETTER.setGroupBan(groupMsg.getGroup(),groupMsg.getQQ(),60);
+            //System.out.println(groupMsg.getMsg());
+        }
+
+    }
+
+
+
+
+
 
 
 }

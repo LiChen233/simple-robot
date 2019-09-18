@@ -28,8 +28,8 @@ public class PrayListener {
     @Depend
     PersonService personService;
 
-    private static final Integer ONE = 1;
-    private static final Integer TEN = 10;
+    private static final Integer ONE = 5;
+    private static final Integer TEN = 30;
     private static final Integer BAODI = 3;
 
     /**

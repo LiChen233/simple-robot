@@ -1,5 +1,6 @@
 package com.forte.demo.listener;
 
+import com.forte.demo.utils.TAipUtils;
 import com.forte.qqrobot.anno.Filter;
 import com.forte.qqrobot.anno.Listen;
 import com.forte.qqrobot.anno.depend.Beans;
@@ -9,7 +10,11 @@ import com.forte.qqrobot.beans.messages.msgget.GroupMsg;
 import com.forte.qqrobot.beans.messages.types.MsgGetTypes;
 import com.forte.qqrobot.sender.MsgSender;
 import com.forte.qqrobot.utils.CQCodeUtil;
+import com.forte.qqrobot.utils.MethodUtil;
+import com.forte.qqrobot.utils.RandomUtil;
+import com.sun.tools.javac.util.Convert;
 
+import javax.script.ScriptException;
 import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -110,14 +115,39 @@ public class EventGroupListener {
     }
 
 
-    private Pattern pattern = Pattern.compile("领取套餐(.*?)");
 
     @Listen(value = MsgGetTypes.groupMsg)
-    public void ListenerMessage(GroupMsg groupMsg,MsgSender sender){
-        Matcher m = pattern.matcher(groupMsg.getMsg());
-        if(m.find()){
-            sender.SETTER.setGroupBan(groupMsg.getGroup(),groupMsg.getQQ(),60);
-            //System.out.println(groupMsg.getMsg());
+    public void GetThePackage(GroupMsg groupMsg,MsgSender sender) throws ScriptException {
+        String patter = "^领取套餐.*?";
+        String chinese = "[\\u4E00-\\u9FA5._~!@#$%^&*()_+]+";
+        String message = "完全看不懂你在说什么呢？就让你去小黑屋待会儿吧~ 嘻嘻";
+        int duration = 0;
+        Integer ran = RandomUtil.getNumber(1,10);
+        boolean isMatch = Pattern.matches(patter,groupMsg.getMsg());
+        if(isMatch){
+            String content = groupMsg.getMsg();
+            String result = content.substring(content.indexOf("餐")+1,content.length()).trim();
+            if(result.length() == 0) {
+                sender.SETTER.setGroupBan(groupMsg.getGroup(),groupMsg.getQQ(),duration*60);
+                sender.SENDER.sendGroupMsg(groupMsg.getGroup(),message);
+                return;
+            }
+            if(!Pattern.matches(chinese,result)){
+                duration = (int)MethodUtil.eval(result);
+                if(duration < 0){
+                    duration = Math.abs(duration);
+                    message = "负数？那怎么行？已经为你贴心的转为正数了呢~";
+                }
+                if(duration == 0){
+                    duration = ran;
+                    message = "0？不不不不不，这可不行呢！";
+                }
+            }else{
+                message = "完全看不懂你在说什么呢？就让你去小黑屋待会儿吧~ 嘻嘻";
+                duration = ran;
+            }
+            sender.SETTER.setGroupBan(groupMsg.getGroup(),groupMsg.getQQ(),duration*60);
+            sender.SENDER.sendGroupMsg(groupMsg.getGroup(),message);
         }
 
     }

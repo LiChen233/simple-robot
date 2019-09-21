@@ -57,7 +57,8 @@ public class QQRunApplication implements HttpApp {
                 "195943739"
         };
         for (String s : FAMILYQQ) {
-            //sender.SENDER.sendGroupMsg(s,"我回来啦~");
+            sender.SENDER.sendGroupMsg(s,"我回来啦~\n" +
+                    "瑶光的话：由于色图接口坏了一个，功能还能用但质量会有所下降，建议近期不要使用来份色图功能，为此我们补偿所有人积分+50");
         }
     }
 }

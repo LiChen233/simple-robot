@@ -16,6 +16,7 @@ import com.sun.tools.javac.util.Convert;
 
 import javax.script.ScriptException;
 import java.io.File;
+import java.math.BigInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -120,27 +121,30 @@ public class EventGroupListener {
     public void GetThePackage(GroupMsg groupMsg,MsgSender sender) throws ScriptException {
         String patter = "^领取套餐.*?";
         String chinese = "[\\u4E00-\\u9FA5._~!@#$%^&*()_+]+";
-        String message = "完全看不懂你在说什么呢？就让你去小黑屋待会儿吧~ 嘻嘻";
-        int duration = 0;
-        Integer ran = RandomUtil.getNumber(1,10);
+        String message = "";
+        long duration = 0;
+        long ran = RandomUtil.getNumber(1,10);
         boolean isMatch = Pattern.matches(patter,groupMsg.getMsg());
         if(isMatch){
             String content = groupMsg.getMsg();
             String result = content.substring(content.indexOf("餐")+1,content.length()).trim();
             if(result.length() == 0) {
+                duration = ran;
+                message = "想冷静又不知道冷静多久？那本小姐就大发慈悲的赏你"+duration+"分钟吧 不要谢谢我哟~";
                 sender.SETTER.setGroupBan(groupMsg.getGroup(),groupMsg.getQQ(),duration*60);
                 sender.SENDER.sendGroupMsg(groupMsg.getGroup(),message);
                 return;
             }
-            if(!Pattern.matches(chinese,result)){
-                duration = (int)MethodUtil.eval(result);
+            if(!Pattern.matches(chinese,result) && result.length() < 10){
+                duration = Long.parseLong(MethodUtil.eval(result).toString());
                 if(duration < 0){
                     duration = Math.abs(duration);
                     message = "负数？那怎么行？已经为你贴心的转为正数了呢~";
-                }
-                if(duration == 0){
+                }else if(duration == 0){
                     duration = ran;
-                    message = "0？不不不不不，这可不行呢！";
+                    message = "0？不不不不不，这可不行呢！就随便赏你"+duration+"分钟吧";
+                }else{
+                    message = "那就满足你这个小小的要求吧~ 要好好的反省自己哦！";
                 }
             }else{
                 message = "完全看不懂你在说什么呢？就让你去小黑屋待会儿吧~ 嘻嘻";

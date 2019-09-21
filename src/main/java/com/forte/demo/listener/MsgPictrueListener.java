@@ -29,8 +29,8 @@ public class MsgPictrueListener {
 
     //来份色图API
     private static final String FORCOLORIMAGEURL[] =  {
-            "http://api.btstu.cn/sjbz/?lx=dongman",
-            "http://api.mtyqx.cn/api/random.php"
+            "http://api.btstu.cn/sjbz/?lx=dongman"
+            //, "http://api.mtyqx.cn/api/random.php"
     };
     //来份壁纸API
     private static final String FORWALLPAPER[] = {

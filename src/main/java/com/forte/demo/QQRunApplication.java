@@ -48,5 +48,16 @@ public class QQRunApplication implements HttpApp {
     @Override
     public void after(CQCodeUtil cqCodeUtil, MsgSender sender) {
         //启动成功之后，步进行任何操作
+        String FAMILYQQ[] = {
+                "452657413",
+                "563721596",
+                "110822922",
+                "684966897",
+                //"687726107",
+                "195943739"
+        };
+        for (String s : FAMILYQQ) {
+            //sender.SENDER.sendGroupMsg(s,"我回来啦~");
+        }
     }
 }

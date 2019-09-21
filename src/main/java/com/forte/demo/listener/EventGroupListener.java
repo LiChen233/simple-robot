@@ -7,6 +7,11 @@ import com.forte.qqrobot.anno.depend.Beans;
 import com.forte.qqrobot.beans.cqcode.CQCode;
 import com.forte.qqrobot.beans.messages.msgget.GroupMemberIncrease;
 import com.forte.qqrobot.beans.messages.msgget.GroupMsg;
+import com.forte.qqrobot.beans.messages.result.AuthInfo;
+import com.forte.qqrobot.beans.messages.result.BanList;
+import com.forte.qqrobot.beans.messages.result.GroupInfo;
+import com.forte.qqrobot.beans.messages.result.inner.BanInfo;
+import com.forte.qqrobot.beans.messages.result.inner.Group;
 import com.forte.qqrobot.beans.messages.types.MsgGetTypes;
 import com.forte.qqrobot.sender.MsgSender;
 import com.forte.qqrobot.utils.CQCodeUtil;
@@ -126,6 +131,12 @@ public class EventGroupListener {
         long ran = RandomUtil.getNumber(1,10);
         boolean isMatch = Pattern.matches(patter,groupMsg.getMsg());
         if(isMatch){
+            //判断是否为管理员
+            Boolean isAdmin = this.isAdmin(sender,groupMsg.getGroup(),groupMsg.getQQ());
+            if(isAdmin){
+                sender.SENDER.sendGroupMsg(groupMsg.getGroup(),"别欺负人家萌萌新啦，你能不能领取套餐你心里没点13数嘛？哼~");
+                return;
+            }
             String content = groupMsg.getMsg();
             String result = content.substring(content.indexOf("餐")+1,content.length()).trim();
             if(result.length() == 0) {
@@ -139,12 +150,13 @@ public class EventGroupListener {
                 duration = Long.parseLong(MethodUtil.eval(result).toString());
                 if(duration < 0){
                     duration = Math.abs(duration);
-                    message = "负数？那怎么行？已经为你贴心的转为正数了呢~";
+                    message = "-"+duration+"？"+"负数？那怎么行呢？已经为您贴心的转为正数了呢~";
                 }else if(duration == 0){
                     duration = ran;
                     message = "0？不不不不不，这可不行呢！就随便赏你"+duration+"分钟吧";
                 }else{
-                    message = "那就满足你这个小小的要求吧~ 要好好的反省自己哦！";
+
+                    message = bannedTime(duration);
                 }
             }else{
                 message = "完全看不懂你在说什么呢？就让你去小黑屋待会儿吧~ 嘻嘻";
@@ -157,6 +169,53 @@ public class EventGroupListener {
     }
 
 
+    /**
+     * 计算分钟数为几天几时几分
+     * @param t 分钟数
+     * @return 返回字符串结果
+     */
+    private String bannedTime(long t){
+        String result = "";
+        long day = t/(24*60);
+        long hour = (t%(24*60))/60;
+        long minute = (t%(24*60))%60;
+        if(day >= 30){
+            result = "这这这？这都"+day+"天了！上限30天呢，有一句话叫做不作死就不会死，等下没人给你解除看你找谁哭鼻子去！嘻嘻";
+        }else if(day >= 1 ){
+            result = "哦哦哦哦，"+day+"天"+hour+"小时"+minute+"分钟"+"是吧？"+"兄跌有对自己有点恨呢！下次不要这样了好不好？萌萌新看着都怪开心的呢~ (偷笑)";
+        }
+        else if(hour >= 1){
+            result = "噢噢噢噢，"+hour+"小时"+minute+"分钟"+"是吧？"+"那就满足你这个大大的要求吧~ 要好好的面壁思过啦！";
+
+        }else{
+            result = "嗯嗯嗯嗯，"+minute + "分钟"+"是吧？"+"那就满足你这个小小的要求吧~ 要好好的反省自己哦！";
+        }
+        return  result;
+    }
+
+
+    /**
+     * 判断是否为管理员
+     * @param sender 送信器
+     * @param groupQQ 群号
+     * @param qq
+     * @return 返回是否为管理员
+     */
+    private boolean isAdmin(MsgSender sender,String groupQQ,String qq){
+        boolean flag = false;
+        GroupInfo groupInfo = sender.GETTER.getGroupInfo(groupQQ);
+        String[] admin = groupInfo.getAdminList();
+        for(String a : admin){
+            if(a.equals(qq)){
+                flag = true;
+                break;
+            }
+        }
+        if(groupInfo.getOwnerQQ().equals(qq)){
+            flag = true;
+        }
+        return flag;
+    }
 
 
 

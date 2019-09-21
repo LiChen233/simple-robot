@@ -21,6 +21,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.Scanner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = SpringRunApplication.class)
@@ -41,7 +42,26 @@ public class Img2Base64UtilTest {
 
     @Test
     public void random(){
-        System.out.println((int)(Math.random()*2));
+        System.out.print("请输入总的分钟：");
+        Scanner scanner = new Scanner(System.in);
+        int totalMinutes = scanner.nextInt();
+        //计算天 1天 = 24*60 1小时=60
+        int day = totalMinutes/(24*60);
+        int hour = (totalMinutes%(24*60))/60;
+        int minute = (totalMinutes%(24*60))%60;
+        System.out.println(day+"天"+hour+"小时"+minute+"分");
+
+    }
+
+    public static void main(String[] args) {
+        System.out.print("请输入总的分钟：");
+        Scanner scanner = new Scanner(System.in);
+        int totalMinutes = scanner.nextInt();
+        //计算天 1天 = 24*60 1小时=60
+        int day = totalMinutes/(24*60);
+        int hour = (totalMinutes%(24*60))/60;
+        int minute = (totalMinutes%(24*60))%60;
+        System.out.println(day+"天"+hour+"小时"+minute+"分");
     }
 
 

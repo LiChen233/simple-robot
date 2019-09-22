@@ -6,6 +6,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.forte.demo.SpringRunApplication;
 import com.forte.demo.service.PersonService;
 import com.forte.demo.utils.Img2Base64Util;
+import com.forte.demo.utils.IsNumber;
 import com.forte.qqrobot.beans.cqcode.CQCode;
 import com.forte.qqrobot.utils.CQCodeUtil;
 import com.google.gson.Gson;
@@ -42,29 +43,8 @@ public class Img2Base64UtilTest {
 
     @Test
     public void random(){
-        System.out.print("请输入总的分钟：");
-        Scanner scanner = new Scanner(System.in);
-        int totalMinutes = scanner.nextInt();
-        //计算天 1天 = 24*60 1小时=60
-        int day = totalMinutes/(24*60);
-        int hour = (totalMinutes%(24*60))/60;
-        int minute = (totalMinutes%(24*60))%60;
-        System.out.println(day+"天"+hour+"小时"+minute+"分");
+
 
     }
-
-    public static void main(String[] args) {
-        System.out.print("请输入总的分钟：");
-        Scanner scanner = new Scanner(System.in);
-        int totalMinutes = scanner.nextInt();
-        //计算天 1天 = 24*60 1小时=60
-        int day = totalMinutes/(24*60);
-        int hour = (totalMinutes%(24*60))/60;
-        int minute = (totalMinutes%(24*60))%60;
-        System.out.println(day+"天"+hour+"小时"+minute+"分");
-    }
-
-
-
 
 }

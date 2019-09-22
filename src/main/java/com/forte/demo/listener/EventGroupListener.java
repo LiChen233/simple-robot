@@ -1,5 +1,6 @@
 package com.forte.demo.listener;
 
+import com.forte.demo.utils.IsNumber;
 import com.forte.demo.utils.TAipUtils;
 import com.forte.qqrobot.anno.Filter;
 import com.forte.qqrobot.anno.Listen;
@@ -18,6 +19,7 @@ import com.forte.qqrobot.utils.CQCodeUtil;
 import com.forte.qqrobot.utils.MethodUtil;
 import com.forte.qqrobot.utils.RandomUtil;
 import com.sun.tools.javac.util.Convert;
+import org.hamcrest.core.Is;
 
 import javax.script.ScriptException;
 import java.io.File;
@@ -125,7 +127,9 @@ public class EventGroupListener {
     @Listen(value = MsgGetTypes.groupMsg)
     public void GetThePackage(GroupMsg groupMsg,MsgSender sender) throws ScriptException {
         String patter = "^领取套餐.*?";
-        String chinese = "[\\u4E00-\\u9FA5._~!@#$%^&*()_+]+";
+        //String chinese = "[\\u4E00-\\u9FA5\\w._~!@#$%^&*()_/∞¿]+";
+        String chinese = "[(\\d+|\\-|*|/|%|<<|>>\\d)]*";
+        String number = "[\\d]*";
         String message = "";
         long duration = 0;
         long ran = RandomUtil.getNumber(1,10);
@@ -139,6 +143,7 @@ public class EventGroupListener {
             }
             String content = groupMsg.getMsg();
             String result = content.substring(content.indexOf("餐")+1,content.length()).trim();
+            //如领取套餐后无任何内容则直接返回
             if(result.length() == 0) {
                 duration = ran;
                 message = "想冷静又不知道冷静多久？那本小姐就大发慈悲的赏你"+duration+"分钟吧 不要谢谢我哟~";
@@ -146,26 +151,44 @@ public class EventGroupListener {
                 sender.SENDER.sendGroupMsg(groupMsg.getGroup(),message);
                 return;
             }
-            if(!Pattern.matches(chinese,result) && result.length() < 10){
-                duration = Long.parseLong(MethodUtil.eval(result).toString());
-                if(duration < 0){
-                    duration = Math.abs(duration);
-                    message = "-"+duration+"？"+"负数？那怎么行呢？已经为您贴心的转为正数了呢~";
-                }else if(duration == 0){
-                    duration = ran;
-                    message = "0？不不不不不，这可不行呢！就随便赏你"+duration+"分钟吧";
+            //判断领取套餐后的内容是否为数字或者带小数点的数字
+            if(IsNumber.isInteger(result) || IsNumber.isDouble(result)){
+                double num = Double.parseDouble(result);
+                if(num < 1){
+                    duration = 1;
+                    message = "别这么小气，都不大于1呢，我就大发慈悲给你凑个整好啦！";
                 }else{
-
+                    duration = (int)num;
                     message = bannedTime(duration);
                 }
             }else{
-                message = "完全看不懂你在说什么呢？就让你去小黑屋待会儿吧~ 嘻嘻";
-                duration = ran;
+                //匹配包含数字和运算符的内容，否则机器人无法看懂
+                if(Pattern.matches(chinese,result)){
+                    //防止只有运算符而没有数字的运算，或者多个运算符 例如：1+++++1 等
+                    try{
+                        // 计算方法
+                        duration = Long.parseLong(MethodUtil.eval(result).toString());
+                        if(duration < 0){
+                            duration = Math.abs(duration);
+                            message = "-"+duration+"？"+"负数？那怎么行呢？已经为您贴心的转为正数了呢~";
+                        }else if(duration == 0){
+                            duration = ran;
+                            message = "0？不不不不不，这可不行呢！就随便赏你"+duration+"分钟吧";
+                        }else{
+                            message = bannedTime(duration);
+                        }
+                    }catch (Exception e){
+                        duration = ran;
+                        message = "完全看不懂你在说什么呢？就让你去小黑屋待会儿吧~ 嘻嘻";
+                    }
+                }else{
+                    duration = ran;
+                    message = "完全看不懂你在说什么呢？就让你去小黑屋待会儿吧~ 嘻嘻";
+                }
             }
             sender.SETTER.setGroupBan(groupMsg.getGroup(),groupMsg.getQQ(),duration*60);
             sender.SENDER.sendGroupMsg(groupMsg.getGroup(),message);
         }
-
     }
 
 

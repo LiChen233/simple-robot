@@ -37,7 +37,7 @@ public class MsgPictrueListener {
             "https://acg.yanwz.cn/wallpaper/api.php",
             "http://api.btstu.cn/sjbz/?lx=suiji",
             "https://img.xjh.me/random_img.php?type=bg&ctype=nature&return=302",
-            "https://cdn.mom1.cn/?mom=302"
+            "https://api.yimian.xyz/img?type=moe&size=1920x1080"
     };
 
     private static final String PHONEWALLPAPER = "http://api.btstu.cn/sjbz/?lx=m_dongman";
@@ -50,7 +50,7 @@ public class MsgPictrueListener {
 
     @Listen(value = MsgGetTypes.groupMsg)
     @Filter(value = {"来份色图","来分色图","来张色图","来份涩图","来分涩图","来张涩图"})
-    public void forColorImage(GroupMsg groupMsg, MsgSender sender) throws IOException {
+    public synchronized void forColorImage(GroupMsg groupMsg, MsgSender sender) throws IOException {
         CQCode at = CQCodeUtil.build().getCQCode_At(groupMsg.getQQ());
         String qq = groupMsg.getQQ();
         Person person = personService.getPerson(groupMsg.getQQ());
@@ -80,7 +80,7 @@ public class MsgPictrueListener {
 
     @Listen(value = MsgGetTypes.groupMsg)
     @Filter(value = {"来份壁纸","来张壁纸","一张壁纸","电脑壁纸"})
-    public void forWallpaper(GroupMsg groupMsg, MsgSender sender) throws IOException {
+    public synchronized void forWallpaper(GroupMsg groupMsg, MsgSender sender) throws IOException {
         CQCode at = CQCodeUtil.build().getCQCode_At(groupMsg.getQQ());
         String qq = groupMsg.getQQ();
         Person person = personService.getPerson(groupMsg.getQQ());
@@ -111,7 +111,7 @@ public class MsgPictrueListener {
 
     @Listen(MsgGetTypes.groupMsg)
     @Filter(value = {"来份手机壁纸","手机壁纸","来张手机壁纸"})
-    public void phoneWallpaper(GroupMsg groupMsg,MsgSender sender){
+    public synchronized void phoneWallpaper(GroupMsg groupMsg,MsgSender sender){
         String qq = groupMsg.getQQ();
         CQCode at = CQCodeUtil.build().getCQCode_At(qq);
         Person person = personService.getPerson(groupMsg.getQQ());

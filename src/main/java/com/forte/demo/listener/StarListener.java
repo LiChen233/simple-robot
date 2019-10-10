@@ -60,7 +60,7 @@ public class StarListener {
             return;
         }
         Integer star = RandomNum.randomNumber(20, 50);
-        person = new Person(person.getQq(), person.getStar() + star, 0,1);
+        person = new Person(person.getQq(), person.getStar() + star, null,1);
         personService.addStar(person);
         String message = "";
         if (star>=40){
@@ -121,7 +121,7 @@ public class StarListener {
                     star = 10;
                 }
                 qqGroupService.updateGroup(groupid);
-                person = new Person(person.getQq(), person.getStar() + star, 1,0);
+                person = new Person(person.getQq(), person.getStar() + star, 1,null);
                 personService.addStar(person);
                 message = "签到成功，你是本群第" + (qqGroup.getSigninCount()+1) + "个签到。\n" +
                         "获得积分：" + star + "。剩余积分：" + person.getStar() + "。\n" +

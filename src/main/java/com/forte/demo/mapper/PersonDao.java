@@ -18,7 +18,7 @@ public interface PersonDao {
     Person getPerson(String qq);
 
     //积分增加
-    @Update("UPDATE person SET star = #{star},signin=#{signin} WHERE qq = #{qq}")
+    @Update("UPDATE person SET star = #{star} WHERE qq = #{qq}")
     void  addStar(Person person);
 
     //积分减少

@@ -75,7 +75,7 @@ public class EventGroupListener {
         String family = "";
         String familyId = "";
         File file = new File("src/static/shetuan.jpg");
-        String imagePath = CQCodeUtil.build().getCQCode_image("file://" + file.getAbsolutePath());
+        CQCode imagePath = CQCodeUtil.build().getCQCode_Image("file://" + file.getAbsolutePath());
         if(groupQQ.equals("452657413")){
             family = "Lost one";
             familyId = "3373";
@@ -126,6 +126,10 @@ public class EventGroupListener {
 
     @Listen(value = MsgGetTypes.groupMsg)
     public void GetThePackage(GroupMsg groupMsg,MsgSender sender) throws ScriptException {
+        if(groupMsg.getGroup().equals("195943739")){
+            sender.SENDER.sendGroupMsg(groupMsg.getGroup(),"本小姐没有这个权限呢~要不你去自己的社团群玩个够吧！嘿嘿");
+            return;
+        }
         String patter = "^领取套餐.*?";
         //String chinese = "[\\u4E00-\\u9FA5\\w._~!@#$%^&*()_/∞¿]+";
         String chinese = "[(\\d+|\\-|*|/|%|<<|>>\\d)]*";

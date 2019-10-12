@@ -17,6 +17,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 
+import java.io.File;
 import java.io.IOException;
 
 /**
@@ -29,14 +30,15 @@ public class MsgPictrueListener {
 
     //来份色图API
     private static final String FORCOLORIMAGEURL[] =  {
-            "https://api.moonwl.cn/api/tu/acg.php",
-            "https://api.w0ai1uo.org/api/dongman/"
+            //"https://api.moonwl.cn/api/tu/acg.php",  //接口已凉
+            "https://api.w0ai1uo.org/api/dongman/",
+            "http://api.mtyqx.cn/tapi/random.php",
+            "http://api.btstu.cn/sjbz/?lx=dongman"
     };
     //来份壁纸API
     private static final String FORWALLPAPER[] = {
             "https://acg.yanwz.cn/wallpaper/api.php",
             "http://api.btstu.cn/sjbz/?lx=suiji",
-            "https://img.xjh.me/random_img.php?type=bg&ctype=nature&return=302",
             "https://api.yimian.xyz/img?type=moe&size=1920x1080"
     };
 
@@ -64,7 +66,7 @@ public class MsgPictrueListener {
         }
         try{
             Integer i = (int) (Math.random()*FORCOLORIMAGEURL.length);
-            String forcolorimage = CQCodeUtil.build().getCQCode_image(FORCOLORIMAGEURL[i]);
+            CQCode forcolorimage = CQCodeUtil.build().getCQCode_Image(FORCOLORIMAGEURL[i]);
             person = new Person();
             person.setQq(qq);
             person.setStar(10);
@@ -94,7 +96,8 @@ public class MsgPictrueListener {
         }
         try{
             Integer i = (int) (Math.random()*FORWALLPAPER.length);
-            String wallpaper = CQCodeUtil.build().getCQCode_image(FORWALLPAPER[i]);
+            System.out.println(i);
+            CQCode wallpaper = CQCodeUtil.build().getCQCode_Image(FORWALLPAPER[i]);
             person = new Person();
             person.setQq(qq);
             person.setStar(10);

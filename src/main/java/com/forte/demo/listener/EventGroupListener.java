@@ -36,15 +36,14 @@ public class EventGroupListener {
 
 
     /**
-     * 六大社团群号
+     * 五大社团群号
      */
     private static final String FAMILYQQ[] = {
             "452657413",
             "563721596",
             "110822922",
             "684966897",
-            "687726107",
-            "195943739"
+            "687726107"
     };
 
     /**
@@ -54,59 +53,33 @@ public class EventGroupListener {
      */
     @Listen(MsgGetTypes.groupMemberIncrease)
     public void addGroupMember(GroupMemberIncrease memberIncrease, MsgSender sender){
-        String groupQQ = memberIncrease.getGroup();
-        String messege = "欢迎新人入群！";
-        if(isFamily(groupQQ)){
-            messege = welcome(groupQQ);
-        }
         //新人入群QQ号
         String qq = memberIncrease.getBeOperatedQQ();
         CQCode at = CQCodeUtil.build().getCQCode_At(qq);
-        sender.SENDER.sendGroupMsg(memberIncrease.getGroup(),at.toString() + " \n"+messege);
-    }
-
-
-    /**
-     * 五大社团入群欢迎语
-     * @param groupQQ 群号
-     * @return  返回欢迎提示语字符串
-     */
-    private String welcome(String groupQQ){
-        String family = "";
-        String familyId = "";
-        File file = new File("src/static/shetuan.jpg");
-        CQCode imagePath = CQCodeUtil.build().getCQCode_Image("file://" + file.getAbsolutePath());
-        if(groupQQ.equals("452657413")){
-            family = "Lost one";
-            familyId = "3373";
-        }else if(groupQQ.equals("563721596")){
-            familyId = "47781";
-            family = "御姐控";
-        }else if(groupQQ.equals("110822922")){
-            familyId = "50055";
-            family = "雷电芽衣的秘密";
-        }else if(groupQQ.equals("684966897")){
-            familyId = "50625";
-            family = "符华";
-        }else if(groupQQ.equals("687726107")){
-            familyId = "50666";
-            family = "雷电彩葵";
-        }else if(groupQQ.equals("195943739")){
-            return "欢迎新人加入本群。本群是手游《崩坏学园2》的社团内部交流群。\n" +
-                    "\n" +
-                    "我们的社团有3373，47781，50055，50625，50666，均为国服活跃社团。想加入我们社团的朋友，请从上述社团中选择一个，并告知管理员，我们会给你安排的。\n" +
-                    "[我们社团对加团的朋友不设门槛，然而连续3次缺席周六打团，会被请离社团（游戏内请离社团，群里不会踢人）。]\n" +imagePath+
-                    "加入我们的社团以后，请在群名片上添加你所在社团的编号，比如你加入50055，这是我们的3团，你可以在群名片上添加“50055”“3”“③”“3团”等提示字眼。此举为管理需要，谢谢合作。\n" +
-                    "\n" +
-                    "如果只是想加群聊天和观光的朋友，请在群名片上添加“观光”两字，管理需要，敬请理解，感谢合作。";
+        String groupQQ = memberIncrease.getGroup();
+        String messege = at.toString() + "欢迎新人加入本群。";
+        File file;
+        CQCode imagePath;
+        if(groupQQ.equals("195943739")){
+            messege = "欢迎"+at.toString()+"加入我们，加团可以找管理员，观光请在群名片上注明“观光”，谢谢合作。";
+            file = new File("src/static/shetuanImg/0.jpg");
+            imagePath = CQCodeUtil.build().getCQCode_Image("file://" + file.getAbsolutePath());
+            messege += imagePath;
+            sender.SENDER.sendGroupMsg(memberIncrease.getGroup(),messege);
+            return;
         }
-        return "欢迎新人加入本群。本群是手游《崩坏学园2》的国服"+familyId+"社团“"+family+"”内部交流群。\n" +
-                "（我们的社团有3373，47781，50055，50625，50666，均为国服活跃社团。）\n" +imagePath+
-                "已经加入本群的你，想必已经选择了我们。我们社团对加团的朋友不设门槛，然而连续3次缺席周六打团，会被请离社团（游戏内请离社团，群里不会踢人）。\n" +
-                "每周六晚20点打团，请记住时间，最好设置一个手机提醒功能。\n" +
-                "\n" +
-                "加入我们的社团以后，请将群名片与游戏内昵称统一，此举为管理需要，谢谢合作。如果已经退出社团，或者加群只是聊天和观光的朋友，请在群名片上添加“观光”两字，管理需要，敬请理解，感谢合作。";
+        for (int i = 0;i < FAMILYQQ.length; i++){
+            if(FAMILYQQ[i].equals(groupQQ)){
+                messege = "欢迎" + at.toString() + "加入我们";
+                file = new File("src/static/shetuanImg/"+(i+1)+".jpg");
+                imagePath = CQCodeUtil.build().getCQCode_Image("file://" + file.getAbsolutePath());
+                messege += imagePath;
+            }
+
+        }
+        sender.SENDER.sendGroupMsg(memberIncrease.getGroup(), messege);
     }
+
 
     /**
      * 判断是否为社团群/主群

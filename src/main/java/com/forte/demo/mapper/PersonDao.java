@@ -33,9 +33,13 @@ public interface PersonDao {
     @Select("SELECT star FROM person WHERE qq = #{qq}")
     Integer getStar(String qq);
 
-    //设置签到
+    //设置抽签
     @Update("UPDATE person SET draw = #{draw} WHERE qq = #{qq}")
     void setDraw(Person person);
+
+    //设置签到
+    @Update("UPDATE person SET signin = #{signin} WHERE qq = #{qq}")
+    void setSignin(Person person);
 
     //重置所有人的签到记录
     @Update("UPDATE person SET signin = 0")

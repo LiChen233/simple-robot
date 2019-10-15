@@ -39,4 +39,7 @@ public class PersonService {
     public void setDraw(Person person){
         personDao.setDraw(person);
     }
+    public void setSignin(Person person){
+        personDao.setSignin(person);
+    }
 }

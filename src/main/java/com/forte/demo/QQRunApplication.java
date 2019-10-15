@@ -47,7 +47,7 @@ public class QQRunApplication implements HttpApp {
 
     @Override
     public void after(CQCodeUtil cqCodeUtil, MsgSender sender) {
-        //启动成功之后，步进行任何操作
+        /*//启动成功之后，步进行任何操作
         String FAMILYQQ[] = {
                 "452657413",
                 "563721596",
@@ -58,7 +58,7 @@ public class QQRunApplication implements HttpApp {
         };
         for (String s : FAMILYQQ) {
             sender.SENDER.sendGroupMsg(s,"我回来啦~\n" +
-                    "本次更新：修复可以连续签到两次的bug");
-        }
+                    "这次是真的修好了（大概");
+        }*/
     }
 }

@@ -99,10 +99,6 @@ public class EventGroupListener {
 
     @Listen(value = MsgGetTypes.groupMsg)
     public void GetThePackage(GroupMsg groupMsg,MsgSender sender) throws ScriptException {
-        if(groupMsg.getGroup().equals("195943739")){
-            sender.SENDER.sendGroupMsg(groupMsg.getGroup(),"本小姐没有这个权限呢~要不你去自己的社团群玩个够吧！嘿嘿");
-            return;
-        }
         String patter = "^领取套餐.*?";
         //String chinese = "[\\u4E00-\\u9FA5\\w._~!@#$%^&*()_/∞¿]+";
         String chinese = "[(\\d+|\\-|*|/|%|<<|>>\\d)]*";
@@ -112,6 +108,10 @@ public class EventGroupListener {
         long ran = RandomUtil.getNumber(1,10);
         boolean isMatch = Pattern.matches(patter,groupMsg.getMsg());
         if(isMatch){
+            if(groupMsg.getGroup().equals("195943739")){
+                sender.SENDER.sendGroupMsg(groupMsg.getGroup(),"本小姐没有这个权限呢~要不你去自己的社团群玩个够吧！嘿嘿");
+                return;
+            }
             //判断是否为管理员
             Boolean isAdmin = this.isAdmin(sender,groupMsg.getGroup(),groupMsg.getQQ());
             if(isAdmin){

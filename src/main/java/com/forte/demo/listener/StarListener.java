@@ -23,7 +23,6 @@ import com.forte.qqrobot.utils.CQCodeUtil;
 @Beans
 public class StarListener {
 
-
     @Depend
     PersonService personService;
 

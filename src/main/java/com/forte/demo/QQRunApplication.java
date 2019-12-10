@@ -58,7 +58,7 @@ public class QQRunApplication implements HttpApp {
         };
         for (String s : FAMILYQQ) {
             sender.SENDER.sendGroupMsg(s,"我回来啦~\n" +
-                    "这次是真的修好了（大概");
+                    "本次更新：修复可以连续签到两次的bug");
         }*/
     }
 }

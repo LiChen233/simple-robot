@@ -1,9 +1,9 @@
 package com.forte.demo.service;
 
 import com.alibaba.fastjson.JSONObject;
-import com.forte.demo.mapper.PrayDao;
+import com.forte.demo.dao.PrayDao;
 import com.forte.demo.utils.ImageUtils;
-import com.forte.demo.utils.PrayEnum;
+import com.forte.demo.emun.PrayEnum;
 import com.forte.demo.utils.PrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

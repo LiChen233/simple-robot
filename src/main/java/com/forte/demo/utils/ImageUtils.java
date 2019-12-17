@@ -90,6 +90,10 @@ public class ImageUtils {
 
         //输出图片
         String path = OUT+uuid+".jpg";
+        File exOut = new File(OUT);
+        if(!exOut.exists()){
+            exOut.mkdir();
+        }
         String formatName = path.substring(path.lastIndexOf(".") + 1);
         ImageIO.write(thumbImage, /*"GIF"*/ formatName /* format desired */ , new File(path) /* target */ );
         return path;

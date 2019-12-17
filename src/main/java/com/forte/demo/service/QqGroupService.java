@@ -2,8 +2,7 @@ package com.forte.demo.service;
 
 
 import com.forte.demo.bean.QqGroup;
-import com.forte.demo.mapper.QqGroupDao;
-import lombok.AllArgsConstructor;
+import com.forte.demo.dao.QqGroupDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

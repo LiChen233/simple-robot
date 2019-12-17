@@ -1,4 +1,4 @@
-package com.forte.demo.mapper;
+package com.forte.demo.dao;
 
 import com.forte.demo.bean.QqGroup;
 import org.apache.ibatis.annotations.Insert;

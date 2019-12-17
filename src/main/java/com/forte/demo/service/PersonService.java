@@ -1,7 +1,7 @@
 package com.forte.demo.service;
 
 import com.forte.demo.bean.Person;
-import com.forte.demo.mapper.PersonDao;
+import com.forte.demo.dao.PersonDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

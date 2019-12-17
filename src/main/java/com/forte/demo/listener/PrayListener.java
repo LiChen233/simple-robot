@@ -3,7 +3,8 @@ package com.forte.demo.listener;
 import com.forte.demo.bean.Person;
 import com.forte.demo.service.PersonService;
 import com.forte.demo.service.PrayService;
-import com.forte.demo.utils.PrayEnum;
+import com.forte.demo.emun.PrayEnum;
+import com.forte.demo.service.power.count.CountService;
 import com.forte.demo.utils.PrayUtils;
 import com.forte.qqrobot.anno.Filter;
 import com.forte.qqrobot.anno.Listen;
@@ -14,6 +15,7 @@ import com.forte.qqrobot.beans.messages.msgget.GroupMsg;
 import com.forte.qqrobot.beans.messages.types.MsgGetTypes;
 import com.forte.qqrobot.sender.MsgSender;
 import com.forte.qqrobot.utils.CQCodeUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
 
@@ -27,6 +29,8 @@ public class PrayListener {
     PrayService prayService;
     @Depend
     PersonService personService;
+    @Depend
+    CountService countService;
 
     private static final Integer ONE = 1;
     private static final Integer TEN = 10;
@@ -234,6 +238,7 @@ public class PrayListener {
     @Filter(value = "大小姐十连")
     @Listen(MsgGetTypes.groupMsg)
     public void middleTen(GroupMsg msg, MsgSender sender) throws Exception {
+        System.out.println(msg.getGroup());
         if (msg.getGroup().equals("195943739")){
             sender.SENDER.sendGroupMsg(msg.getGroup(),"主群暂不开放扭蛋功能呢，请去社团群里玩吧~");
             return;

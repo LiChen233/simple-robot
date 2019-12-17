@@ -1,4 +1,4 @@
-package com.forte.demo.mapper;
+package com.forte.demo.dao;
 
 import com.forte.demo.bean.Pray;
 import org.apache.ibatis.annotations.*;

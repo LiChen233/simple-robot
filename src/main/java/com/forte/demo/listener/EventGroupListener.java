@@ -1,30 +1,20 @@
 package com.forte.demo.listener;
 
 import com.forte.demo.utils.IsNumber;
-import com.forte.demo.utils.TAipUtils;
-import com.forte.qqrobot.anno.Filter;
 import com.forte.qqrobot.anno.Listen;
 import com.forte.qqrobot.anno.depend.Beans;
 import com.forte.qqrobot.beans.cqcode.CQCode;
 import com.forte.qqrobot.beans.messages.msgget.GroupMemberIncrease;
 import com.forte.qqrobot.beans.messages.msgget.GroupMsg;
-import com.forte.qqrobot.beans.messages.result.AuthInfo;
-import com.forte.qqrobot.beans.messages.result.BanList;
 import com.forte.qqrobot.beans.messages.result.GroupInfo;
-import com.forte.qqrobot.beans.messages.result.inner.BanInfo;
-import com.forte.qqrobot.beans.messages.result.inner.Group;
 import com.forte.qqrobot.beans.messages.types.MsgGetTypes;
 import com.forte.qqrobot.sender.MsgSender;
 import com.forte.qqrobot.utils.CQCodeUtil;
 import com.forte.qqrobot.utils.MethodUtil;
 import com.forte.qqrobot.utils.RandomUtil;
-import com.sun.tools.javac.util.Convert;
-import org.hamcrest.core.Is;
 
 import javax.script.ScriptException;
 import java.io.File;
-import java.math.BigInteger;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 

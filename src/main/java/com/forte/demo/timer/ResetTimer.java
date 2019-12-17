@@ -1,9 +1,9 @@
 package com.forte.demo.timer;
 
 import com.forte.demo.MainApplication;
-import com.forte.demo.mapper.PersonDao;
-import com.forte.demo.mapper.PrayDao;
-import com.forte.demo.mapper.QqGroupDao;
+import com.forte.demo.dao.PersonDao;
+import com.forte.demo.dao.PrayDao;
+import com.forte.demo.dao.QqGroupDao;
 import com.forte.demo.utils.EquipsUPUtils;
 import com.forte.demo.utils.PrayUtils;
 import com.forte.qqrobot.anno.timetask.CronTask;

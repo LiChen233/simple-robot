@@ -2,9 +2,12 @@
 # spring相关设置
 ##########################
 
-mybatis:
+mybatis-plus:
+    #mapper-locations: classpath:com.forte.demo.dao.power/**/*.xml #sql文件
+    #type-aliases-package: com.forte.demo.dao.power #别名
     configuration:
         map-underscore-to-camel-case: true  #开启驼峰命名
+        #log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #打印SQL语句
 
 spring:
     # 数据库相关配置

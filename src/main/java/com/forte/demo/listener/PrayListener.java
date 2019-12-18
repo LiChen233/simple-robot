@@ -1,5 +1,6 @@
 package com.forte.demo.listener;
 
+import com.forte.demo.anno.Check;
 import com.forte.demo.bean.Person;
 import com.forte.demo.service.PersonService;
 import com.forte.demo.service.PrayService;
@@ -16,20 +17,25 @@ import com.forte.qqrobot.beans.messages.types.MsgGetTypes;
 import com.forte.qqrobot.sender.MsgSender;
 import com.forte.qqrobot.utils.CQCodeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
 
 /**
  * 扭蛋监听
  */
-@Beans
+//@Beans
+@Component
 public class PrayListener {
 
-    @Depend
+    //@Depend
+    @Autowired
     PrayService prayService;
-    @Depend
+    //@Depend
+    @Autowired
     PersonService personService;
-    @Depend
+    //@Depend
+    @Autowired
     CountService countService;
 
     private static final Integer ONE = 1;
@@ -41,6 +47,7 @@ public class PrayListener {
      * @param msg
      * @param sender
      */
+    @Check
     @Filter(value = "公主单抽")
     @Listen(MsgGetTypes.groupMsg)
     public void highOne(GroupMsg msg, MsgSender sender) throws Exception {
@@ -71,6 +78,7 @@ public class PrayListener {
         sender.SENDER.sendGroupMsg(msg.getGroup(),cqCode_at+" "+high+baodila);
     }
 
+    @Check
     @Filter(value = "公主十连")
     @Listen(MsgGetTypes.groupMsg)
     public void highTen(GroupMsg msg, MsgSender sender) throws Exception {
@@ -99,6 +107,7 @@ public class PrayListener {
         file.delete();
     }
 
+    @Check
     @Filter(value = "魔女单抽")
     @Listen(MsgGetTypes.groupMsg)
     public void customOne(GroupMsg msg, MsgSender sender) throws Exception {
@@ -129,6 +138,7 @@ public class PrayListener {
         sender.SENDER.sendGroupMsg(msg.getGroup(),cqCode_at+" "+high+baodila);
     }
 
+    @Check
     @Filter(value = "魔女十连")
     @Listen(MsgGetTypes.groupMsg)
     public void customTen(GroupMsg msg, MsgSender sender) throws Exception {
@@ -157,6 +167,7 @@ public class PrayListener {
         file.delete();
     }
 
+    @Check
     @Filter(value = "魔法少女单抽")
     @Listen(MsgGetTypes.groupMsg)
     public void specialOne(GroupMsg msg, MsgSender sender) throws Exception {
@@ -191,6 +202,7 @@ public class PrayListener {
         sender.SENDER.sendGroupMsg(msg.getGroup(),cqCode_at+" "+high+baodila);
     }
 
+    @Check
     @Filter(value = "魔法少女十连")
     @Listen(MsgGetTypes.groupMsg)
     public void specialTen(GroupMsg msg, MsgSender sender) throws Exception {
@@ -223,6 +235,7 @@ public class PrayListener {
         file.delete();
     }
 
+    @Check
     @Filter(value = "大小姐单抽")
     @Listen(MsgGetTypes.groupMsg)
     public void middleOne(GroupMsg msg, MsgSender sender) throws Exception {
@@ -235,10 +248,10 @@ public class PrayListener {
         sender.SENDER.sendGroupMsg(msg.getGroup(),cqCode_at+high);
     }
 
+    @Check
     @Filter(value = "大小姐十连")
     @Listen(MsgGetTypes.groupMsg)
-    public void middleTen(GroupMsg msg, MsgSender sender) throws Exception {
-        System.out.println(msg.getGroup());
+        public void middleTen(GroupMsg msg, MsgSender sender) throws Exception {
         if (msg.getGroup().equals("195943739")){
             sender.SENDER.sendGroupMsg(msg.getGroup(),"主群暂不开放扭蛋功能呢，请去社团群里玩吧~");
             return;

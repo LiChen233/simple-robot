@@ -18,5 +18,4 @@ public class GroupPower implements Serializable {
     private String qq_group;
     private Integer fun_id;
     private Integer status;
-    private Integer cost;
 }

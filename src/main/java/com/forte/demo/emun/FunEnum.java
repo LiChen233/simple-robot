@@ -5,7 +5,7 @@ import java.util.Date;
 /**
  * 功能枚举
  */
-public enum  funEmun {
+public enum FunEnum {
     /**
      * 大小姐单抽：1
      */

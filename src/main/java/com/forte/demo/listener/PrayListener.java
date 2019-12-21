@@ -2,6 +2,7 @@ package com.forte.demo.listener;
 
 import com.forte.demo.anno.Check;
 import com.forte.demo.bean.Person;
+import com.forte.demo.emun.FunEnum;
 import com.forte.demo.service.PersonService;
 import com.forte.demo.service.PrayService;
 import com.forte.demo.emun.PrayEnum;
@@ -27,19 +28,9 @@ import java.io.File;
 //@Beans
 @Component
 public class PrayListener {
-
-    //@Depend
     @Autowired
     PrayService prayService;
-    //@Depend
-    @Autowired
-    PersonService personService;
-    //@Depend
-    @Autowired
-    CountService countService;
 
-    private static final Integer ONE = 1;
-    private static final Integer TEN = 10;
     private static final Integer BAODI = 3;
 
     /**
@@ -47,28 +38,12 @@ public class PrayListener {
      * @param msg
      * @param sender
      */
-    @Check
+    @Check(type = FunEnum.high_one,cost = 1)
     @Filter(value = "公主单抽")
     @Listen(MsgGetTypes.groupMsg)
     public void highOne(GroupMsg msg, MsgSender sender) throws Exception {
-        if (msg.getGroup().equals("195943739")){
-            sender.SENDER.sendGroupMsg(msg.getGroup(),"主群暂不开放扭蛋功能呢，请去社团群里玩吧~");
-            return;
-        }
         String qq = msg.getQQ();
         CQCode cqCode_at = CQCodeUtil.build().getCQCode_At(qq);
-        //如果数据库中没有用户数据，发一句话就返回
-        Person person = personService.getPerson(qq);
-        if(person==null){
-            sender.SENDER.sendGroupMsg(msg.getGroup(),cqCode_at+" 你还没有注册哦，发送签到，开启萌萌新！");
-            return;
-        }
-        //积分不足
-        if (personService.getStar(qq)<ONE){
-            sender.SENDER.sendGroupMsg(msg.getGroup(),cqCode_at+" 积分不足！");
-            return;
-        }
-        personService.reduceStar(new Person(qq,ONE,null,null));
         String high = prayService.highOne(qq);
         Integer baodiNum = prayService.getBaodiNum(PrayEnum.high, qq);
         String baodila = "";
@@ -78,28 +53,12 @@ public class PrayListener {
         sender.SENDER.sendGroupMsg(msg.getGroup(),cqCode_at+" "+high+baodila);
     }
 
-    @Check
+    @Check(type = FunEnum.high_ten,cost = 10)
     @Filter(value = "公主十连")
     @Listen(MsgGetTypes.groupMsg)
     public void highTen(GroupMsg msg, MsgSender sender) throws Exception {
-        if (msg.getGroup().equals("195943739")){
-            sender.SENDER.sendGroupMsg(msg.getGroup(),"主群暂不开放扭蛋功能呢，请去社团群里玩吧~");
-            return;
-        }
         String qq = msg.getQQ();
         CQCode cqCode_at = CQCodeUtil.build().getCQCode_At(qq);
-        //如果数据库中没有用户数据，发一句话就返回
-        Person person = personService.getPerson(qq);
-        if(person==null){
-            sender.SENDER.sendGroupMsg(msg.getGroup(),cqCode_at+" 你还没有注册哦，发送签到，开启萌萌新！");
-            return;
-        }
-        //积分不足
-        if (personService.getStar(qq)<TEN){
-            sender.SENDER.sendGroupMsg(msg.getGroup(),cqCode_at+" 积分不足！");
-            return;
-        }
-        personService.reduceStar(new Person(qq,TEN,null,null));
         String path = prayService.highTen();
         File file = new File(path);
         String cqCode_image = CQCodeUtil.build().getCQCode_image("file://" + file.getAbsolutePath());
@@ -107,28 +66,12 @@ public class PrayListener {
         file.delete();
     }
 
-    @Check
+    @Check(type = FunEnum.custom_one,cost = 1)
     @Filter(value = "魔女单抽")
     @Listen(MsgGetTypes.groupMsg)
     public void customOne(GroupMsg msg, MsgSender sender) throws Exception {
-        if (msg.getGroup().equals("195943739")){
-            sender.SENDER.sendGroupMsg(msg.getGroup(),"主群暂不开放扭蛋功能呢，请去社团群里玩吧~");
-            return;
-        }
         String qq = msg.getQQ();
         CQCode cqCode_at = CQCodeUtil.build().getCQCode_At(qq);
-        //如果数据库中没有用户数据，发一句话就返回
-        Person person = personService.getPerson(qq);
-        if(person==null){
-            sender.SENDER.sendGroupMsg(msg.getGroup(),cqCode_at+" 你还没有注册哦，发送签到，开启萌萌新！");
-            return;
-        }
-        //积分不足
-        if (personService.getStar(qq)<ONE){
-            sender.SENDER.sendGroupMsg(msg.getGroup(),cqCode_at+" 积分不足！");
-            return;
-        }
-        personService.reduceStar(new Person(qq,ONE,null,null));
         String high = prayService.customOne(qq);
         Integer baodiNum = prayService.getBaodiNum(PrayEnum.custom, qq);
         String baodila = "";
@@ -138,28 +81,12 @@ public class PrayListener {
         sender.SENDER.sendGroupMsg(msg.getGroup(),cqCode_at+" "+high+baodila);
     }
 
-    @Check
+    @Check(type = FunEnum.custom_ten,cost = 10)
     @Filter(value = "魔女十连")
     @Listen(MsgGetTypes.groupMsg)
     public void customTen(GroupMsg msg, MsgSender sender) throws Exception {
-        if (msg.getGroup().equals("195943739")){
-            sender.SENDER.sendGroupMsg(msg.getGroup(),"主群暂不开放扭蛋功能呢，请去社团群里玩吧~");
-            return;
-        }
         String qq = msg.getQQ();
         CQCode cqCode_at = CQCodeUtil.build().getCQCode_At(qq);
-        //如果数据库中没有用户数据，发一句话就返回
-        Person person = personService.getPerson(qq);
-        if(person==null){
-            sender.SENDER.sendGroupMsg(msg.getGroup(),cqCode_at+" 你还没有注册哦，发送签到，开启萌萌新！");
-            return;
-        }
-        //积分不足
-        if (personService.getStar(qq)<TEN){
-            sender.SENDER.sendGroupMsg(msg.getGroup(),cqCode_at+" 积分不足！");
-            return;
-        }
-        personService.reduceStar(new Person(qq,TEN,null,null));
         String path = prayService.customTen();
         File file = new File(path);
         String cqCode_image = CQCodeUtil.build().getCQCode_image("file://" + file.getAbsolutePath());
@@ -167,32 +94,12 @@ public class PrayListener {
         file.delete();
     }
 
-    @Check
+    @Check(type = FunEnum.special_one,cost = 1)
     @Filter(value = "魔法少女单抽")
     @Listen(MsgGetTypes.groupMsg)
     public void specialOne(GroupMsg msg, MsgSender sender) throws Exception {
-        if (msg.getGroup().equals("195943739")){
-            sender.SENDER.sendGroupMsg(msg.getGroup(),"主群暂不开放扭蛋功能呢，请去社团群里玩吧~");
-            return;
-        }
         String qq = msg.getQQ();
         CQCode cqCode_at = CQCodeUtil.build().getCQCode_At(qq);
-        //如果数据库中没有用户数据，发一句话就返回
-        Person person = personService.getPerson(qq);
-        if(person==null){
-            sender.SENDER.sendGroupMsg(msg.getGroup(),cqCode_at+" 你还没有注册哦，发送签到，开启萌萌新！");
-            return;
-        }
-        if (!PrayUtils.findSpecial()){
-            sender.SENDER.sendGroupMsg(msg.getGroup(), cqCode_at+" 魔法少女关门啦！请下次再来！");
-            return;
-        }
-        //积分不足
-        if (personService.getStar(qq)<TEN){
-            sender.SENDER.sendGroupMsg(msg.getGroup(),cqCode_at+" 积分不足！");
-            return;
-        }
-        personService.reduceStar(new Person(qq,ONE,null,null));
         String high = prayService.specialOne(qq);
         Integer baodiNum = prayService.getBaodiNum(PrayEnum.special, qq);
         String baodila = "";
@@ -202,32 +109,12 @@ public class PrayListener {
         sender.SENDER.sendGroupMsg(msg.getGroup(),cqCode_at+" "+high+baodila);
     }
 
-    @Check
+    @Check(type = FunEnum.special_ten,cost = 10)
     @Filter(value = "魔法少女十连")
     @Listen(MsgGetTypes.groupMsg)
     public void specialTen(GroupMsg msg, MsgSender sender) throws Exception {
-        if (msg.getGroup().equals("195943739")){
-            sender.SENDER.sendGroupMsg(msg.getGroup(),"主群暂不开放扭蛋功能呢，请去社团群里玩吧~");
-            return;
-        }
         String qq = msg.getQQ();
         CQCode cqCode_at = CQCodeUtil.build().getCQCode_At(qq);
-        //如果数据库中没有用户数据，发一句话就返回
-        Person person = personService.getPerson(qq);
-        if(person==null){
-            sender.SENDER.sendGroupMsg(msg.getGroup(),cqCode_at+" 你还没有注册哦，发送签到，开启萌萌新！");
-            return;
-        }
-        if (!PrayUtils.findSpecial()){
-            sender.SENDER.sendGroupMsg(msg.getGroup(), cqCode_at+" 魔法少女关门啦！请下次再来！");
-            return;
-        }
-        //积分不足
-        if (personService.getStar(qq)<TEN){
-            sender.SENDER.sendGroupMsg(msg.getGroup(),cqCode_at+" 积分不足！");
-            return;
-        }
-        personService.reduceStar(new Person(qq,TEN,null,null));
         String path = prayService.specialTen();
         File file = new File(path);
         String cqCode_image = CQCodeUtil.build().getCQCode_image("file://" + file.getAbsolutePath());
@@ -235,27 +122,19 @@ public class PrayListener {
         file.delete();
     }
 
-    @Check
+    @Check(type = FunEnum.middle_one)
     @Filter(value = "大小姐单抽")
     @Listen(MsgGetTypes.groupMsg)
     public void middleOne(GroupMsg msg, MsgSender sender) throws Exception {
-        if (msg.getGroup().equals("195943739")){
-            sender.SENDER.sendGroupMsg(msg.getGroup(),"主群暂不开放扭蛋功能呢，请去社团群里玩吧~");
-            return;
-        }
         String high = prayService.middleOne(msg.getQQ());
         CQCode cqCode_at = CQCodeUtil.build().getCQCode_At(msg.getQQ());
         sender.SENDER.sendGroupMsg(msg.getGroup(),cqCode_at+high);
     }
 
-    @Check
+    @Check(type = FunEnum.middle_ten)
     @Filter(value = "大小姐十连")
     @Listen(MsgGetTypes.groupMsg)
         public void middleTen(GroupMsg msg, MsgSender sender) throws Exception {
-        if (msg.getGroup().equals("195943739")){
-            sender.SENDER.sendGroupMsg(msg.getGroup(),"主群暂不开放扭蛋功能呢，请去社团群里玩吧~");
-            return;
-        }
         String path = prayService.middleTen();
         File file = new File(path);
         CQCode cqCode_at = CQCodeUtil.build().getCQCode_At(msg.getQQ());

@@ -34,4 +34,6 @@ public class Count implements Serializable {
     private Integer signCount;
     private Integer drawCount;
     private Integer upCount;
+
+    private String funName; //功能名称，sql用
 }

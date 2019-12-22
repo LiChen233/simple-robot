@@ -24,21 +24,21 @@ import java.util.List;
 @Component
 public class PowerListener {
 
-    @Ban(types = {FunEnum.middle_one,
-            FunEnum.middle_ten,
-            FunEnum.custom_one,
-            FunEnum.custom_ten,
-            FunEnum.special_one,
-            FunEnum.special_ten,
-            FunEnum.high_one,
-            FunEnum.high_ten},
-            status = 1)
+    @Ban(types = {FunEnum.middle_one,FunEnum.middle_ten,FunEnum.custom_one,
+            FunEnum.custom_ten,FunEnum.special_one,FunEnum.special_ten,
+            FunEnum.high_one,FunEnum.high_ten},status = 1,admin = 0)
     @Filter(keywordMatchType = KeywordMatchType.TRIM_CONTAINS,value = {"#禁用 扭蛋"})
     @Listen(MsgGetTypes.groupMsg)
     public void banPray(GroupMsg msg, MsgSender sender){
-        List<CQCode> cqCodes = CQCodeUtil.build().getCQCodeFromMsg(msg.getMsg());
-        for (CQCode cqCode : cqCodes) {
-            String qq = cqCode.get("qq");
-        }
+
+    }
+
+    @Ban(types = {FunEnum.middle_one,FunEnum.middle_ten,FunEnum.custom_one,
+            FunEnum.custom_ten,FunEnum.special_one,FunEnum.special_ten,
+            FunEnum.high_one,FunEnum.high_ten},status = 0,admin = 0)
+    @Filter(keywordMatchType = KeywordMatchType.TRIM_CONTAINS,value = {"#启用 扭蛋"})
+    @Listen(MsgGetTypes.groupMsg)
+    public void NoutBanPray(GroupMsg msg, MsgSender sender){
+
     }
 }

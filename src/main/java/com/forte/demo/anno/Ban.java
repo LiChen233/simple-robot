@@ -13,6 +13,11 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface Ban {
+    //功能
     FunEnum[] types();
+    //启用or禁用
     int status();
+    //需要 管理员权限：0 购买者权限：1
+    int admin();
+
 }

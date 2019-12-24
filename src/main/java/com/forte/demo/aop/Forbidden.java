@@ -82,7 +82,6 @@ public class Forbidden {
             QQPower isNull = qqPowerService.find(qqPower);
             qqPower.setStatus(status);
             if (null==isNull){
-                System.out.println(qqPower);
                 qqPowerService.insert(qqPower);
             }else{
                 qqPower.setId(isNull.getId());

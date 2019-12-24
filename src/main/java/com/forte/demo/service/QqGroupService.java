@@ -6,13 +6,15 @@ import com.forte.demo.dao.QqGroupDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Map;
+
 @Service
 public class QqGroupService {
 
-
     @Autowired
     QqGroupDao qqGroupDao;
-
 
     public void updateGroup(String qqGroupid){
         qqGroupDao.updateGroup(qqGroupid);
@@ -30,4 +32,7 @@ public class QqGroupService {
         return qqGroupDao.getSigninCount(groupid);
     }
 
+    public ArrayList<QqGroup> getAllGroup(){
+        return qqGroupDao.getAllGroup();
+    }
 }

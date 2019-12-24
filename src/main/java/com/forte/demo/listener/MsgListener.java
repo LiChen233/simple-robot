@@ -133,21 +133,4 @@ public class MsgListener {
         String zhifu = CQCodeUtil.build().getCQCode_image("file://"+ma.getAbsolutePath());
         sender.SENDER.sendGroupMsg(msg.getGroup(),zhifu);
     }
-
-
-
-    @Listen(MsgGetTypes.groupMsg)
-    public void addAueAndAns(GroupMsg msg,MsgSender sender){
-        String sendMsg = msg.getMsg();
-    }
-
-
-
-
-    @Listen(MsgGetTypes.groupMsg)
-    public void queAndAns(GroupMsg msg,MsgSender sender){
-        //当前发送的消息
-        String sendMsg = msg.getMsg();
-    }
-
 }

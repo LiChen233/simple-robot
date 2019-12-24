@@ -84,6 +84,7 @@ public class Permission {
             sender.SENDER.sendGroupMsg(msg.getGroup(),cqCode_at+" 积分不足！");
             return;
         }else{
+            //扣除积分
             personService.reduceStar(new Person(qq,cost,null,null));
         }
         //获取枚举类的序号

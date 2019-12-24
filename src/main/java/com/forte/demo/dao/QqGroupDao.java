@@ -6,9 +6,14 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
+import java.util.ArrayList;
+
 @Mapper
 public interface QqGroupDao {
 
+    //获取所有群号
+    @Select("SELECT groupid FROM qqgroup")
+    ArrayList<QqGroup> getAllGroup();
 
     @Update("update qqgroup SET signin_count= signin_count + 1 where groupid=#{groupid}")
     void updateGroup(String groupid);

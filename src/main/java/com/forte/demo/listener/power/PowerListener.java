@@ -38,7 +38,21 @@ public class PowerListener {
             FunEnum.high_one,FunEnum.high_ten},status = 0,admin = 0)
     @Filter(keywordMatchType = KeywordMatchType.TRIM_CONTAINS,value = {"#启用 扭蛋"})
     @Listen(MsgGetTypes.groupMsg)
-    public void NoutBanPray(GroupMsg msg, MsgSender sender){
+    public void NotBanPray(GroupMsg msg, MsgSender sender){
+
+    }
+
+    @Ban(types = {FunEnum.se_count},status = 1,admin = 0)
+    @Filter(keywordMatchType = KeywordMatchType.TRIM_CONTAINS,value = {"#禁用 色图"})
+    @Listen(MsgGetTypes.groupMsg)
+    public void BanSe(GroupMsg msg, MsgSender sender){
+
+    }
+
+    @Ban(types = {FunEnum.se_count},status = 0,admin = 0)
+    @Filter(keywordMatchType = KeywordMatchType.TRIM_CONTAINS,value = {"#启用 色图"})
+    @Listen(MsgGetTypes.groupMsg)
+    public void NotBanSe(GroupMsg msg, MsgSender sender){
 
     }
 }

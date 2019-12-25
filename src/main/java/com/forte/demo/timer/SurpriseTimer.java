@@ -31,7 +31,6 @@ public class SurpriseTimer implements TimeJob {
         for(Map.Entry<String, Date> entry : map.entrySet()){
             //距离群上次说话是多久，转换成分钟
             long min = (now.getTime() - entry.getValue().getTime()) / 1000 / 60;
-            System.out.println("距离上次发言："+min+"分钟");
             //如果有一个小时没人说话了，则触发下面的
             if (min>=0){
                 File files = new File(PATH);
@@ -39,7 +38,10 @@ public class SurpriseTimer implements TimeJob {
 
                 //获取是否发送随机数
                 Integer isSender = RandomNum.randomNumber(0, 100);
-                System.out.println("概率："+isSender);
+                if (entry.getKey().equals("701244763")){
+                    System.out.println("距离上次发言："+min+"分钟");
+                    System.out.println("随机数为："+isSender);
+                }
                 //随机选择文件
                 Integer num = RandomNum.randomNumber(0, file.length);
                 //概率为15%

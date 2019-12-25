@@ -1,20 +1,22 @@
 package com.forte.demo.listener;
 
+import com.forte.demo.anno.Check;
+import com.forte.demo.emun.FunEnum;
 import com.forte.demo.utils.EquipsUPUtils;
 import com.forte.qqrobot.anno.Filter;
 import com.forte.qqrobot.anno.Listen;
-import com.forte.qqrobot.anno.depend.Beans;
 import com.forte.qqrobot.beans.messages.msgget.GroupMsg;
 import com.forte.qqrobot.beans.messages.types.MsgGetTypes;
 import com.forte.qqrobot.beans.types.KeywordMatchType;
 import com.forte.qqrobot.sender.MsgSender;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 
 /**
  * 查询up记录
  */
-@Beans
+@Component
 public class UpRecordListener {
 
     @Filter(keywordMatchType = KeywordMatchType.TRIM_CONTAINS,value = {"查询往期up功能","上次up","上一次up","上次什么时候up","上一次什么时候up","什么时候up","up记录"})
@@ -26,6 +28,7 @@ public class UpRecordListener {
                 "公主up 犹大的誓约");
     }
 
+    @Check(type = FunEnum.up_count)
     @Filter(keywordMatchType = KeywordMatchType.TRIM_CONTAINS,value = {"公主up","魔女up","魔法少女up","使魔up"})
     @Listen(MsgGetTypes.groupMsg)
     public void searchUp(GroupMsg msg, MsgSender sender){

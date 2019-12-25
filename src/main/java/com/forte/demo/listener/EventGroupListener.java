@@ -1,6 +1,7 @@
 package com.forte.demo.listener;
 
 import com.forte.demo.utils.IsNumber;
+import com.forte.demo.utils.RandomNum;
 import com.forte.qqrobot.anno.Listen;
 import com.forte.qqrobot.anno.depend.Beans;
 import com.forte.qqrobot.beans.cqcode.CQCode;
@@ -105,7 +106,11 @@ public class EventGroupListener {
             //判断是否为管理员
             Boolean isAdmin = this.isAdmin(sender,groupMsg.getGroup(),groupMsg.getQQ());
             if(isAdmin){
-                sender.SENDER.sendGroupMsg(groupMsg.getGroup(),"别欺负人家萌萌新啦，你能不能领取套餐你心里没点13数嘛？哼~");
+                if (RandomNum.randomNumber(0,100)==6){
+                    sender.SENDER.sendGroupMsg(groupMsg.getGroup(),"管理员领你[CQ:emoji,id=128052]套餐呢¿");
+                }else {
+                    sender.SENDER.sendGroupMsg(groupMsg.getGroup(),"别欺负人家萌萌新啦，你能不能领取套餐你心里没点13数嘛？哼~");
+                }
                 return;
             }
             String content = groupMsg.getMsg();
@@ -140,7 +145,7 @@ public class EventGroupListener {
                             message = "-"+duration+"？"+"负数？那怎么行呢？已经为您贴心的转为正数了呢~";
                         }else if(duration == 0){
                             duration = ran;
-                            message = "0？不不不不不，这可不行呢！就随便赏你"+duration+"分钟吧";
+                            message = "0？这可不行呢！就随便赏你"+duration+"分钟吧";
                         }else{
                             message = bannedTime(duration);
                         }
@@ -170,15 +175,15 @@ public class EventGroupListener {
         long hour = (t%(24*60))/60;
         long minute = (t%(24*60))%60;
         if(day >= 30){
-            result = "这这这？这都"+day+"天了！上限30天呢，有一句话叫做不作死就不会死，等下没人给你解除看你找谁哭鼻子去！嘻嘻";
+            result = "这？这都"+day+"天了！上限30天呢，有一句话叫做不作死就不会死，等下没人给你解除看你找谁哭鼻子去！嘻嘻";
         }else if(day >= 1 ){
-            result = "哦哦哦哦，"+day+"天"+hour+"小时"+minute+"分钟"+"是吧？"+"兄跌有对自己有点恨呢！下次不要这样了好不好？萌萌新看着都怪开心的呢~ (偷笑)";
+            result = "哦哦，"+day+"天"+hour+"小时"+minute+"分钟"+"是吧？"+"兄跌有对自己有点恨呢！下次不要这样了好不好？萌萌新看着都怪开心的呢~ (偷笑)";
         }
         else if(hour >= 1){
-            result = "噢噢噢噢，"+hour+"小时"+minute+"分钟"+"是吧？"+"那就满足你这个大大的要求吧~ 要好好的面壁思过啦！";
+            result = "噢噢，"+hour+"小时"+minute+"分钟"+"是吧？"+"那就满足你这个大大的要求吧~ 要好好的面壁思过啦！";
 
         }else{
-            result = "嗯嗯嗯嗯，"+minute + "分钟"+"是吧？"+"那就满足你这个小小的要求吧~ 要好好的反省自己哦！";
+            result = "嗯嗯，"+minute + "分钟"+"是吧？"+"那就满足你这个小小的要求吧~ 要好好的反省自己哦！";
         }
         return  result;
     }
@@ -195,6 +200,9 @@ public class EventGroupListener {
         boolean flag = false;
         GroupInfo groupInfo = sender.GETTER.getGroupInfo(groupQQ);
         String[] admin = groupInfo.getAdminList();
+        if (null==admin){
+            return false;
+        }
         for(String a : admin){
             if(a.equals(qq)){
                 flag = true;

@@ -20,4 +20,5 @@ public class AdminPower implements Serializable {
     private String qq;
     private Integer admin;
     private Integer status;
+    private String myGroup;
 }

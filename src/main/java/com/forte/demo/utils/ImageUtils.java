@@ -86,7 +86,7 @@ public class ImageUtils {
         g.dispose();
 
         //生成uuid作为名字，防止图片相互覆盖
-        String uuid = UUID.randomUUID().toString().replaceAll("-","");
+        String uuid = UuidUtils.getUuid();
 
         //输出图片
         String path = OUT+uuid+".jpg";

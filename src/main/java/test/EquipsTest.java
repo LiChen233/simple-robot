@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.forte.demo.utils.FindEquipsUtils;
 import com.forte.demo.utils.ReadJsonFileUtils;
+import com.forte.demo.utils.UuidUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.junit.Test;
@@ -17,28 +18,10 @@ import java.nio.charset.StandardCharsets;
 
 public class EquipsTest {
 
+
     @Test
-    public void test1(){
-        //FindEquipsUtils.start("3470");
-        //FindEquipsUtils.synthesis();
-        try {
-            //设置url
-            URL url = new URL("https://static.image.mihoyo.com/hsod2_webview/images/broadcast_top/equip_icon/png/3188.png");
-            //用HttpURLConnection打开链接
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
-            conn.setConnectTimeout(3 * 1000);
-            InputStream fis = conn.getInputStream();
-            FileOutputStream fos = new FileOutputStream("C:\\Users\\Chen\\Desktop\\2.jpg");
-            byte[] buffer = new byte[1024];
-            while ((fis.read(buffer))!=-1){
-                fos.write(buffer);
-            }
-            fis.close();
-            fos.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void test1() throws IOException {
+        FindEquipsUtils.synthesis("128");
     }
 
     @Test

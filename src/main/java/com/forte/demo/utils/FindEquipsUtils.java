@@ -3,36 +3,152 @@ package com.forte.demo.utils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.google.gson.JsonObject;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.UUID;
 
 public class FindEquipsUtils {
 
-    public static void synthesis(){
+    private static final Integer width = 762;
+    private static final Integer height = 1294;
+    //装备图标url
+    private static final String eqImgUrl = "https://static.image.mihoyo.com/hsod2_webview/images/broadcast_top/equip_icon/png/";
+    //系列图标url
+    private static final String series = "https://hsod2.hongshn.xyz/images/icons/SeriesNo/";
+    //伤害类型url
+    private static final String type = "https://hsod2.hongshn.xyz/images/icons/Type/";
+    //装备星级
+    private static final String star = "https://hsod2.hongshn.xyz/images/star-full.png";
+
+    private static final String OUT = "./temp/";
+    private static final Integer SIZE = 28;
+    private static final String suffix = ".png";
+
+    public static void synthesis(String equipsId) throws IOException {
         //设置画布
-        BufferedImage thumbImage = new BufferedImage(1000, 1000, BufferedImage.TYPE_INT_RGB);
+        BufferedImage thumbImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         //设置画板
         Graphics2D g = thumbImage.createGraphics();
         //背景设置白色
         g.setBackground(Color.WHITE);
-        g.clearRect(0, 0, 1000, 1000);
+        //填充背景色
+        g.clearRect(0, 0, width, height);
         //消除文字锯齿
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
-        //设置白色黑体
-        g.setColor(Color.BLACK);
-        g.setFont(new Font("微软雅黑",Font.BOLD,26));
-        //处理文字
+        //设置字体
+        g.setColor(Color.GRAY);
+        g.setFont(new Font("微软雅黑",Font.BOLD,SIZE));
+
+        //获取装备json
+        JSONObject equip = getEquip(equipsId);
+        //图片缓存list
+        ArrayList<String> icons = new ArrayList<>();
+
+        //获取装备图标地址
+        String img = equip.getString("img");
+        if (img.length()==1){
+            img="00"+img;
+        }else if (img.length()==2){
+            img="0"+img;
+        }
+        String eqiconPath = eqImgUrl + img +suffix;
+        icons.add(eqiconPath);
+        //拿到图标
+        BufferedImage eqicon = ImageIO.read(new URL(eqiconPath));
+        //装备图标
+        g.drawImage(eqicon,32,56,eqicon.getWidth(),eqicon.getHeight(),null);
+
+        //插入装备id
+        g.drawString("No."+equip.getString("id"),170,58+SIZE);
+
+        //系列图标
+        String seriesPath = series + equip.getString("seriesId") + suffix;
+        icons.add(seriesPath);
+        BufferedImage sericon = ImageIO.read(new URL(seriesPath));
+        g.drawImage(sericon,290,50,sericon.getWidth(),sericon.getHeight(),null);
+
+        //装备名称
+        g.drawString(equip.getString("title"),340,58+SIZE);
+
+        //伤害类型
+        String damageType = equip.getString("damageType");
+        if (null!=damageType){
+            damageType = type + damageType + suffix;
+            icons.add(damageType);
+            BufferedImage damageTypeIcon = ImageIO.read(new URL(damageType));
+            g.drawImage(damageTypeIcon,170,95,32,32,null);
+        }
+
+
+        //装备星级
+        icons.add(star);
+        Integer rarity = equip.getInteger("rarity");
+        BufferedImage rarityIcon = ImageIO.read(new URL(star));
+        Integer starWidth = 205;
+        for (Integer i = 0; i < rarity; i++) {
+            g.drawImage(rarityIcon,starWidth,96,29,29,null);
+            starWidth+=29;
+        }
+
+        //装备是否可拆解
+        Boolean decompose = equip.getBoolean("decompose");
+        String decomposeremark = "* 该装备可拆解 *";
+        if (null==decompose){
+            decomposeremark = "* 该装备是地图装 *";
+        }
+        g.drawString(decomposeremark,170,145+SIZE);
+
+        /**
+         * 开始装备参数
+         */
+        Integer[] paramW = {50,400};
+        Integer paramH = 205+SIZE;
+        Integer lineH = 45;
+        Integer Pindex = 0;
+        ArrayList<String> params = getParam(equip);
+        for (String param : params) {
+            g.drawString(param,paramW[Pindex],paramH);
+            Pindex++;
+            if (Pindex==2){
+                Pindex=0;
+                paramH+=lineH;
+            }
+        }
+
+        /**
+         * 一技能
+         */
+        JSONObject prop1 = equip.getJSONObject("prop1");
+        if (null!=prop1){
+            paramH = getProp(g, paramH, lineH, prop1);
+        }
+        /**
+         * 二技能
+         */
+        JSONObject prop2 = equip.getJSONObject("prop2");
+        if (null!=prop2){
+            getProp(g, paramH, lineH, prop2);
+        }
+
+
+
+        //处理画板
         g.dispose();
 
         //生成uuid作为名字，防止图片相互覆盖
         String uuid = UUID.randomUUID().toString().replaceAll("-","");
         //输出图片
-        String path = "C:\\Users\\Chen\\Desktop\\"/*"./temp/"*/+"1"+".jpg";
+        String path = OUT+"1"+".png";
         //获取图片格式
         String formatName = path.substring(path.lastIndexOf(".") + 1);
         try {
@@ -41,19 +157,98 @@ public class FindEquipsUtils {
             System.out.println("图片合成错误！");
             e.printStackTrace();
         }
+        for (String icon : icons) {
+            new File(icon).delete();
+        }
         //return path;
     }
 
-    public static void start(String equipsId){
+    private static Integer getProp(Graphics2D g, Integer paramH, Integer lineH, JSONObject prop1) throws IOException {
+        paramH=paramH+lineH;
+        //技能名字
+        String prop1title = prop1.getString("title");
+        g.setColor(Color.orange);
+        g.drawString(prop1title,35,paramH);
+        //技能伤害类型
+        String prop1damageType = prop1.getString("damageType");
+        String prop1damageTypeUrl = type + prop1damageType + ".png";
+        BufferedImage prop1damageTypeIcon = ImageIO.read(new URL(prop1damageTypeUrl));
+        g.drawImage(prop1damageTypeIcon,prop1title.length()*36,paramH-26,32,32,null);
+        //技能介绍
+        g.setColor(Color.GRAY);
+        paramH+=lineH;
+        String maxLvDesc = prop1.getString("maxLvDesc");
+        ArrayList<String> maxLvDescList = new ArrayList<>();
+        while (true){
+            if (maxLvDesc.length()>=25){
+                maxLvDescList.add(maxLvDesc.substring(0,25));
+                maxLvDesc = maxLvDesc.substring(25);
+            }else{
+                maxLvDescList.add(maxLvDesc);
+                break;
+            }
+        }
+        for (String str : maxLvDescList) {
+            g.drawString(str,35,paramH);
+            paramH+=lineH;
+        }
+        return paramH;
+    }
+
+    private static ArrayList<String> getParam(JSONObject equip){
+        ArrayList<String> params = new ArrayList<>();
+        //装备负重
+        String cost = equip.getString("cost");
+        addParam(params,"负重: ",cost);
+        //最大等级
+        String maxlv = equip.getString("maxlv");
+        addParam(params,"最大等级: ",maxlv);
+        //类型
+        String baseType = equip.getString("baseType");
+        addParam(params,"类型: ",baseType);
+        //满级攻击力
+        String damageMaxLv = equip.getString("damageMaxLv");
+        addParam(params,"满级攻击力: ",damageMaxLv);
+        //满级攻速
+        String fireRateMaxLv = equip.getString("fireRateMaxLv");
+        addParam(params,"满级攻速: ",fireRateMaxLv);
+        //满级载弹
+        String ammoMaxLv = equip.getString("ammoMaxLv");
+        addParam(params,"满级载弹: ",ammoMaxLv);
+        //存在上限
+        String limitedNumber = equip.getString("limitedNumber");
+        addParam(params,"存在上限: ",limitedNumber);
+        //满级存在时间
+        String countDownTimeMaxLv = equip.getString("countDownTimeMaxLv");
+        addParam(params,"满级存在时间: ",countDownTimeMaxLv);
+
+        return params;
+    }
+
+    private static void addParam(ArrayList list, String param1, String param2){
+        if (null==param2 || "0".equals(param2)){
+            return;
+        }else{
+            list.add(param1+param2);
+        }
+    }
+
+    /**
+     * 解析json文件找到装备
+     * @param equipsId
+     */
+    public static JSONObject getEquip(String equipsId){
         String path = "src/static/Illustrate.txt";
         String result = ReadJsonFileUtils.readJson(path);
         JSONArray equips = JSON.parseArray(result);
+        JSONObject equip = null;
         for (int i = 0; i < equips.size(); i++) {
-            JSONObject equip = equips.getJSONObject(i);
+            equip = equips.getJSONObject(i);
             if (equip.getString("id").equals(equipsId)) {
-                normal(equip);
+                break;
             }
         }
+        return equip;
     }
 
     public static void normal(JSONObject equip){

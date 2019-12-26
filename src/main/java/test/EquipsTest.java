@@ -10,18 +10,23 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.junit.Test;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Map;
+
+import static com.sun.tools.javac.code.Lint.LintCategory.PATH;
 
 public class EquipsTest {
 
-
     @Test
     public void test1() throws IOException {
-        FindEquipsUtils.synthesis("3470");
+        FindEquipsUtils.findEq("3567");
     }
 
     @Test

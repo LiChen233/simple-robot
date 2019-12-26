@@ -21,7 +21,7 @@ public class EquipsTest {
 
     @Test
     public void test1() throws IOException {
-        FindEquipsUtils.synthesis("128");
+        FindEquipsUtils.synthesis("3470");
     }
 
     @Test

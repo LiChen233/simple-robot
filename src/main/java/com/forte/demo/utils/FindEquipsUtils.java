@@ -147,6 +147,11 @@ public class FindEquipsUtils {
 
         //生成uuid作为名字，防止图片相互覆盖
         String uuid = UUID.randomUUID().toString().replaceAll("-","");
+        //生成文件
+        File outFile = new File(OUT);
+        if (!outFile.exists()){
+            outFile.mkdir();
+        }
         //输出图片
         String path = OUT+"1"+".png";
         //获取图片格式

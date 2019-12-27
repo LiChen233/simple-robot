@@ -202,4 +202,16 @@ public class PowerListener {
     @Listen(MsgGetTypes.groupMsg)
     public void ON(GroupMsg msg, MsgSender sender){
     }
+
+    @Switch(types = {FunEnum.flush},status = 1,name = "刷新")
+    @Filter(value = {"刷新 关"})
+    @Listen(MsgGetTypes.groupMsg)
+    public void flushOFF(GroupMsg msg, MsgSender sender){
+    }
+
+    @Switch(types = {FunEnum.flush},status = 0,name = "刷新")
+    @Filter(value = {"刷新 开"})
+    @Listen(MsgGetTypes.groupMsg)
+    public void flushON(GroupMsg msg, MsgSender sender){
+    }
 }

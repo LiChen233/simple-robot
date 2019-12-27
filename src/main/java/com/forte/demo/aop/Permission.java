@@ -125,12 +125,14 @@ public class Permission {
                         .build();
                 qqPower = qqPowerService.find(qqPower);
                 if (null==qqPower){
-                    //功能调用总数+1
-                    Count count = Count.builder()
-                            .funName(funEnum.toString())
-                            .id(group)
-                            .build();
-                    countService.increase(count);
+                    if (funEnum!=FunEnum.flush){
+                        //功能调用总数+1
+                        Count count = Count.builder()
+                                .funName(funEnum.toString())
+                                .id(group)
+                                .build();
+                        countService.increase(count);
+                    }
                     //放行
                     joinPoint.proceed();
                 }else {

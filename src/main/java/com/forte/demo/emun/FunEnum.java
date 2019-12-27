@@ -59,5 +59,9 @@ public enum FunEnum {
     /**
      * up记录查询：13
      */
-    up_count
+    up_count,
+    /**
+     * 装备刷新：14
+     */
+    flush
 }

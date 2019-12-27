@@ -783,7 +783,7 @@ public class FindEquipsUtils {
             if (equip.getString(sid).equals(equipsId)) {
                 break;
             }
-            if (i==(size-l1) && equip.getString(sid).equals(equipsId)){
+            if (i==(size-l1) && !equip.getString(sid).equals(equipsId)){
                 return null;
             }
         }

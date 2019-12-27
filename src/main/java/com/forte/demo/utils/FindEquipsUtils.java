@@ -202,6 +202,10 @@ public class FindEquipsUtils {
 
         //合成新图片
         String path = OUT + UuidUtils.getUuid() + suffix;
+        File file = new File(OUT);
+        if (!file.exists()){
+            file.mkdirs();
+        }
         ImageIO.write(combined, "png", new File(path));
 
         return path;
@@ -251,6 +255,10 @@ public class FindEquipsUtils {
         g.dispose();
 
         String path = OUT + UuidUtils.getUuid() + suffix;
+        File file = new File(OUT);
+        if (!file.exists()){
+            file.mkdirs();
+        }
         //合成新图片
         ImageIO.write(combined, "png", new File(path));
 

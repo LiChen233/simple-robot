@@ -44,7 +44,8 @@ public class StarListener {
     @Autowired
     CountService countService;
 
-    private static final Integer SUCC = 0;
+    private static final Integer FAIL = 1;
+    private static final Integer SUCCESS = 0;
 
     @Listen(value = MsgGetTypes.groupMsg)
     @Filter(value = "签到")
@@ -60,36 +61,45 @@ public class StarListener {
         GroupPower groupPower = GroupPower.builder()
                 .qq_group(group)
                 .fun_id(type)
-                .status(SUCC)
+                .status(FAIL)
                 .build();
-        groupPower = groupPowerService.find(groupPower);
-        if (null==groupPower){
+        GroupPower temp = groupPowerService.find(groupPower);
+        if (null==temp){
+            groupPower.setStatus(SUCCESS);
+            groupPower = groupPowerService.find(groupPower);
+            //如果开启了该功能才能继续鉴查权限
+            if (null!=groupPower){
+                //检查QQ号权限
+                QQPower qqPower = QQPower.builder()
+                        .qq(qq)
+                        .fun_id(type)
+                        .status(FAIL)
+                        .build();
+                qqPower = qqPowerService.find(qqPower);
+                if (null==qqPower){
+                    //该功能调用总数+1
+                    Count count = Count.builder()
+                            .funName(funEnum.toString())
+                            .qqGroup(group)
+                            .build();
+                    countService.increase(count);
+                }else {
+                    //权限不通过则不放行
+                    sender.SENDER.sendGroupMsg(group,cqCode_at+" 您已被禁止使用此功能");
+                    return;
+                }
+            }else{
+                //权限不通过则不放行
+                sender.SENDER.sendGroupMsg(group,"本群暂未开放此功能");
+            }
+        }else{
             //权限不通过则不放行
             sender.SENDER.sendGroupMsg(group,"本群暂未开放此功能");
             return;
         }
-        //检查QQ号权限
-        QQPower qqPower = QQPower.builder()
-                .qq(qq)
-                .fun_id(type)
-                .status(SUCC)
-                .build();
-        qqPower = qqPowerService.find(qqPower);
-        if (null!=qqPower){
-            //该功能调用总数+1
-            Count count = Count.builder()
-                    .funName(funEnum.toString())
-                    .qqGroup(group)
-                    .build();
-            countService.increase(count);
-            CQCode at = CQCodeUtil.build().getCQCode_At(groupMsg.getQQ());
-            String message = this.qqGroupSignin(group,qq);
-            sender.SENDER.sendGroupMsg(groupMsg.getGroup(),at.toString()+" "+message);
-        }else {
-            //权限不通过则不放行
-            sender.SENDER.sendGroupMsg(group,cqCode_at+" 您已被禁止使用此功能");
-            return;
-        }
+        CQCode at = CQCodeUtil.build().getCQCode_At(groupMsg.getQQ());
+        String message = this.qqGroupSignin(group,qq);
+        sender.SENDER.sendGroupMsg(groupMsg.getGroup(),at.toString()+" "+message);
     }
 
     @Check(type = FunEnum.sign_count)

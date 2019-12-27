@@ -5,16 +5,11 @@ import com.forte.demo.anno.Switch;
 import com.forte.demo.emun.FunEnum;
 import com.forte.qqrobot.anno.Filter;
 import com.forte.qqrobot.anno.Listen;
-import com.forte.qqrobot.anno.depend.Beans;
-import com.forte.qqrobot.beans.cqcode.CQCode;
 import com.forte.qqrobot.beans.messages.msgget.GroupMsg;
 import com.forte.qqrobot.beans.messages.types.MsgGetTypes;
 import com.forte.qqrobot.beans.types.KeywordMatchType;
 import com.forte.qqrobot.sender.MsgSender;
-import com.forte.qqrobot.utils.CQCodeUtil;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 /**
  * 权限操作
@@ -221,13 +216,13 @@ public class PowerListener {
     public void ON(GroupMsg msg, MsgSender sender){
     }
 
-    @Switch(types = {FunEnum.flush},status = 1,name = "刷新")
+    @Switch(types = {FunEnum.json_flush},status = 1,name = "刷新")
     @Filter(value = {"刷新 关"})
     @Listen(MsgGetTypes.groupMsg)
     public void flushOFF(GroupMsg msg, MsgSender sender){
     }
 
-    @Switch(types = {FunEnum.flush},status = 0,name = "刷新")
+    @Switch(types = {FunEnum.json_flush},status = 0,name = "刷新")
     @Filter(value = {"刷新 开"})
     @Listen(MsgGetTypes.groupMsg)
     public void flushON(GroupMsg msg, MsgSender sender){

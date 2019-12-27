@@ -22,7 +22,6 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * 查询up记录
@@ -134,7 +133,7 @@ public class EquipListener {
         }
     }
 
-    @Check(type = FunEnum.flush)
+    @Check(type = FunEnum.json_flush)
     @Filter(value = "刷新数据")
     @Listen(MsgGetTypes.groupMsg)
     public void flushJson(GroupMsg msg, MsgSender sender) {

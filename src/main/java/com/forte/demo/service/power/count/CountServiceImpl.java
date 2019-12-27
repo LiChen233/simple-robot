@@ -32,7 +32,7 @@ public class CountServiceImpl implements CountService {
      */
     @Override
     public void newDay() {
-        /*ArrayList<QqGroup> groups = qqGroupService.getAllGroup();
+        ArrayList<QqGroup> groups = qqGroupService.getAllGroup();
         Count count = Count.builder()
                 .today(getDate())
                 .middleOne(ZERO)
@@ -49,12 +49,12 @@ public class CountServiceImpl implements CountService {
                 .seCount(ZERO)
                 .signCount(ZERO)
                 .upCount(ZERO)
+                .jsonFlush(ZERO)
                 .build();
         for (QqGroup group : groups) {
             count.setQqGroup(group.getGroupid());
             countDao.insert(count);
-        }*/
-        System.out.println(123);
+        }
     }
 
     /**

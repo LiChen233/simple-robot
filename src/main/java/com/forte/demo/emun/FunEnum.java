@@ -63,5 +63,5 @@ public enum FunEnum {
     /**
      * 装备刷新：14
      */
-    flush
+    json_flush
 }

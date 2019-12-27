@@ -81,13 +81,13 @@ public class PowerListener {
     }
 
     @Ban(types = {FunEnum.ai_count},status = 1)
-    @Filter(keywordMatchType = KeywordMatchType.TRIM_CONTAINS,value = {"#禁用 聊天"})
+    @Filter(keywordMatchType = KeywordMatchType.TRIM_CONTAINS,value = {"#禁用 AI"})
     @Listen(MsgGetTypes.groupMsg)
     public void BanAi(GroupMsg msg, MsgSender sender){
     }
 
     @Ban(types = {FunEnum.ai_count},status = 0)
-    @Filter(keywordMatchType = KeywordMatchType.TRIM_CONTAINS,value = {"#启用 聊天"})
+    @Filter(keywordMatchType = KeywordMatchType.TRIM_CONTAINS,value = {"#启用 AI"})
     @Listen(MsgGetTypes.groupMsg)
     public void NotBanAi(GroupMsg msg, MsgSender sender){
     }
@@ -102,6 +102,24 @@ public class PowerListener {
     @Filter(keywordMatchType = KeywordMatchType.TRIM_CONTAINS,value = {"#启用 问答"})
     @Listen(MsgGetTypes.groupMsg)
     public void NotBanAQ(GroupMsg msg, MsgSender sender){
+    }
+
+    @Ban(types = {FunEnum.middle_one,FunEnum.middle_ten,FunEnum.special_one,
+            FunEnum.special_ten,FunEnum.custom_one,FunEnum.custom_ten,
+            FunEnum.high_one,FunEnum.high_ten,FunEnum.se_count,FunEnum.ai_count,
+            FunEnum.eq_count,FunEnum.aq_count,FunEnum.sign_count,FunEnum.up_count},status = 1)
+    @Filter(keywordMatchType = KeywordMatchType.TRIM_CONTAINS,value = {"#禁用 萌萌新"})
+    @Listen(MsgGetTypes.groupMsg)
+    public void BanALL(GroupMsg msg, MsgSender sender){
+    }
+
+    @Ban(types = {FunEnum.middle_one,FunEnum.middle_ten,FunEnum.special_one,
+            FunEnum.special_ten,FunEnum.custom_one,FunEnum.custom_ten,
+            FunEnum.high_one,FunEnum.high_ten,FunEnum.se_count,FunEnum.ai_count,
+            FunEnum.eq_count,FunEnum.aq_count,FunEnum.sign_count,FunEnum.up_count},status = 0)
+    @Filter(keywordMatchType = KeywordMatchType.TRIM_CONTAINS,value = {"#启用 萌萌新"})
+    @Listen(MsgGetTypes.groupMsg)
+    public void NotBanALL(GroupMsg msg, MsgSender sender){
     }
 
     /**
@@ -159,14 +177,14 @@ public class PowerListener {
     public void EqON(GroupMsg msg, MsgSender sender){
     }
 
-    @Switch(types = {FunEnum.ai_count},status = 1,admin = 1,name = "聊天")
-    @Filter(value = {"聊天 关"})
+    @Switch(types = {FunEnum.ai_count},status = 1,admin = 1,name = "AI")
+    @Filter(value = {"AI 关"})
     @Listen(MsgGetTypes.groupMsg)
     public void AiOFF(GroupMsg msg, MsgSender sender){
     }
 
-    @Switch(types = {FunEnum.ai_count},status = 0,admin = 1,name = "聊天")
-    @Filter(value = {"聊天 开"})
+    @Switch(types = {FunEnum.ai_count},status = 0,admin = 1,name = "AI")
+    @Filter(value = {"AI 开"})
     @Listen(MsgGetTypes.groupMsg)
     public void AiON(GroupMsg msg, MsgSender sender){
     }

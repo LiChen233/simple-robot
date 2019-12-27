@@ -27,7 +27,7 @@ public enum FunEnum {
     /**
      * 魔女十连：5
      */
-    custom_ten ,
+    custom_ten,
     /**
      * 公主单抽：6
      */

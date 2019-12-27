@@ -4,6 +4,7 @@ import com.forte.demo.MainApplication;
 import com.forte.demo.dao.PersonDao;
 import com.forte.demo.dao.PrayDao;
 import com.forte.demo.dao.QqGroupDao;
+import com.forte.demo.service.power.count.CountServiceImpl;
 import com.forte.demo.utils.EquipsUPUtils;
 import com.forte.demo.utils.PrayUtils;
 import com.forte.qqrobot.anno.timetask.CronTask;
@@ -15,8 +16,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-//每天0点1分钟触发
-@CronTask("0 5 0 * * ? *")
+//每天0点触发
+@CronTask("0 0 0 * * ? *")
 //每隔五秒触发
 //@CronTask("0/5 * * * * ? *")
 public class ResetTimer implements TimeJob {
@@ -27,6 +28,10 @@ public class ResetTimer implements TimeJob {
         QqGroupDao qqGroupDao = MainApplication.depends.get(QqGroupDao.class);
         PersonDao personDao = MainApplication.depends.get(PersonDao.class);
         PrayDao prayDao = MainApplication.depends.get(PrayDao.class);
+        CountServiceImpl countService = MainApplication.depends.get(CountServiceImpl.class);
+
+        //刷新每日日志
+        countService.newDay();
 
         //重置签到总人数
         qqGroupDao.resetSigninCount();
@@ -36,19 +41,6 @@ public class ResetTimer implements TimeJob {
 
         //重置所有人的抽签记录
         personDao.resetDraw();
-
-        //刷新蛋池json
-        try {
-            PrayUtils.flushJson();
-        } catch (IOException e) {
-            System.out.println("刷新json出错");
-            e.printStackTrace();
-        }
-
-        //如果魔法少女祈愿时间过了，则重置魔法少女保底
-        if (!PrayUtils.findSpecial()){
-            prayDao.resetSpecial();
-        }
 
         //获取当前日期，周四和周一重置魔女up
         SimpleDateFormat dateFm = new SimpleDateFormat("EEEE");

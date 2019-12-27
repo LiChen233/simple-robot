@@ -4,6 +4,7 @@ import com.forte.demo.anno.Check;
 import com.forte.demo.emun.FunEnum;
 import com.forte.demo.utils.EquipsUPUtils;
 import com.forte.demo.utils.FindEquipsUtils;
+import com.forte.demo.utils.PrayUtils;
 import com.forte.qqrobot.anno.Filter;
 import com.forte.qqrobot.anno.Listen;
 import com.forte.qqrobot.beans.messages.msgget.GroupMsg;
@@ -88,10 +89,9 @@ public class EquipListener {
     }
 
     @Check(type = FunEnum.eq_count)
-    @Filter(keywordMatchType = KeywordMatchType.TRIM_CONTAINS,value = "装备查询")
+    @Filter(keywordMatchType = KeywordMatchType.TRIM_CONTAINS,value = {"装备查询","查询装备"})
     @Listen(MsgGetTypes.groupMsg)
     public void searchEq(GroupMsg msg, MsgSender sender) throws IOException {
-        Date date1 = new Date();
         String str = msg.getMsg();
         //拿到后面的内容
         str = str.substring(4).trim();
@@ -108,13 +108,14 @@ public class EquipListener {
             str = new BigDecimal(str).toString();
             //拿到拼接觉醒图的最终成品
             String equip = FindEquipsUtils.findEq(str);
+            if ("undefined".equals(equip)){
+                sender.SENDER.sendGroupMsg(msg.getGroup(), "暂不支持查询使魔");
+            }
             File file = new File(equip);
             String cqCode_image = CQCodeUtil.build().
                     getCQCode_image("file://" + file.getAbsolutePath());
             sender.SENDER.sendGroupMsg(msg.getGroup(), cqCode_image);
             file.delete();
-            Date date2 = new Date();
-            System.out.println("装备查询-耗时:"+(date2.getTime()-date1.getTime())/1000);
         } catch (Exception e) {
             //异常 说明包含非数字。则用来搜索
             String search = FindEquipsUtils.search(str);
@@ -130,8 +131,6 @@ public class EquipListener {
                 sender.SENDER.sendGroupMsg(msg.getGroup(), cqCode_image);
                 file.delete();
             }
-            Date date2 = new Date();
-            System.out.println("装备列表查询-耗时:"+(date2.getTime()-date1.getTime())/1000);
         }
     }
 
@@ -158,6 +157,9 @@ public class EquipListener {
             fos.write(result.getBytes(StandardCharsets.UTF_8));
             fos.flush();
             fos.close();
+
+            PrayUtils.flushJson();
+
             sender.SENDER.sendGroupMsg(msg.getGroup(), "刷新成功");
         }catch (Exception e){
             sender.SENDER.sendGroupMsg(msg.getGroup(), "刷新失败");

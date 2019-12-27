@@ -37,9 +37,6 @@ public class FunSwitch {
         MsgSender sender = (MsgSender) joinPoint.getArgs()[1];
         //发送者QQ号
         String qq = msg.getQQ();
-        //发送者当前群
-        String group = msg.getGroup();
-        CQCode cqCode_at = CQCodeUtil.build().getCQCode_At(qq);
 
         //获取注解信息
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
@@ -47,29 +44,29 @@ public class FunSwitch {
         //本功能所需要的权限
         int admin = Switch.admin();
 
+        //获取发送者当前群
+        String group = msg.getGroup();
+        CQCode cqCode_at = CQCodeUtil.build().getCQCode_At(qq);
+
         //判断发送者QQ号是否有权限
         AdminPower adminPower = AdminPower.builder()
                 .qq(qq)
                 .admin(admin)
                 .status(0)
+                .my_group(group)
                 .build();
         adminPower = adminPowerService.find(adminPower);
         if (null==adminPower){
-            //如果需要权限不是管理者，且该账户并没有权限，则查询是否有管理员权限
-            if (admin!=0){
-                adminPower = AdminPower.builder()
-                        .qq(qq)
-                        .admin(0)
-                        .status(0)
-                        .build();
-                adminPower = adminPowerService.find(adminPower);
-                if (null==adminPower){
-                    //连管理员权限都没有，返回
-                    sender.SENDER.sendGroupMsg(msg.getGroup(), cqCode_at+" 您没有该权限！");
-                    return;
-                }
-            }else{
-                sender.SENDER.sendGroupMsg(msg.getGroup(), cqCode_at+" 您没有该权限！");
+            //如果上述权限验证没有通过，则查询是否有管理员权限
+            adminPower = AdminPower.builder()
+                    .qq(qq)
+                    .admin(0)
+                    .status(0)
+                    .build();
+            adminPower = adminPowerService.find(adminPower);
+            if (null==adminPower){
+                //连管理员权限都没有，返回
+                sender.SENDER.sendGroupMsg(msg.getGroup(), cqCode_at+" 你没有该权限！");
                 return;
             }
         }

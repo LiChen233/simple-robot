@@ -1,12 +1,16 @@
 package com.forte.demo.service.power.count;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.forte.demo.bean.QqGroup;
 import com.forte.demo.bean.power.count.Count;
 import com.forte.demo.dao.power.count.CountDao;
+import com.forte.demo.service.QqGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 @Service
@@ -14,6 +18,8 @@ import java.util.Date;
 public class CountServiceImpl implements CountService {
     @Autowired
     CountDao countDao;
+    @Autowired
+    QqGroupService qqGroupService;
 
     private static final Integer ZERO = 0;
 
@@ -26,8 +32,9 @@ public class CountServiceImpl implements CountService {
      */
     @Override
     public void newDay() {
+        /*ArrayList<QqGroup> groups = qqGroupService.getAllGroup();
         Count count = Count.builder()
-                .id(getDate())
+                .today(getDate())
                 .middleOne(ZERO)
                 .middleTen(ZERO)
                 .specialOne(ZERO)
@@ -40,14 +47,30 @@ public class CountServiceImpl implements CountService {
                 .eqCount(ZERO)
                 .aqCount(ZERO)
                 .seCount(ZERO)
+                .signCount(ZERO)
+                .upCount(ZERO)
                 .build();
-
-        countDao.insert(count);
+        for (QqGroup group : groups) {
+            count.setQqGroup(group.getGroupid());
+            countDao.insert(count);
+        }*/
+        System.out.println(123);
     }
 
+    /**
+     * 当前功能日志记录加一
+     * @param count
+     */
     @Override
     public void increase(Count count) {
-        count.setDay(getDate());
-        countDao.increase(count);
+        //AOP传进来的是没有日期和id的
+        count.setToday(getDate());
+        Count temp = countDao.selectOne(new QueryWrapper<>(count));
+        if (null!=temp){
+            count.setId(temp.getId());
+            countDao.increase(count);
+        }else {
+            System.out.println("每日日志还未初始化就有人插入数据了");
+        }
     }
 }

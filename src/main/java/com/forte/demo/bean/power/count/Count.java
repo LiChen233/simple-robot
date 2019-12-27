@@ -1,5 +1,8 @@
 package com.forte.demo.bean.power.count;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,8 +20,10 @@ import java.io.Serializable;
 @AllArgsConstructor
 @TableName("count")
 public class Count implements Serializable {
-    private String id; //QQ群号
-    private String day; //日期，年月日
+    @TableId(type = IdType.AUTO)
+    private Integer id;
+    private String qqGroup;//QQ群号
+    private String today; //日期，年月日
     private Integer middleOne;
     private Integer middleTen;
     private Integer specialOne;
@@ -32,8 +37,8 @@ public class Count implements Serializable {
     private Integer eqCount;
     private Integer aqCount;
     private Integer signCount;
-    private Integer drawCount;
     private Integer upCount;
 
+    @TableField(exist = false)
     private String funName; //功能名称，sql用
 }

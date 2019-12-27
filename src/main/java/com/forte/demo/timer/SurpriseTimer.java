@@ -14,8 +14,8 @@ import java.util.Date;
 import java.util.Map;
 import java.util.Random;
 
-//8-23点每7分钟触发一次
-@CronTask("0 /7 8-23 * * ?")
+//8-23点每6分钟触发一次
+@CronTask("0 /6 8-23 * * ?")
 //@CronTask("* * * * * ?")
 public class SurpriseTimer implements TimeJob {
 
@@ -31,17 +31,13 @@ public class SurpriseTimer implements TimeJob {
         for(Map.Entry<String, Date> entry : map.entrySet()){
             //距离群上次说话是多久，转换成分钟
             long min = (now.getTime() - entry.getValue().getTime()) / 1000 / 60;
-            //如果有一个小时没人说话了，则触发下面的
-            if (min>=0){
+            //如果有30分钟没人说话了，则可以触发下面的
+            if (min>=30){
                 File files = new File(PATH);
                 File[] file = files.listFiles();
 
                 //获取是否发送随机数
                 Integer isSender = RandomNum.randomNumber(0, 100);
-                if (entry.getKey().equals("701244763")){
-                    System.out.println("距离上次发言："+min+"分钟");
-                    System.out.println("随机数为："+isSender);
-                }
                 //随机选择文件
                 Integer num = RandomNum.randomNumber(0, file.length);
                 //概率为15%

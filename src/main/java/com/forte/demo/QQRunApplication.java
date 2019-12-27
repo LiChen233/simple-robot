@@ -1,10 +1,15 @@
 package com.forte.demo;
 
+import com.forte.demo.bean.QqGroup;
+import com.forte.demo.dao.QqGroupDao;
 import com.forte.qqrobot.component.forhttpapi.HttpApp;
 import com.forte.qqrobot.component.forhttpapi.HttpConfiguration;
 import com.forte.qqrobot.depend.DependGetter;
 import com.forte.qqrobot.sender.MsgSender;
 import com.forte.qqrobot.utils.CQCodeUtil;
+
+import java.util.ArrayList;
+
 /**
  * 这个是simple-robot框架的启动器类
  * 使用HTTP API组件进行示例, 实现{@link HttpApp}接口并进行相应的配置
@@ -47,18 +52,10 @@ public class QQRunApplication implements HttpApp {
 
     @Override
     public void after(CQCodeUtil cqCodeUtil, MsgSender sender) {
-        /*//启动成功之后，步进行任何操作
-        String FAMILYQQ[] = {
-                "452657413",
-                "563721596",
-                "110822922",
-                "684966897",
-                //"687726107",
-                "195943739"
-        };
-        for (String s : FAMILYQQ) {
-            sender.SENDER.sendGroupMsg(s,"我回来啦~\n" +
-                    "本次更新：修复可以连续签到两次的bug");
-        }*/
+        QqGroupDao qqGroupDao = dependGetter.get(QqGroupDao.class);
+        ArrayList<QqGroup> groups = qqGroupDao.getAllGroup();
+        for (QqGroup group : groups) {
+            //System.out.println(group.getGroupid());
+        }
     }
 }

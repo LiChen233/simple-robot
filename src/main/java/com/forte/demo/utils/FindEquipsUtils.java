@@ -104,13 +104,18 @@ public class FindEquipsUtils {
         for (int i = l0; i < equips.size(); i++) {
             if (equips.get(i).toString().indexOf(key)!=l_1){
                 Map<String,String> map = new HashMap<>(l2);
-                String id = equips.getJSONObject(i).getString(sid);
+                JSONObject equip = equips.getJSONObject(i);
+                String id = equip.getString(sid);
                 //如果id等于0，则是那些秘境buff，不加进去
                 if ("0".equals(id)){
                     continue;
                 }
+                //忽略使魔
+                if(null != equip.getJSONObject("ultraSkill")){
+                    continue;
+                }
                 map.put(sid, id);
-                map.put("img",equips.getJSONObject(i).getString("img"));
+                map.put("img", equip.getString("img"));
                 //查到的装备数量超过20个就不继续下去了
                 if (list.size()>=l20){
                     return null;
@@ -207,6 +212,10 @@ public class FindEquipsUtils {
      */
     public static String findEq(String equipsId) throws IOException {
         ArrayList<String> list = FindEquipsUtils.synthesis(equipsId);
+        //如果是使魔就返回
+        if (null == list){
+            return "undefined";
+        }
         //没有觉醒图就返回装备图片地址
         if (list.get(l1).equals("")){
             return list.get(l0);
@@ -264,6 +273,10 @@ public class FindEquipsUtils {
          */
         //获取装备json
         JSONObject equip = getEquip(equipsId);
+        //忽略使魔
+        if(null != equip.getJSONObject("ultraSkill")){
+            return null;
+        }
         //初始高度：283
         Integer H = 240;
         //System.out.println("初始高度:"+H);
@@ -303,25 +316,35 @@ public class FindEquipsUtils {
 
         //查看装备是否可进化
         JSONObject evolveFormula = equip.getJSONObject("evolveFormula");
-        //此装备可进化
-        JSONArray input = evolveFormula.getJSONArray("input");
-        int inputSize = input.size();
-        if (inputSize == l1){
-            H+=l130;
-        }else if (inputSize == l2){
-            H+=l200;
-        }
-        //System.out.println("进化:"+H);
+        JSONArray input = null;
+        JSONArray output = null;
+        Integer inputSize = l0;
+        Integer outputSize = l0;
+        if (null!=evolveFormula){
+            //此装备可进化
+            input = evolveFormula.getJSONArray("input");
+            if (null!=input){
+                inputSize = input.size();
+                if (inputSize == l1){
+                    H+=l130;
+                }else if (inputSize == l2){
+                    H+=l200;
+                }
+            }
+            //System.out.println("进化:"+H);
 
-        //进化至此装备
-        JSONArray output = evolveFormula.getJSONArray("output");
-        int outputSize = output.size();
-        if (outputSize == l1){
-            H+=l130;
-        }else if (outputSize == l2){
-            H+=l200;
+            //进化至此装备
+            output = evolveFormula.getJSONArray("output");
+            if (null!=output){
+                outputSize = output.size();
+                if (outputSize == l1){
+                    H+=l130;
+                }else if (outputSize == l2){
+                    H+=l200;
+                }
+            }
+            //System.out.println("进化至:"+H);
         }
-        //System.out.println("进化至:"+H);
 
         JSONArray awakenFormula = equip.getJSONArray("awakenFormula");
         if (null!=awakenFormula){

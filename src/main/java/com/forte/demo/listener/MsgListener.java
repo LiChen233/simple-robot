@@ -1,5 +1,7 @@
 package com.forte.demo.listener;
 
+import com.forte.demo.anno.Check;
+import com.forte.demo.emun.FunEnum;
 import com.forte.demo.utils.TAipUtils;
 import com.forte.qqrobot.anno.Filter;
 import com.forte.qqrobot.anno.Listen;
@@ -10,10 +12,11 @@ import com.forte.qqrobot.beans.messages.msgget.PrivateMsg;
 import com.forte.qqrobot.beans.messages.types.MsgGetTypes;
 import com.forte.qqrobot.sender.MsgSender;
 import com.forte.qqrobot.utils.CQCodeUtil;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
 
-@Beans
+@Component
 public class MsgListener {
 
     /**
@@ -41,6 +44,7 @@ public class MsgListener {
      * @param sender
      * @throws Exception
      */
+    @Check(type = FunEnum.ai_count)
     @Filter(at = true)
     @Listen(MsgGetTypes.groupMsg)
     public void aiMsg(GroupMsg msg, MsgSender sender) throws Exception {
@@ -57,6 +61,7 @@ public class MsgListener {
         sender.SENDER.sendGroupMsg(msg.getGroup(),cqCode_at+" "+answer);
     }
 
+    @Check(type = FunEnum.ai_count)
     @Filter(value = {"功能","菜单"})
     @Listen(MsgGetTypes.groupMsg)
     public void functionMsg(GroupMsg msg, MsgSender sender) throws Exception {
@@ -77,6 +82,7 @@ public class MsgListener {
         sender.SENDER.sendGroupMsg(msg.getGroup(),res);
     }
 
+    @Check(type = FunEnum.ai_count)
     @Filter(value = "积分功能")
     @Listen(MsgGetTypes.groupMsg)
     public void starFunction(GroupMsg msg, MsgSender sender){
@@ -88,6 +94,7 @@ public class MsgListener {
         sender.SENDER.sendGroupMsg(msg.getGroup(),res);
     }
 
+    @Check(type = FunEnum.ai_count)
     @Filter(value = "图片功能")
     @Listen(MsgGetTypes.groupMsg)
     public void imageFunction(GroupMsg msg, MsgSender sender){
@@ -100,6 +107,7 @@ public class MsgListener {
         sender.SENDER.sendGroupMsg(msg.getGroup(),res);
     }
 
+    @Check(type = FunEnum.ai_count)
     @Filter(value = {"扭蛋功能","抽奖功能"})
     @Listen(MsgGetTypes.groupMsg)
     public void PrayFunction(GroupMsg msg, MsgSender sender){
@@ -112,7 +120,7 @@ public class MsgListener {
         sender.SENDER.sendGroupMsg(msg.getGroup(),res);
     }
 
-
+    @Check(type = FunEnum.ai_count)
     @Filter("作者介绍")
     @Listen(MsgGetTypes.groupMsg)
     public void authorMsg(GroupMsg msg, MsgSender sender) throws Exception {
@@ -126,6 +134,7 @@ public class MsgListener {
         sender.SENDER.sendGroupMsg(msg.getGroup(),res+imagePath);
     }
 
+    @Check(type = FunEnum.ai_count)
     @Filter(value = {"投食","打赏"})
     @Listen(MsgGetTypes.groupMsg)
     public void giveMsg(GroupMsg msg, MsgSender sender) throws Exception {

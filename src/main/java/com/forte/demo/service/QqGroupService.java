@@ -16,6 +16,11 @@ public class QqGroupService {
     @Autowired
     QqGroupDao qqGroupDao;
 
+    //获取所有群号
+    public ArrayList<QqGroup> getAllGroup(){
+        return qqGroupDao.getAllGroup();
+    }
+
     public void updateGroup(String qqGroupid){
         qqGroupDao.updateGroup(qqGroupid);
     }
@@ -30,9 +35,5 @@ public class QqGroupService {
 
     public Integer getSigninCount(String groupid){
         return qqGroupDao.getSigninCount(groupid);
-    }
-
-    public ArrayList<QqGroup> getAllGroup(){
-        return qqGroupDao.getAllGroup();
     }
 }

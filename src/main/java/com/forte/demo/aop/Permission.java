@@ -16,15 +16,11 @@ import com.forte.qqrobot.beans.messages.msgget.GroupMsg;
 import com.forte.qqrobot.sender.MsgSender;
 import com.forte.qqrobot.utils.CQCodeUtil;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Method;
 
 /**
  * 权限校验AOP
@@ -102,47 +98,39 @@ public class Permission {
          * 如果次数表中没有该群的记录则新建一条该群的再+1
          */
 
-        //查询本群该功能是否已禁用
+        //查询本群该功能是否已启用
         GroupPower groupPower = GroupPower.builder()
                 .qq_group(group)
                 .fun_id(type)
-                .status(FAIL)
+                .status(SUCCESS)
                 .build();
-        GroupPower fail = groupPowerService.find(groupPower);
-        if (null==fail){
-            //查询本群该功能是否已启用，如果启用也没有，则没有权限
-            groupPower.setStatus(SUCCESS);
-            GroupPower succ = groupPowerService.find(groupPower);
-            if (null==succ){
-                //权限不通过则不放行
-                sender.SENDER.sendGroupMsg(group,"本群暂未开放此功能");
-            }else{
-                //检查QQ号权限
-                QQPower qqPower = QQPower.builder()
-                        .qq(qq)
-                        .fun_id(type)
-                        .status(FAIL)
-                        .build();
-                qqPower = qqPowerService.find(qqPower);
-                if (null==qqPower){
-                    if (funEnum!=FunEnum.flush){
-                        //功能调用总数+1
-                        Count count = Count.builder()
-                                .funName(funEnum.toString())
-                                .id(group)
-                                .build();
-                        countService.increase(count);
-                    }
-                    //放行
-                    joinPoint.proceed();
-                }else {
-                    //权限不通过则不放行
-                    sender.SENDER.sendGroupMsg(group,cqCode_at+" 您已被禁止使用此功能");
+        groupPower = groupPowerService.find(groupPower);
+        if (null!=groupPower){
+            //检查QQ号权限
+            QQPower qqPower = QQPower.builder()
+                    .qq(qq)
+                    .fun_id(type)
+                    .status(SUCCESS)
+                    .build();
+            qqPower = qqPowerService.find(qqPower);
+            if (null!=qqPower){
+                if (funEnum!=FunEnum.flush){
+                    //功能调用总数+1
+                    Count count = Count.builder()
+                            .funName(funEnum.toString())
+                            .qqGroup(group)
+                            .build();
+                    countService.increase(count);
                 }
+                //放行
+                joinPoint.proceed();
+            }else {
+                //权限不通过则不放行
+                sender.SENDER.sendGroupMsg(group,cqCode_at+" 您已被禁止使用此功能");
             }
         }else{
             //权限不通过则不放行
-            //sender.SENDER.sendGroupMsg(group,"本群暂未开放此功能");
+            sender.SENDER.sendGroupMsg(group,"本群暂未开放此功能");
         }
     }
 }

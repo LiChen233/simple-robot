@@ -121,6 +121,8 @@ public class EquipListener {
             if (null==search){
                 sender.SENDER.sendGroupMsg(msg.getGroup(),
                         "搜索结果超过20个的活我可不干，换一个准点的关键字再来吧");
+            }else if ("undefined".equals(search)){
+                sender.SENDER.sendGroupMsg(msg.getGroup(), "啥都没找到");
             }else{
                 File file = new File(search);
                 String cqCode_image = CQCodeUtil.build().

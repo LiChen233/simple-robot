@@ -144,6 +144,9 @@ public class FindEquipsUtils {
         }else if (size>4){
             width = l3;
             height = l2;
+        }else if (size==l0){
+            //如果没找到装备
+            return "undefined";
         }else {
             //数量在2-3，则直接一排输出
             width = size;
@@ -612,6 +615,9 @@ public class FindEquipsUtils {
      */
     private static BufferedImage getBufferedImage(String img) throws IOException {
         //System.out.println("图标id"+img);
+        if (null==img){
+            return ImageIO.read(new URL(error));
+        }
         //获取装备图标地址
         if (img.length()==l1){
             img="00"+img;

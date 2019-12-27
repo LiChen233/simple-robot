@@ -142,7 +142,7 @@ public class Permission {
             }
         }else{
             //权限不通过则不放行
-            sender.SENDER.sendGroupMsg(group,"本群暂未开放此功能");
+            //sender.SENDER.sendGroupMsg(group,"本群暂未开放此功能");
         }
     }
 }

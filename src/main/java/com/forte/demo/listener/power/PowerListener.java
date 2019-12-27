@@ -31,7 +31,7 @@ public class PowerListener {
     @Ban(types = {FunEnum.middle_one,FunEnum.middle_ten,FunEnum.custom_one,
             FunEnum.custom_ten,FunEnum.special_one,FunEnum.special_ten,
             FunEnum.high_one,FunEnum.high_ten},status = 1)
-    @Filter(value = {"#禁用 扭蛋"})
+    @Filter(keywordMatchType = KeywordMatchType.TRIM_CONTAINS,value = {"#禁用 扭蛋"})
     @Listen(MsgGetTypes.groupMsg)
     public void BanPray(GroupMsg msg, MsgSender sender){
     }
@@ -39,67 +39,67 @@ public class PowerListener {
     @Ban(types = {FunEnum.middle_one,FunEnum.middle_ten,FunEnum.custom_one,
             FunEnum.custom_ten,FunEnum.special_one,FunEnum.special_ten,
             FunEnum.high_one,FunEnum.high_ten},status = 0)
-    @Filter(value = {"#启用 扭蛋"})
+    @Filter(keywordMatchType = KeywordMatchType.TRIM_CONTAINS,value = {"#启用 扭蛋"})
     @Listen(MsgGetTypes.groupMsg)
     public void NotBanPray(GroupMsg msg, MsgSender sender){
     }
 
     @Ban(types = {FunEnum.se_count},status = 1)
-    @Filter(value = {"#禁用 色图"})
+    @Filter(keywordMatchType = KeywordMatchType.TRIM_CONTAINS,value = {"#禁用 色图"})
     @Listen(MsgGetTypes.groupMsg)
     public void BanSe(GroupMsg msg, MsgSender sender){
     }
 
     @Ban(types = {FunEnum.se_count},status = 0)
-    @Filter(value = {"#启用 色图"})
+    @Filter(keywordMatchType = KeywordMatchType.TRIM_CONTAINS,value = {"#启用 色图"})
     @Listen(MsgGetTypes.groupMsg)
     public void NotBanSe(GroupMsg msg, MsgSender sender){
     }
 
     @Ban(types = {FunEnum.sign_count},status = 1)
-    @Filter(value = {"#禁用 签到"})
+    @Filter(keywordMatchType = KeywordMatchType.TRIM_CONTAINS,value = {"#禁用 签到"})
     @Listen(MsgGetTypes.groupMsg)
     public void BanSign(GroupMsg msg, MsgSender sender){
     }
 
     @Ban(types = {FunEnum.sign_count},status = 0)
-    @Filter(value = {"#启用 签到"})
+    @Filter(keywordMatchType = KeywordMatchType.TRIM_CONTAINS,value = {"#启用 签到"})
     @Listen(MsgGetTypes.groupMsg)
     public void NotBanSign(GroupMsg msg, MsgSender sender){
     }
 
     @Ban(types = {FunEnum.eq_count,FunEnum.up_count},status = 1)
-    @Filter(value = {"#禁用 查询"})
+    @Filter(keywordMatchType = KeywordMatchType.TRIM_CONTAINS,value = {"#禁用 查询"})
     @Listen(MsgGetTypes.groupMsg)
     public void BanEq(GroupMsg msg, MsgSender sender){
     }
 
     @Ban(types = {FunEnum.eq_count,FunEnum.up_count},status = 0)
-    @Filter(value = {"#启用 查询"})
+    @Filter(keywordMatchType = KeywordMatchType.TRIM_CONTAINS,value = {"#启用 查询"})
     @Listen(MsgGetTypes.groupMsg)
     public void NotBanEq(GroupMsg msg, MsgSender sender){
     }
 
     @Ban(types = {FunEnum.ai_count},status = 1)
-    @Filter(value = {"#禁用 聊天"})
+    @Filter(keywordMatchType = KeywordMatchType.TRIM_CONTAINS,value = {"#禁用 聊天"})
     @Listen(MsgGetTypes.groupMsg)
     public void BanAi(GroupMsg msg, MsgSender sender){
     }
 
     @Ban(types = {FunEnum.ai_count},status = 0)
-    @Filter(value = {"#启用 聊天"})
+    @Filter(keywordMatchType = KeywordMatchType.TRIM_CONTAINS,value = {"#启用 聊天"})
     @Listen(MsgGetTypes.groupMsg)
     public void NotBanAi(GroupMsg msg, MsgSender sender){
     }
 
     @Ban(types = {FunEnum.aq_count},status = 1)
-    @Filter(value = {"#禁用 问答"})
+    @Filter(keywordMatchType = KeywordMatchType.TRIM_CONTAINS,value = {"#禁用 问答"})
     @Listen(MsgGetTypes.groupMsg)
     public void BanAQ(GroupMsg msg, MsgSender sender){
     }
 
     @Ban(types = {FunEnum.aq_count},status = 0)
-    @Filter(value = {"#启用 问答"})
+    @Filter(keywordMatchType = KeywordMatchType.TRIM_CONTAINS,value = {"#启用 问答"})
     @Listen(MsgGetTypes.groupMsg)
     public void NotBanAQ(GroupMsg msg, MsgSender sender){
     }

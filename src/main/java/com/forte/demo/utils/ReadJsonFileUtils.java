@@ -15,9 +15,9 @@ public class ReadJsonFileUtils {
         File jsonFile = new File(path);
         try {
             //读取文件中的数据
-            BufferedReader bf = new BufferedReader(
-                    new InputStreamReader(
-                            new FileInputStream(jsonFile)));
+            FileInputStream fileInputStream = new FileInputStream(jsonFile);
+            InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream, StandardCharsets.UTF_8);
+            BufferedReader bf = new BufferedReader(inputStreamReader);
             String line;
             StringBuilder stringBuilder = new StringBuilder();
             while ((line=bf.readLine())!=null){

@@ -281,6 +281,10 @@ public class FindEquipsUtils {
          */
         //获取装备json
         JSONObject equip = getEquip(equipsId);
+        //装备id找不到的情况下
+        if(null==equip){
+            return null;
+        }
         //忽略使魔
         if(null != equip.getJSONObject("ultraSkill")){
             return null;
@@ -773,10 +777,14 @@ public class FindEquipsUtils {
     private static JSONObject getEquip(String equipsId){
         JSONArray equips = getEquips();
         JSONObject equip = null;
-        for (int i = l0; i < equips.size(); i++) {
+        int size = equips.size();
+        for (int i = l0; i < size; i++) {
             equip = equips.getJSONObject(i);
             if (equip.getString(sid).equals(equipsId)) {
                 break;
+            }
+            if (i==(size-l1) && equip.getString(sid).equals(equipsId)){
+                return null;
             }
         }
         return equip;

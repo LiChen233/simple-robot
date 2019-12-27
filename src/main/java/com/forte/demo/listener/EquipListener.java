@@ -108,7 +108,7 @@ public class EquipListener {
             //拿到拼接觉醒图的最终成品
             String equip = FindEquipsUtils.findEq(str);
             if ("undefined".equals(equip)){
-                sender.SENDER.sendGroupMsg(msg.getGroup(), "暂不支持查询使魔");
+                sender.SENDER.sendGroupMsg(msg.getGroup(), "啥都没找到");
             }
             File file = new File(equip);
             String cqCode_image = CQCodeUtil.build().

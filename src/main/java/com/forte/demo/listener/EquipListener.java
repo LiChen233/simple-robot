@@ -92,6 +92,10 @@ public class EquipListener {
     @Listen(MsgGetTypes.groupMsg)
     public void searchEq(GroupMsg msg, MsgSender sender) throws IOException {
         String str = msg.getMsg();
+        //拿到前四个字，看看是不是装备查询，防止误判
+        if (!"装备查询".equals(str.substring(0,4))){
+            return;
+        }
         //拿到后面的内容
         str = str.substring(4).trim();
         if ("".equals(str)){

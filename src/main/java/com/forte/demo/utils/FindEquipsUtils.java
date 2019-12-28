@@ -11,6 +11,7 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -77,7 +78,7 @@ public class FindEquipsUtils {
     private static final Integer l195 = 195;
     private static final Integer l102 = 102;
     private static final Integer l120 = 120;
-    private static final Integer l190 = 190;
+    private static final Integer l18 = 18;
     private static final Integer l200 = 200;
     private static final Integer buff = 4096;
     //一个格子的大小
@@ -579,7 +580,20 @@ public class FindEquipsUtils {
         /**
          * 觉醒图
          */
+        //先拿到id长度
         int posterLen = posterId.length();
+        //有两种形态的觉醒，圆环155，芬里尔20，6点切换形态
+        if ("155".equals(posterId)||"20".equals(posterId)){
+            //查看现在几点了
+            SimpleDateFormat sdf = new SimpleDateFormat("HH");
+            int now = Integer.parseInt(sdf.format(new Date()));
+            if (now<l18){
+                posterId+="1";
+            }else {
+                posterId+="2";
+            }
+        }
+        //根据觉醒id长度进行适配
         if (posterLen ==l3){
             posterId="1"+posterId;
         }else if (posterLen ==l2){
@@ -588,30 +602,35 @@ public class FindEquipsUtils {
             posterId="100"+posterId;
         }
         String posterImgPath = wake + posterId+suffix;
-        /**
-         *下载图片
-         */
-        URL url = new URL(posterImgPath);
-        HttpURLConnection conn = (HttpURLConnection)url.openConnection();
-        //伪造referer
-        conn.setRequestProperty("referer", "https://hsod2.hongshn.xyz/illustrate/v3");
-        BufferedInputStream in = new BufferedInputStream(conn.getInputStream());
-        //文件名字
-        String filePath = "./temp/" + UuidUtils.getUuid() + ".png";
-        BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(filePath));
-        byte[] buffer = new byte[buff];
-        int count;
-        while ((count = in.read(buffer)) > l0) {
-            out.write(buffer, l0, count);
-        }
-        /**
-         * 关闭
-         */
-        out.close();
-        in.close();
-        conn.disconnect();
 
-        return filePath;
+        try {
+            /**
+             *下载图片
+             */
+            URL url = new URL(posterImgPath);
+            HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+            //伪造referer
+            conn.setRequestProperty("referer", "https://hsod2.hongshn.xyz/illustrate/v3");
+            BufferedInputStream in = new BufferedInputStream(conn.getInputStream());
+            //文件名字
+            String filePath = "./temp/" + UuidUtils.getUuid() + ".png";
+            BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(filePath));
+            byte[] buffer = new byte[buff];
+            int count;
+            while ((count = in.read(buffer)) > l0) {
+                out.write(buffer, l0, count);
+            }
+            /**
+             * 关闭
+             */
+            out.close();
+            in.close();
+            conn.disconnect();
+            return filePath;
+        }catch (Exception e){
+            return "";
+        }
+
     }
 
     /**

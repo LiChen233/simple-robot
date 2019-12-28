@@ -32,7 +32,7 @@ public class SurpriseTimer implements TimeJob {
             //距离群上次说话是多久，转换成分钟
             long min = (now.getTime() - entry.getValue().getTime()) / 1000 / 60;
             //如果有30分钟没人说话了，则可以触发下面的
-            if (min>=30){
+            if (min>=60){
                 File files = new File(PATH);
                 File[] file = files.listFiles();
 
@@ -42,9 +42,12 @@ public class SurpriseTimer implements TimeJob {
                 Integer num = RandomNum.randomNumber(0, file.length);
                 //概率为15%
                 if (isSender<15){
+                    String key = entry.getKey();
                     String cqCode = CQCodeUtil.build()
                             .getCQCode_image("file://" + file[num].getAbsolutePath());
-                    msgSender.SENDER.sendGroupMsg(entry.getKey(),cqCode);
+                    msgSender.SENDER.sendGroupMsg(key,cqCode);
+                    //发送过后，重置时间
+                    map.put(key,new Date());
                 }
             }
         }

@@ -19,6 +19,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
@@ -29,8 +30,9 @@ public class EquipsTest {
 
     @Test
     public void test() throws IOException {
-        String s = ReadJsonFileUtils.readJson("src/static/Illustrate.txt");
-        System.out.println(s.indexOf("[6★]巴德尔的背叛·Kira"));
+        SimpleDateFormat sdf = new SimpleDateFormat("HH");
+        Integer now = Integer.parseInt(sdf.format(new Date()));
+        System.out.println(now<18);
     }
 
     @Test

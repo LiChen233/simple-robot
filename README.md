@@ -1,0 +1,7 @@
+![binaryTree](images/注册.png)
+![binaryTree](images/扭蛋.png)
+![binaryTree](images/up查询.png)
+![binaryTree](images/装备查询.png)
+![binaryTree](images/功能开关.png)
+![binaryTree](images/最后.png)
+![binaryTree](images/装备查询图片.png)

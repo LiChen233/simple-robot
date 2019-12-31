@@ -82,7 +82,7 @@ public class Permission {
             return;
         }else{
             //扣除积分
-            personService.reduceStar(new Person(qq,cost,null,null));
+            personService.reduceStar(new Person(qq,cost,null,null,null));
         }
         //获取枚举类的序号
         int type = funEnum.ordinal();
@@ -119,11 +119,13 @@ public class Permission {
                 qqPower = qqPowerService.find(qqPower);
                 if (null==qqPower){
                     //功能调用总数+1
-                    Count count = Count.builder()
-                            .funName(funEnum.toString())
-                            .qqGroup(group)
-                            .build();
-                    countService.increase(count);
+                    if (funEnum!=FunEnum.sign_count){
+                        Count count = Count.builder()
+                                .funName(funEnum.toString())
+                                .qqGroup(group)
+                                .build();
+                        countService.increase(count);
+                    }
                     //放行
                     joinPoint.proceed();
                 }else {

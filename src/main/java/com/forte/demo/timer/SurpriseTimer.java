@@ -10,12 +10,13 @@ import com.forte.qqrobot.utils.CQCodeUtil;
 
 import javax.xml.crypto.Data;
 import java.io.File;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 import java.util.Random;
 
-//8-23点每6分钟触发一次
-@CronTask("0 /6 8-23 * * ?")
+//8-23点每10分钟触发一次
+@CronTask("0 /10 8-23 * * ?")
 //@CronTask("* * * * * ?")
 public class SurpriseTimer implements TimeJob {
 
@@ -31,7 +32,7 @@ public class SurpriseTimer implements TimeJob {
         for(Map.Entry<String, Date> entry : map.entrySet()){
             //距离群上次说话是多久，转换成分钟
             long min = (now.getTime() - entry.getValue().getTime()) / 1000 / 60;
-            //如果有30分钟没人说话了，则可以触发下面的
+            //如果有60分钟没人说话了，则可以触发下面的
             if (min>=60){
                 File files = new File(PATH);
                 File[] file = files.listFiles();
@@ -40,14 +41,17 @@ public class SurpriseTimer implements TimeJob {
                 Integer isSender = RandomNum.randomNumber(0, 100);
                 //随机选择文件
                 Integer num = RandomNum.randomNumber(0, file.length);
-                //概率为15%
-                if (isSender<15){
+                //概率为5%
+                if (isSender<5){
                     String key = entry.getKey();
                     String cqCode = CQCodeUtil.build()
                             .getCQCode_image("file://" + file[num].getAbsolutePath());
                     msgSender.SENDER.sendGroupMsg(key,cqCode);
-                    //发送过后，重置时间
-                    map.put(key,new Date());
+                    //发送过后，6小时内不会再次触发，除非有人发消息
+                    Calendar c = Calendar.getInstance();
+                    c.setTime(new Date());
+                    c.add(Calendar.HOUR,6);
+                    map.put(key,c.getTime());
                 }
             }
         }

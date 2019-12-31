@@ -66,11 +66,31 @@ public class CountServiceImpl implements CountService {
         //AOP传进来的是没有日期和id的
         count.setToday(getDate());
         Count temp = countDao.selectOne(new QueryWrapper<>(count));
-        if (null!=temp){
-            count.setId(temp.getId());
-            countDao.increase(count);
+        if (null==temp){
+            Count newGroup = Count.builder()
+                    .qqGroup(count.getQqGroup())
+                    .today(getDate())
+                    .middleOne(ZERO)
+                    .middleTen(ZERO)
+                    .specialOne(ZERO)
+                    .specialTen(ZERO)
+                    .customOne(ZERO)
+                    .customTen(ZERO)
+                    .highOne(ZERO)
+                    .highTen(ZERO)
+                    .aiCount(ZERO)
+                    .eqCount(ZERO)
+                    .aqCount(ZERO)
+                    .seCount(ZERO)
+                    .signCount(ZERO)
+                    .upCount(ZERO)
+                    .jsonFlush(ZERO)
+                    .build();
+            countDao.insert(newGroup);
+            count.setId(newGroup.getId());
         }else {
-            System.out.println("每日日志还未初始化就有人插入数据了");
+            count.setId(temp.getId());
         }
+        countDao.increase(count);
     }
 }

@@ -55,7 +55,7 @@ public class QQRunApplication implements HttpApp {
         QqGroupDao qqGroupDao = dependGetter.get(QqGroupDao.class);
         ArrayList<QqGroup> groups = qqGroupDao.getAllGroup();
         for (QqGroup group : groups) {
-            //System.out.println(group.getGroupid());
+            //sender.SENDER.sendGroupMsg(group.getGroupid(),"我回来啦");
         }
     }
 }

@@ -21,6 +21,7 @@ import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 
@@ -30,9 +31,11 @@ public class EquipsTest {
 
     @Test
     public void test() throws IOException {
-        SimpleDateFormat sdf = new SimpleDateFormat("HH");
-        Integer now = Integer.parseInt(sdf.format(new Date()));
-        System.out.println(now<18);
+        Calendar c = Calendar.getInstance();
+        c.setTime(new Date());
+        c.add(Calendar.HOUR,6);
+        Date after = c.getTime();
+        System.out.println(after);
     }
 
     @Test

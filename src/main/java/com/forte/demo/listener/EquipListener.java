@@ -29,7 +29,8 @@ import java.util.ArrayList;
 @Component
 public class EquipListener {
 
-    @Filter(keywordMatchType = KeywordMatchType.TRIM_CONTAINS,value = {"查询往期up功能","上次up","上一次up","上次什么时候up","上一次什么时候up","什么时候up","up记录"})
+    @Filter(keywordMatchType = KeywordMatchType.TRIM_CONTAINS,value = {"查询往期up功能",
+            "上次up","上一次up","上次什么时候up","啥时候up","上一次什么时候up","什么时候up","up记录"})
     @Listen(MsgGetTypes.groupMsg)
     public void listenUp(GroupMsg msg, MsgSender sender){
         sender.SENDER.sendGroupMsg(msg.getGroup(),"查询装备最近三次up时间：\n" +
@@ -88,7 +89,8 @@ public class EquipListener {
     }
 
     @Check(type = FunEnum.eq_count)
-    @Filter(keywordMatchType = KeywordMatchType.TRIM_CONTAINS,value = {"装备查询","查询装备"})
+    @Filter(keywordMatchType = KeywordMatchType.TRIM_CONTAINS,value =
+            {"装备查询","查询装备"})
     @Listen(MsgGetTypes.groupMsg)
     public void searchEq(GroupMsg msg, MsgSender sender) throws IOException {
         String str = msg.getMsg();
@@ -167,5 +169,13 @@ public class EquipListener {
         }catch (Exception e){
             sender.SENDER.sendGroupMsg(msg.getGroup(), "刷新失败");
         }
+    }
+
+    @Filter(keywordMatchType = KeywordMatchType.TRIM_CONTAINS,value = {"什么属性","什么效果"})
+    @Listen(MsgGetTypes.groupMsg)
+    public void tips(GroupMsg msg, MsgSender sender) {
+        sender.SENDER.sendGroupMsg(msg.getGroup(), "查询装备属性：\n" +
+                "装备查询+装备名字/装备查询+id\n" +
+                "例如：装备查询 犹大/装备查询 3470");
     }
 }

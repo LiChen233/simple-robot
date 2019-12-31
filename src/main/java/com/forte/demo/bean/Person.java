@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 
 @Data
 @AllArgsConstructor
@@ -16,4 +18,5 @@ public class Person {
     private Integer star;
     private Integer signin;
     private Integer draw;
+    private Date signTime;
 }

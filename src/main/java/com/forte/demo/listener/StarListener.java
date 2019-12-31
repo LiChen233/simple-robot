@@ -24,6 +24,8 @@ import com.forte.qqrobot.utils.CQCodeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
+
 
 /**
  * 积分监听
@@ -77,29 +79,25 @@ public class StarListener {
                         .build();
                 qqPower = qqPowerService.find(qqPower);
                 if (null==qqPower){
-                    //该功能调用总数+1
-                    Count count = Count.builder()
-                            .funName(funEnum.toString())
-                            .qqGroup(group)
-                            .build();
-                    countService.increase(count);
+                    //再次判断，如果是注册请求，则不记录日志
+                    CQCode at = CQCodeUtil.build().getCQCode_At(groupMsg.getQQ());
+                    String message = this.qqGroupSignin(group,qq);
+                    sender.SENDER.sendGroupMsg(groupMsg.getGroup(),at.toString()+" "+message);
                 }else {
-                    //权限不通过则不放行
+                    //数据库中没有权限则返回
                     sender.SENDER.sendGroupMsg(group,cqCode_at+" 您已被禁止使用此功能");
                     return;
                 }
             }else{
                 //权限不通过则不放行
                 sender.SENDER.sendGroupMsg(group,"本群暂未开放此功能");
+                return;
             }
         }else{
             //权限不通过则不放行
             sender.SENDER.sendGroupMsg(group,"本群暂未开放此功能");
             return;
         }
-        CQCode at = CQCodeUtil.build().getCQCode_At(groupMsg.getQQ());
-        String message = this.qqGroupSignin(group,qq);
-        sender.SENDER.sendGroupMsg(groupMsg.getGroup(),at.toString()+" "+message);
     }
 
     @Check(type = FunEnum.sign_count)
@@ -119,7 +117,7 @@ public class StarListener {
         Person person = personService.getPerson(personid);
         if(person==null){
             //初始化用户
-            person = new Person(personid,100,0,0);
+            person = new Person(personid,100,0,0,new Date());
             personService.addPerson(person);
             //初始化祈愿数据
             prayService.addPray(personid);
@@ -140,32 +138,37 @@ public class StarListener {
                 star = 10;
             }
             qqGroupService.updateGroup(groupid);
-            person = new Person(person.getQq(), person.getStar() + star, 1,null);
+            person = new Person(person.getQq(), person.getStar() + star, 1,null,null);
             personService.addStar(person);
             personService.setSignin(person);
             message = "签到成功，你是本群第" + (qqGroup.getSigninCount()+1) + "个签到。\n" +
-                    "获得积分：" + star + "。剩余积分：" + person.getStar();
+                    "获得积分：" + star + "。剩余积分：" + person.getStar()+
+                    "\n发送 抽签 获取更多积分";
+
+            //完成签到，该功能调用总数+1
+            Count count = Count.builder()
+                    .funName(FunEnum.sign_count.toString())
+                    .qqGroup(groupid)
+                    .build();
+            countService.increase(count);
         }
         return message;
     }
 
-    /*@Listen(value = MsgGetTypes.groupMsg)
+    @Check(type = FunEnum.sign_count)
+    @Listen(value = MsgGetTypes.groupMsg)
     @Filter(value = "抽签")
     public void draw(GroupMsg msg, MsgSender sender){
         String qq = msg.getQQ();
         CQCode cqCode_at = CQCodeUtil.build().getCQCode_At(qq);
         //如果数据库中没有用户数据，发一句话就返回
         Person person = personService.getPerson(qq);
-        if(person==null){
-            sender.SENDER.sendGroupMsg(msg.getQqGroup(),cqCode_at+" 你还没有注册哦，发送签到，开启萌萌新！");
-            return;
-        }
         if (person.getDraw()!=0){
-            sender.SENDER.sendGroupMsg(msg.getQqGroup(),cqCode_at+" 你今天已经抽过签啦！不要贪心哦~");
+            sender.SENDER.sendGroupMsg(msg.getGroup(),cqCode_at+" 你今天已经抽过签啦！不要贪心哦~");
             return;
         }
         Integer star = RandomNum.randomNumber(20, 50);
-        person = new Person(person.getQq(), person.getStar() + star, null,1);
+        person = new Person(person.getQq(), person.getStar() + star, null,1,null);
         personService.addStar(person);
         String message = "";
         if (star>=40){
@@ -175,9 +178,9 @@ public class StarListener {
         }else if (star>=20){
             message=" 抽到上平签！";
         }
-        sender.SENDER.sendGroupMsg(msg.getQqGroup(),cqCode_at+message+"获得"+star+"积分！");
+        sender.SENDER.sendGroupMsg(msg.getGroup(),cqCode_at+message+"获得"+star+"积分！");
         person.setDraw(1);
         person.setStar(person.getStar()+star);
         personService.setDraw(person);
-    }*/
+    }
 }

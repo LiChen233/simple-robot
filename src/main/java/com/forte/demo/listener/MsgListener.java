@@ -69,11 +69,12 @@ public class MsgListener {
                 "现有如下功能：\n" +
                 "回复指令获得详情玩法：\n" +
                 "注意！指令不需要@\n" +
-                "1、@萌萌新 与萌萌新聊天\n" +
-                "2、积分功能\n" +
-                "3、图片功能\n" +
-                "4、扭蛋功能/抽奖功能\n" +
-                "5、查询往期up功能\n" +
+                "@萌萌新 与萌萌新聊天\n" +
+                "积分功能\n" +
+                "图片功能\n" +
+                "扭蛋功能/抽奖功能\n" +
+                "查询往期up功能\n" +
+                "装备查询功能\n" +
                 "-----我从哪来---\n" +
                 "作者介绍\n" +
                 "投食/打赏\n" +
@@ -100,10 +101,10 @@ public class MsgListener {
     public void imageFunction(GroupMsg msg, MsgSender sender){
         String res = "图片功能介绍\n" +
                 "回复指令获取壁纸/涩图：\n" +
-                "1、来张/份色图\n" +
-                "2、来张/份壁纸\n" +
-                "3、来张/份手机壁纸\n" +
-                "注:一次指令消耗10积分";
+                "来张/份色图\n" +
+                "来张/份壁纸\n" +
+                "来张/份手机壁纸\n" +
+                "注:一次色图消耗10积分";
         sender.SENDER.sendGroupMsg(msg.getGroup(),res);
     }
 
@@ -116,7 +117,7 @@ public class MsgListener {
                 "1、公主单抽/十连 \n" +
                 "2、魔女单抽/十连\n" +
                 "3、大小姐单抽/十连：免费\n" +
-                "注:公主/魔女消耗5/30积分";
+                "注:单抽/十连需1/10消耗积分";
         sender.SENDER.sendGroupMsg(msg.getGroup(),res);
     }
 

@@ -171,7 +171,8 @@ public class EquipListener {
         }
     }
 
-    @Filter(keywordMatchType = KeywordMatchType.TRIM_CONTAINS,value = {"什么属性","什么效果"})
+    @Filter(keywordMatchType = KeywordMatchType.TRIM_CONTAINS,value = {
+            "什么属性","什么效果","装备查询功能"})
     @Listen(MsgGetTypes.groupMsg)
     public void tips(GroupMsg msg, MsgSender sender) {
         sender.SENDER.sendGroupMsg(msg.getGroup(), "查询装备属性：\n" +

@@ -47,10 +47,10 @@ public class SurpriseTimer implements TimeJob {
                     String cqCode = CQCodeUtil.build()
                             .getCQCode_image("file://" + file[num].getAbsolutePath());
                     msgSender.SENDER.sendGroupMsg(key,cqCode);
-                    //发送过后，6小时内不会再次触发，除非有人发消息
+                    //发送过后，一个月内不会再次触发，除非有人发消息
                     Calendar c = Calendar.getInstance();
                     c.setTime(new Date());
-                    c.add(Calendar.HOUR,6);
+                    c.add(Calendar.DAY_OF_MONTH,30);
                     map.put(key,c.getTime());
                 }
             }

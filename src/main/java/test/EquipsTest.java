@@ -3,10 +3,7 @@ package test;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.forte.demo.utils.EquipsUPUtils;
-import com.forte.demo.utils.FindEquipsUtils;
-import com.forte.demo.utils.ReadJsonFileUtils;
-import com.forte.demo.utils.UuidUtils;
+import com.forte.demo.utils.*;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.junit.Test;
@@ -33,9 +30,13 @@ public class EquipsTest {
     public void test() throws IOException {
         Calendar c = Calendar.getInstance();
         c.setTime(new Date());
-        c.add(Calendar.HOUR,6);
+        c.add(Calendar.DAY_OF_MONTH,30);
         Date after = c.getTime();
-        System.out.println(after);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        System.out.println(sdf.format(new Date()));
+        System.out.println(sdf.format(after));
+        Integer isSender = RandomNum.randomNumber(0, 100);
+        System.out.println(isSender);
     }
 
     @Test

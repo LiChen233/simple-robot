@@ -1,7 +1,15 @@
 package com.forte.demo.listener;
 
+import com.forte.demo.MainApplication;
 import com.forte.demo.anno.Check;
+import com.forte.demo.bean.QqGroup;
+import com.forte.demo.dao.PersonDao;
+import com.forte.demo.dao.PrayDao;
+import com.forte.demo.dao.QqGroupDao;
 import com.forte.demo.emun.FunEnum;
+import com.forte.demo.service.power.count.CountService;
+import com.forte.demo.service.power.count.CountServiceImpl;
+import com.forte.demo.utils.EquipsUPUtils;
 import com.forte.demo.utils.TAipUtils;
 import com.forte.qqrobot.anno.Filter;
 import com.forte.qqrobot.anno.Listen;
@@ -10,32 +18,99 @@ import com.forte.qqrobot.beans.cqcode.CQCode;
 import com.forte.qqrobot.beans.messages.msgget.GroupMsg;
 import com.forte.qqrobot.beans.messages.msgget.PrivateMsg;
 import com.forte.qqrobot.beans.messages.types.MsgGetTypes;
+import com.forte.qqrobot.beans.types.KeywordMatchType;
 import com.forte.qqrobot.sender.MsgSender;
 import com.forte.qqrobot.utils.CQCodeUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 
 @Component
 public class MsgListener {
 
+    @Autowired
+    QqGroupDao qqGroupDao;
+    @Autowired
+    PersonDao personDao;
+    @Autowired
+    CountService countService;
+    @Autowired
+    PrayDao prayDao;
+
+    private static final String QQ = "2943226427";
+
+    @Listen(MsgGetTypes.privateMsg)
+    @Filter(keywordMatchType = KeywordMatchType.TRIM_CONTAINS,value =
+            {"通知"})
+    public void notice(PrivateMsg msg, MsgSender sender){
+        String notice = msg.getMsg().substring(2).trim().replaceAll("],","]");
+        System.out.println(notice);
+        ArrayList<QqGroup> allGroup = qqGroupDao.getAllGroup();
+        for (QqGroup group : allGroup) {
+            sender.SENDER.sendGroupMsg(group.getGroupid(),notice);
+        }
+        sender.SENDER.sendPrivateMsg(QQ,"通知发送成功");
+    }
+
     /**
-     * 私聊使用ai
-     * @param msg
-     * @param sender
-     * @throws Exception
+     * 私聊
      */
     @Listen(MsgGetTypes.privateMsg)
-    public void priMsg(PrivateMsg msg, MsgSender sender) throws Exception{
-        //获取消息
-        String m = msg.getMsg();
-        //从TAip工具类拿单例
-        //从工具类直接拿到ai的回答
-        String result = TAipUtils.getTAIP()
-                .nlpTextchat(TAipUtils.getSession(),m);
-        //发送私信，两个参数一个QQ号一个文本
-        String answer = TAipUtils.getAnswer(result);
-        sender.SENDER.sendPrivateMsg(msg.getQQ(),answer);
+    @Filter(value = "重置")
+    public void priMsg(PrivateMsg msg, MsgSender sender){
+        sender.SENDER.sendPrivateMsg(QQ,"开始重置");
+
+        try {
+            //重置签到总人数
+            qqGroupDao.resetSigninCount();
+        }catch (Exception e){
+            sender.SENDER.sendPrivateMsg(QQ,"重置签到总人数出错");
+            sender.SENDER.sendPrivateMsg(QQ,getMsg(e));
+        }
+
+        try {
+            //重置所有人的签到记录
+            personDao.resetAllSign();
+            //重置所有人的抽签记录
+            personDao.resetDraw();
+        }catch (Exception e){
+            sender.SENDER.sendPrivateMsg(QQ,"重置签到记录出错");
+            sender.SENDER.sendPrivateMsg(QQ,getMsg(e));
+        }
+
+        try {
+            //刷新每日日志
+            countService.newDay();
+        }catch (Exception e){
+            sender.SENDER.sendPrivateMsg(QQ,"刷新每日日志出错");
+            sender.SENDER.sendPrivateMsg(QQ,getMsg(e));
+        }
+
+        try {
+            //获取当前日期，周四和周一重置魔女up
+            SimpleDateFormat dateFm = new SimpleDateFormat("EEEE");
+            String currSun = dateFm.format(new Date());
+            if("星期一".equals(currSun) || "星期四".equals(currSun)){
+                prayDao.resetCustom();
+            }
+        }catch (Exception e){
+            sender.SENDER.sendPrivateMsg(QQ,"重置魔女up出错");
+            sender.SENDER.sendPrivateMsg(QQ,getMsg(e));
+        }
+
+        try {
+            //刷新up记录
+            EquipsUPUtils.flushJson();
+        }catch (Exception e){
+            sender.SENDER.sendPrivateMsg(QQ,"刷新up记录出错");
+            sender.SENDER.sendPrivateMsg(QQ,getMsg(e));
+        }
+
+        sender.SENDER.sendPrivateMsg(QQ,"重置完毕");
     }
 
     /**
@@ -136,11 +211,24 @@ public class MsgListener {
     }
 
     @Check(type = FunEnum.ai_count)
-    @Filter(value = {"投食","打赏"})
+    @Filter(value = {"投食","打赏","恰饭"})
     @Listen(MsgGetTypes.groupMsg)
     public void giveMsg(GroupMsg msg, MsgSender sender) throws Exception {
         File ma = new File("src/static/zhifu.jpg");
         String zhifu = CQCodeUtil.build().getCQCode_image("file://"+ma.getAbsolutePath());
-        sender.SENDER.sendGroupMsg(msg.getGroup(),zhifu);
+        sender.SENDER.sendGroupMsg(msg.getGroup(),"钱包空空的,给点恰饭钱吧..."+zhifu);
+    }
+
+    /**
+     * 打印报错信息
+     */
+    private String getMsg(Exception e){
+        StringBuilder sb = new StringBuilder();
+        StackTraceElement[] stackTraces = e.getStackTrace();
+        for (StackTraceElement stackTrace : stackTraces) {
+            sb.append(stackTrace);
+            sb.append("\n");
+        }
+        return sb.toString();
     }
 }

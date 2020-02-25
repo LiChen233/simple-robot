@@ -2,8 +2,10 @@ package com.forte.demo.dao;
 
 import com.forte.demo.bean.Pray;
 import org.apache.ibatis.annotations.*;
+import org.springframework.stereotype.Repository;
 
 @Mapper
+@Repository
 public interface PrayDao {
 
     //根据QQ获取祈愿信息

@@ -37,12 +37,12 @@ public class MsgPictrueListener {
 
 
     //来份色图API
-    private static final String FORCOLORIMAGEURL[] =  {
+    /*private static final String FORCOLORIMAGEURL[] =  {
             //"https://api.moonwl.cn/api/tu/acg.php",  //接口已凉 瑶:后续测试接口还能用
             "https://api.w0ai1uo.org/api/dongman/",
             "http://api.mtyqx.cn/tapi/random.php",
             "http://api.btstu.cn/sjbz/?lx=dongman"
-    };
+    };*/
 
     //来份壁纸API
     private static final String FORWALLPAPER[] = {
@@ -100,7 +100,7 @@ public class MsgPictrueListener {
 
         CQCode at = CQCodeUtil.build().getCQCode_At(groupMsg.getQQ());
         try{
-            System.out.println(imgPath);
+            //System.out.println(imgPath);
             //加载色图
             Document doc = Jsoup.connect(imgPath.toString()).header("User-Agent",
                     "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.4; en-US; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2")
@@ -114,7 +114,7 @@ public class MsgPictrueListener {
             if (code==0){
                 //成功
                 String imgUrl = json.getJSONArray("data").getJSONObject(0).getString("url");
-                System.out.println(imgUrl);
+                //System.out.println(imgUrl);
 
                 sender.SENDER.sendGroupMsg(groupMsg.getGroup()," 色图加载中...");
 
@@ -141,9 +141,9 @@ public class MsgPictrueListener {
 
                 File file = new File(filePath);
                 String img = CQCodeUtil.build().getCQCode_image("file://"+ file.getAbsolutePath());
-                System.out.println(img);
+                //System.out.println(img);
                 sender.SENDER.sendGroupMsg(groupMsg.getGroup(),at.toString()+img);
-                //file.delete();
+                file.delete();
             }else if (code==1){
                 //没有符合关键字的色图
                 sender.SENDER.sendGroupMsg(groupMsg.getGroup(),at.toString()+" 没有符合关键字的色图");

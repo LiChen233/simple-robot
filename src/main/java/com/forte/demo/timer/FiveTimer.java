@@ -16,8 +16,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-//每天0点5分钟触发
-@CronTask("0 5 0 * * ? *")
+//每天0点1分钟触发
+@CronTask("0 1 0 * * ? *")
 public class FiveTimer implements TimeJob {
 
     @Override

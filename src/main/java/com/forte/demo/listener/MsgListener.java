@@ -48,7 +48,6 @@ public class MsgListener {
             {"通知"})
     public void notice(PrivateMsg msg, MsgSender sender){
         String notice = msg.getMsg().substring(2).trim().replaceAll("],","]");
-        System.out.println(notice);
         ArrayList<QqGroup> allGroup = qqGroupDao.getAllGroup();
         for (QqGroup group : allGroup) {
             sender.SENDER.sendGroupMsg(group.getGroupid(),notice);

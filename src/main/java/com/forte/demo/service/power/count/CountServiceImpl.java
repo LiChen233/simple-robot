@@ -50,6 +50,8 @@ public class CountServiceImpl implements CountService {
                 .signCount(ZERO)
                 .upCount(ZERO)
                 .jsonFlush(ZERO)
+                .festivalOne(ZERO)
+                .festivalTen(ZERO)
                 .build();
         for (QqGroup group : groups) {
             count.setQqGroup(group.getGroupid());
@@ -85,6 +87,8 @@ public class CountServiceImpl implements CountService {
                     .signCount(ZERO)
                     .upCount(ZERO)
                     .jsonFlush(ZERO)
+                    .festivalOne(ZERO)
+                    .festivalTen(ZERO)
                     .build();
             countDao.insert(newGroup);
             count.setId(newGroup.getId());

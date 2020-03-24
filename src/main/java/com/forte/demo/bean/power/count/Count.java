@@ -39,6 +39,8 @@ public class Count implements Serializable {
     private Integer signCount;
     private Integer upCount;
     private Integer jsonFlush;
+    private Integer festivalOne;
+    private Integer festivalTen;
 
     @TableField(exist = false)
     private String funName; //功能名称，sql用

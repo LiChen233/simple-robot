@@ -34,10 +34,37 @@ public class PrayListener {
     private static final Integer BAODI = 3;
 
     /**
-     * 监听群消息，暂时写成多个方法，之后可以更换成通过单条消息判断
+     * 监听群消息
      * @param msg
      * @param sender
      */
+    @Check(type = FunEnum.festival_one,cost = 1)
+    @Filter(value = "梦想单抽")
+    @Listen(MsgGetTypes.groupMsg)
+    public void festivalOne(GroupMsg msg, MsgSender sender) throws Exception {
+        String qq = msg.getQQ();
+        CQCode cqCode_at = CQCodeUtil.build().getCQCode_At(qq);
+        String festival = prayService.festivalOne(qq);
+        Integer baodiNum = prayService.getBaodiNum(PrayEnum.festival, qq);
+        String baodila = "";
+        if (baodiNum<=BAODI){
+            baodila = " 剩"+baodiNum+"发保底";
+        }
+        sender.SENDER.sendGroupMsg(msg.getGroup(),cqCode_at+" "+festival+baodila);
+    }
+
+    @Check(type = FunEnum.festival_ten,cost = 10)
+    @Filter(value = "梦想十连")
+    @Listen(MsgGetTypes.groupMsg)
+    public void festivalTne(GroupMsg msg, MsgSender sender) throws Exception {
+        String qq = msg.getQQ();
+        CQCode cqCode_at = CQCodeUtil.build().getCQCode_At(qq);
+        String path = prayService.festivalTen();
+        File file = new File(path);
+        String cqCode_image = CQCodeUtil.build().getCQCode_image("file://" + file.getAbsolutePath());
+        sender.SENDER.sendGroupMsg(msg.getGroup(), cqCode_at+cqCode_image);
+        file.delete();
+    }
     @Check(type = FunEnum.high_one,cost = 1)
     @Filter(value = "公主单抽")
     @Listen(MsgGetTypes.groupMsg)

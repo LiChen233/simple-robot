@@ -47,4 +47,8 @@ public interface PrayDao {
     //重置魔女保底
     @Update("UPDATE pray SET specialqujian = 10,specialbaodi = 0")
     void resetSpecial();
+
+    //重置梦想保底
+    @Update("UPDATE pray SET festivalqujian = 10,festivalbaodi = 0")
+    void resetFestival();
 }

@@ -47,6 +47,18 @@ public class PrayService {
         }
     }
 
+    public String festivalOne(String qq) throws IOException {
+        JSONObject prayJson = PrayUtils.getJsonString(PrayEnum.festival);
+        return gachaOne(prayJson, qq,PrayEnum.festival);
+    }
+
+    public String festivalTen() throws IOException {
+        JSONObject prayJson = PrayUtils.getJsonString(PrayEnum.festival);
+        ArrayList<String> equips = gachaTen(prayJson, PrayEnum.festival);
+        String path = ImageUtils.composeImg(equips);
+        return path;
+    }
+
     public String highOne(String qq) throws IOException {
         JSONObject prayJson = PrayUtils.getJsonString(PrayEnum.high);
         return gachaOne(prayJson, qq,PrayEnum.high);
@@ -189,4 +201,5 @@ public class PrayService {
         }
         return res;
     }
+
 }

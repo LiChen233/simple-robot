@@ -37,12 +37,12 @@ public class MsgPictrueListener {
 
 
     //来份色图API
-    /*private static final String FORCOLORIMAGEURL[] =  {
+    private static final String FORCOLORIMAGEURL[] =  {
             //"https://api.moonwl.cn/api/tu/acg.php",  //接口已凉 瑶:后续测试接口还能用
             "https://api.w0ai1uo.org/api/dongman/",
             "http://api.mtyqx.cn/tapi/random.php",
             "http://api.btstu.cn/sjbz/?lx=dongman"
-    };*/
+    };
 
     //来份壁纸API
     private static final String FORWALLPAPER[] = {
@@ -59,7 +59,7 @@ public class MsgPictrueListener {
     /**
      * 来份色图接口，旧版
      */
-    /*@Check(type = FunEnum.se_count,cost = 10)
+    @Check(type = FunEnum.se_count,cost = 10)
     @Listen(value = MsgGetTypes.groupMsg)
     @Filter(value = {"来份色图","来分色图","来张色图","来份涩图","来分涩图","来张涩图"})
     public synchronized void forColorImage(GroupMsg groupMsg, MsgSender sender) throws IOException {
@@ -72,13 +72,12 @@ public class MsgPictrueListener {
             sender.SENDER.sendGroupMsg(groupMsg.getGroup(),at+" 由于网络波动，色图加载失败！请重试 0.0");
             throw new RuntimeException("色图加载失败",e);
         }
-
-    }*/
+    }
 
     /**
      * 来份色图接口，新的，但是性能不太好
      */
-    @Check(type = FunEnum.se_count,cost = 10)
+    /*@Check(type = FunEnum.se_count,cost = 10)
     @Listen(value = MsgGetTypes.groupMsg)
     @Filter(keywordMatchType = KeywordMatchType.TRIM_CONTAINS,value = {"来份色图","#来份色图","r来份色图"})
     public synchronized void forColorImage(GroupMsg groupMsg, MsgSender sender){
@@ -156,7 +155,7 @@ public class MsgPictrueListener {
             e.printStackTrace();
         }
 
-    }
+    }*/
 
     @Check(type = FunEnum.se_count,cost = 10)
     @Listen(value = MsgGetTypes.groupMsg)

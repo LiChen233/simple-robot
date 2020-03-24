@@ -4,6 +4,7 @@ import com.forte.demo.MainApplication;
 import com.forte.demo.dao.PersonDao;
 import com.forte.demo.dao.PrayDao;
 import com.forte.demo.dao.QqGroupDao;
+import com.forte.demo.emun.PrayEnum;
 import com.forte.demo.service.power.count.CountServiceImpl;
 import com.forte.demo.utils.EquipsUPUtils;
 import com.forte.demo.utils.PrayUtils;
@@ -33,8 +34,12 @@ public class FiveTimer implements TimeJob {
         }
 
         //如果魔法少女祈愿时间过了，则重置魔法少女保底
-        if (!PrayUtils.findSpecial()){
+        if (!PrayUtils.findSpecial(PrayEnum.special)){
             prayDao.resetSpecial();
+        }
+        //如果梦想少女祈愿时间过了，则重置魔法少女保底
+        if (!PrayUtils.findSpecial(PrayEnum.festival)){
+            prayDao.resetFestival();
         }
     }
 }

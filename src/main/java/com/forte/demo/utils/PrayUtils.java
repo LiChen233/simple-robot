@@ -26,10 +26,10 @@ public class PrayUtils {
 
     private static final String GAO = "https://hsod2.hongshn.xyz/gacha/data";
 
-    public static boolean findSpecial(){
+    public static boolean findSpecial(PrayEnum prayEnum){
         JSONObject jsonString = null;
         try {
-            jsonString = getJsonString(PrayEnum.special);
+            jsonString = getJsonString(prayEnum);
         } catch (IOException e) {
             e.printStackTrace();
         }

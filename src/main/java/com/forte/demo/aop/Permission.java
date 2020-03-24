@@ -6,6 +6,7 @@ import com.forte.demo.bean.power.count.Count;
 import com.forte.demo.bean.power.groupPower.GroupPower;
 import com.forte.demo.bean.power.qqPower.QQPower;
 import com.forte.demo.emun.FunEnum;
+import com.forte.demo.emun.PrayEnum;
 import com.forte.demo.service.PersonService;
 import com.forte.demo.service.power.count.CountService;
 import com.forte.demo.service.power.groupPower.GroupPowerService;
@@ -70,8 +71,15 @@ public class Permission {
 
         //判断是否是魔法少女
         if (funEnum==FunEnum.special_one || funEnum==FunEnum.special_ten){
-            if (!PrayUtils.findSpecial()){
+            if (!PrayUtils.findSpecial(PrayEnum.special)){
                 sender.SENDER.sendGroupMsg(msg.getGroup(), cqCode_at+" 魔法少女关门啦！请下次再来！");
+                return;
+            }
+        }
+        //判断是否是魔法少女
+        if (funEnum==FunEnum.festival_one || funEnum==FunEnum.festival_ten){
+            if (!PrayUtils.findSpecial(PrayEnum.festival)){
+                sender.SENDER.sendGroupMsg(msg.getGroup(), cqCode_at+" 梦想祈愿关门啦！请下次再来！");
                 return;
             }
         }

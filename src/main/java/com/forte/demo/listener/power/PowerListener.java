@@ -25,7 +25,7 @@ public class PowerListener {
      */
     @Ban(types = {FunEnum.middle_one,FunEnum.middle_ten,FunEnum.custom_one,
             FunEnum.custom_ten,FunEnum.special_one,FunEnum.special_ten,
-            FunEnum.high_one,FunEnum.high_ten},status = 1)
+            FunEnum.high_one,FunEnum.high_ten,FunEnum.festival_one,FunEnum.festival_ten},status = 1)
     @Filter(keywordMatchType = KeywordMatchType.TRIM_CONTAINS,value = {"#禁用 扭蛋"})
     @Listen(MsgGetTypes.groupMsg)
     public void BanPray(GroupMsg msg, MsgSender sender){
@@ -33,7 +33,7 @@ public class PowerListener {
 
     @Ban(types = {FunEnum.middle_one,FunEnum.middle_ten,FunEnum.custom_one,
             FunEnum.custom_ten,FunEnum.special_one,FunEnum.special_ten,
-            FunEnum.high_one,FunEnum.high_ten},status = 0)
+            FunEnum.high_one,FunEnum.high_ten,FunEnum.festival_one,FunEnum.festival_ten},status = 0)
     @Filter(keywordMatchType = KeywordMatchType.TRIM_CONTAINS,value = {"#启用 扭蛋"})
     @Listen(MsgGetTypes.groupMsg)
     public void NotBanPray(GroupMsg msg, MsgSender sender){
@@ -102,7 +102,8 @@ public class PowerListener {
     @Ban(types = {FunEnum.middle_one,FunEnum.middle_ten,FunEnum.special_one,
             FunEnum.special_ten,FunEnum.custom_one,FunEnum.custom_ten,
             FunEnum.high_one,FunEnum.high_ten,FunEnum.se_count,FunEnum.ai_count,
-            FunEnum.eq_count,FunEnum.aq_count,FunEnum.sign_count,FunEnum.up_count},status = 1)
+            FunEnum.eq_count,FunEnum.aq_count,FunEnum.sign_count,FunEnum.up_count,
+            FunEnum.festival_one,FunEnum.festival_ten},status = 1)
     @Filter(keywordMatchType = KeywordMatchType.TRIM_CONTAINS,value = {"#禁用 萌萌新"})
     @Listen(MsgGetTypes.groupMsg)
     public void BanALL(GroupMsg msg, MsgSender sender){
@@ -111,7 +112,8 @@ public class PowerListener {
     @Ban(types = {FunEnum.middle_one,FunEnum.middle_ten,FunEnum.special_one,
             FunEnum.special_ten,FunEnum.custom_one,FunEnum.custom_ten,
             FunEnum.high_one,FunEnum.high_ten,FunEnum.se_count,FunEnum.ai_count,
-            FunEnum.eq_count,FunEnum.aq_count,FunEnum.sign_count,FunEnum.up_count},status = 0)
+            FunEnum.eq_count,FunEnum.aq_count,FunEnum.sign_count,FunEnum.up_count,
+            FunEnum.festival_one,FunEnum.festival_ten},status = 0)
     @Filter(keywordMatchType = KeywordMatchType.TRIM_CONTAINS,value = {"#启用 萌萌新"})
     @Listen(MsgGetTypes.groupMsg)
     public void NotBanALL(GroupMsg msg, MsgSender sender){
@@ -122,7 +124,8 @@ public class PowerListener {
      */
     @Switch(types = {FunEnum.middle_one,FunEnum.middle_ten,FunEnum.custom_one,
             FunEnum.custom_ten,FunEnum.special_one,FunEnum.special_ten,
-            FunEnum.high_one,FunEnum.high_ten},status = 1,admin = 1,name = "扭蛋")
+            FunEnum.high_one,FunEnum.high_ten,
+            FunEnum.festival_one,FunEnum.festival_ten},status = 1,admin = 1,name = "扭蛋")
     @Filter(value = {"扭蛋 关"})
     @Listen(MsgGetTypes.groupMsg)
     public void PrayOFF(GroupMsg msg, MsgSender sender){
@@ -130,7 +133,8 @@ public class PowerListener {
 
     @Switch(types = {FunEnum.middle_one,FunEnum.middle_ten,FunEnum.custom_one,
             FunEnum.custom_ten,FunEnum.special_one,FunEnum.special_ten,
-            FunEnum.high_one,FunEnum.high_ten},status = 0,admin = 1,name = "扭蛋")
+            FunEnum.high_one,FunEnum.high_ten,
+            FunEnum.festival_one,FunEnum.festival_ten},status = 0,admin = 1,name = "扭蛋")
     @Filter(value = {"扭蛋 开"})
     @Listen(MsgGetTypes.groupMsg)
     public void PrayON(GroupMsg msg, MsgSender sender){
@@ -199,7 +203,8 @@ public class PowerListener {
     @Switch(types = {FunEnum.middle_one,FunEnum.middle_ten,FunEnum.special_one,
             FunEnum.special_ten,FunEnum.custom_one,FunEnum.custom_ten,
             FunEnum.high_one,FunEnum.high_ten,FunEnum.se_count,FunEnum.ai_count,
-            FunEnum.eq_count,FunEnum.aq_count,FunEnum.sign_count,FunEnum.up_count},
+            FunEnum.eq_count,FunEnum.aq_count,FunEnum.sign_count,FunEnum.up_count,
+            FunEnum.festival_one,FunEnum.festival_ten},
             status = 1,admin = 1,name = "萌萌新")
     @Filter(value = {"本群 关"})
     @Listen(MsgGetTypes.groupMsg)
@@ -209,7 +214,8 @@ public class PowerListener {
     @Switch(types = {FunEnum.middle_one,FunEnum.middle_ten,FunEnum.special_one,
             FunEnum.special_ten,FunEnum.custom_one,FunEnum.custom_ten,
             FunEnum.high_one,FunEnum.high_ten,FunEnum.se_count,FunEnum.ai_count,
-            FunEnum.eq_count,FunEnum.aq_count,FunEnum.sign_count,FunEnum.up_count},
+            FunEnum.eq_count,FunEnum.aq_count,FunEnum.sign_count,FunEnum.up_count,
+            FunEnum.festival_one,FunEnum.festival_ten},
             status = 0,admin = 1,name = "萌萌新")
     @Filter(value = {"本群 开"})
     @Listen(MsgGetTypes.groupMsg)

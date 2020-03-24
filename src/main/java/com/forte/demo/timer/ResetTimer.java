@@ -26,7 +26,7 @@ public class ResetTimer implements TimeJob {
 
     @Override
     public void execute(MsgSender msgSender, CQCodeUtil cqCodeUtil) {
-        msgSender.SENDER.sendPrivateMsg(QQ,"0点定时器开始执行");
+        //msgSender.SENDER.sendPrivateMsg(QQ,"0点定时器开始执行");
 
         try {
             QqGroupDao qqGroupDao = MainApplication.depends.get(QqGroupDao.class);
@@ -78,7 +78,7 @@ public class ResetTimer implements TimeJob {
             msgSender.SENDER.sendPrivateMsg(QQ,getMsg(e));
         }
 
-        msgSender.SENDER.sendPrivateMsg(QQ,"0点定时器执行完毕");
+        //msgSender.SENDER.sendPrivateMsg(QQ,"0点定时器执行完毕");
     }
 
     /**

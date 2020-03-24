@@ -1,5 +1,5 @@
 package com.forte.demo.emun;
 
 public enum PrayEnum {
-    special,custom,middle,high
+    special,custom,middle,high,festival
 }

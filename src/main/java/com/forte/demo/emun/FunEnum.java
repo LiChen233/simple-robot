@@ -63,5 +63,13 @@ public enum FunEnum {
     /**
      * 装备刷新：14
      */
-    json_flush
+    json_flush,
+    /**
+     * 梦想单抽: 15
+     */
+    festival_one,
+    /**
+     * 梦想十连: 16
+     */
+    festival_ten
 }

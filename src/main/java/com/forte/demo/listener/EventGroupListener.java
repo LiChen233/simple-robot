@@ -48,7 +48,7 @@ public class EventGroupListener {
         String qq = memberIncrease.getBeOperatedQQ();
         CQCode at = CQCodeUtil.build().getCQCode_At(qq);
         String groupQQ = memberIncrease.getGroup();
-        String messege = at.toString() + "欢迎新人加入本群。";
+        String messege = at.toString() + "  欢迎欢迎~热烈欢迎新人入群！ -v-";
         File file;
         CQCode imagePath;
         if(groupQQ.equals("195943739")){
@@ -66,7 +66,6 @@ public class EventGroupListener {
                 imagePath = CQCodeUtil.build().getCQCode_Image("file://" + file.getAbsolutePath());
                 messege += imagePath;
             }
-
         }
         sender.SENDER.sendGroupMsg(memberIncrease.getGroup(), messege);
     }

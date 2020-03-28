@@ -147,7 +147,7 @@ public class MsgListener {
                 "积分功能\n" +
                 "图片功能\n" +
                 "扭蛋功能/抽奖功能\n" +
-                "查询往期up功能\n" +
+                "往期up功能\n" +
                 "装备查询功能\n" +
                 "-----我从哪来---\n" +
                 "作者介绍\n" +
@@ -174,11 +174,9 @@ public class MsgListener {
     @Listen(MsgGetTypes.groupMsg)
     public void imageFunction(GroupMsg msg, MsgSender sender){
         String res = "图片功能介绍\n" +
-                "回复指令获取壁纸/涩图：\n" +
-                "来张/份色图\n" +
-                "来张/份壁纸\n" +
-                "来张/份手机壁纸\n" +
-                "注:一次色图消耗10积分";
+                "回复以下指令获取相应图片：\n" +
+                "来张/份色图/壁纸/手机壁纸/头像\n" +
+                "例如：来张色图 或 来份手机壁纸";
         sender.SENDER.sendGroupMsg(msg.getGroup(),res);
     }
 

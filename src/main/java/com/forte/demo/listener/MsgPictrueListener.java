@@ -268,7 +268,7 @@ public class MsgPictrueListener {
             URLConnection con = url.openConnection();
             //设置请求超时 5sg3
             con.setConnectTimeout(5*1000);
-            InputStream inputStream = con.getInputStream();
+//            InputStream inputStream = con.getInputStream();
             BufferedInputStream in = new BufferedInputStream(con.getInputStream());
             //文件名字
             String filePath = "./temp/" + UuidUtils.getUuid() + ".png";

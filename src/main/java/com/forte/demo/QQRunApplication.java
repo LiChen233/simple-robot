@@ -8,6 +8,8 @@ import com.forte.qqrobot.depend.DependGetter;
 import com.forte.qqrobot.sender.MsgSender;
 import com.forte.qqrobot.utils.CQCodeUtil;
 
+import javax.swing.filechooser.FileSystemView;
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -41,13 +43,15 @@ public class QQRunApplication implements HttpApp {
         configuration.setJavaPort(15514);
         configuration.setServerPath("/coolq");
         configuration.setServerPort(8877);
-                //配置自定义的依赖获取器
+        //配置自定义的依赖获取器
         configuration.setDependGetter(dependGetter);
 
+        //获取桌面路径
+        //File desktopDir = FileSystemView.getFileSystemView().getHomeDirectory();
+        //configuration.setCqPath(desktopDir.getAbsolutePath()+"\\酷Q Pro");
         /*
             关于配置的详细信息请查看普通的demo项目或者文档
          */
-
     }
 
     @Override

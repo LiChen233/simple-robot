@@ -32,9 +32,16 @@ public class CountServiceImpl implements CountService {
      */
     @Override
     public void newDay() {
+        String date = getDate();
+
+        //重置前先删除当天日志
+        QueryWrapper<Count> wrapper = new QueryWrapper<>();
+        wrapper.eq("today", date);
+        countDao.delete(wrapper);
+
         ArrayList<QqGroup> groups = qqGroupService.getAllGroup();
         Count count = Count.builder()
-                .today(getDate())
+                .today(date)
                 .middleOne(ZERO)
                 .middleTen(ZERO)
                 .specialOne(ZERO)

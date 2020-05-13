@@ -1,6 +1,5 @@
 package com.forte.demo.listener;
 
-import com.forte.demo.MainApplication;
 import com.forte.demo.anno.Check;
 import com.forte.demo.bean.QqGroup;
 import com.forte.demo.dao.PersonDao;
@@ -8,13 +7,11 @@ import com.forte.demo.dao.PrayDao;
 import com.forte.demo.dao.QqGroupDao;
 import com.forte.demo.emun.FunEnum;
 import com.forte.demo.service.power.count.CountService;
-import com.forte.demo.service.power.count.CountServiceImpl;
 import com.forte.demo.utils.EquipsUPUtils;
 import com.forte.demo.utils.TAipUtils;
 import com.forte.demo.utils.UuidUtils;
 import com.forte.qqrobot.anno.Filter;
 import com.forte.qqrobot.anno.Listen;
-import com.forte.qqrobot.anno.depend.Beans;
 import com.forte.qqrobot.beans.cqcode.CQCode;
 import com.forte.qqrobot.beans.messages.msgget.GroupMsg;
 import com.forte.qqrobot.beans.messages.msgget.PrivateMsg;
@@ -23,16 +20,15 @@ import com.forte.qqrobot.beans.messages.types.MsgGetTypes;
 import com.forte.qqrobot.beans.types.KeywordMatchType;
 import com.forte.qqrobot.sender.MsgSender;
 import com.forte.qqrobot.utils.CQCodeUtil;
-import com.forte.qqrobot.utils.CQUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.swing.filechooser.FileSystemView;
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -58,6 +54,8 @@ public class MsgListener {
      * @param sender
      */
     @Listen(MsgGetTypes.privateMsg)
+    @Filter(keywordMatchType = KeywordMatchType.TRIM_CONTAINS,value =
+            {"添加表情"})
     public void img(PrivateMsg msg, MsgSender sender){
         try{
             //获取uuid
@@ -65,6 +63,7 @@ public class MsgListener {
             List<CQCode> codes = codeUtil.getCQCodeFromMsg(msg.getMsg());
             for (CQCode code : codes) {
                 String uuid = code.getParam("file");
+                String fileId = UuidUtils.getUuid();
                 //拿到图片url
                 ImageInfo imageInfo = sender.GETTER.getImageInfo(uuid);
                 //下载图片
@@ -72,7 +71,7 @@ public class MsgListener {
                 HttpURLConnection conn = (HttpURLConnection)url.openConnection();
                 BufferedInputStream in = new BufferedInputStream(conn.getInputStream());
                 //文件名字
-                String filePath = "src/static/surprise/" + UuidUtils.getUuid();
+                String filePath = "src/static/surprise/" + fileId;
                 BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(filePath));
                 byte[] buffer = new byte[8192];
                 int count;
@@ -84,10 +83,30 @@ public class MsgListener {
                 conn.disconnect();
                 File file = new File(filePath);
                 String cqCode_image = CQCodeUtil.build().getCQCode_image("file://" + file.getAbsolutePath());
-                sender.SENDER.sendPrivateMsg(msg.getQQ(), cqCode_image+"保存图片成功，文件id："+uuid);
+                sender.SENDER.sendPrivateMsg(msg.getQQ(), cqCode_image+"保存图片成功，文件id：" + fileId);
             }
         }catch (Exception e){
             sender.SENDER.sendPrivateMsg(msg.getQQ(), "保存图片出错啦");
+        }
+    }
+
+    @Listen(MsgGetTypes.privateMsg)
+    @Filter(keywordMatchType = KeywordMatchType.TRIM_CONTAINS,value =
+            {"删除表情"})
+    public void del(PrivateMsg msg, MsgSender sender){
+        String m = msg.getMsg();
+        String qq = msg.getQQ();
+        int index = m.indexOf("删除表情");
+        m = m.substring(index + 4).trim();
+        File file = new File("src/static/surprise/" + m);
+        if (file.exists()){
+            if (file.delete()){
+                sender.SENDER.sendPrivateMsg(qq, "删除表情："+m+" 成功");
+            }else {
+                sender.SENDER.sendPrivateMsg(qq, "删除表情："+m+" 失败");
+            }
+        }else{
+            sender.SENDER.sendPrivateMsg(qq,"表情不存在");
         }
     }
 

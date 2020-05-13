@@ -57,36 +57,49 @@ public class MsgListener {
     @Filter(keywordMatchType = KeywordMatchType.TRIM_CONTAINS,value =
             {"添加表情"})
     public void img(PrivateMsg msg, MsgSender sender){
-        try{
-            //获取uuid
-            CQCodeUtil codeUtil = CQCodeUtil.build();
-            List<CQCode> codes = codeUtil.getCQCodeFromMsg(msg.getMsg());
-            for (CQCode code : codes) {
+        //获取uuid
+        CQCodeUtil codeUtil = CQCodeUtil.build();
+        List<CQCode> codes = codeUtil.getCQCodeFromMsg(msg.getMsg());
+        HttpURLConnection conn = null;
+        BufferedInputStream in = null;
+        BufferedOutputStream out = null;
+        for (CQCode code : codes) {
+            try{
                 String uuid = code.getParam("file");
                 String fileId = UuidUtils.getUuid();
                 //拿到图片url
                 ImageInfo imageInfo = sender.GETTER.getImageInfo(uuid);
                 //下载图片
                 URL url = new URL(imageInfo.getUrl());
-                HttpURLConnection conn = (HttpURLConnection)url.openConnection();
-                BufferedInputStream in = new BufferedInputStream(conn.getInputStream());
+                conn = (HttpURLConnection)url.openConnection();
+                in = new BufferedInputStream(conn.getInputStream());
                 //文件名字
                 String filePath = "src/static/surprise/" + fileId;
-                BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(filePath));
+                out = new BufferedOutputStream(new FileOutputStream(filePath));
                 byte[] buffer = new byte[8192];
-                int count;
-                while ((count = in.read(buffer)) > 0) {
-                    out.write(buffer, 0, count);
+                int len;
+                while ((len = in.read(buffer)) != -1) {
+                    out.write(buffer, 0, len);
                 }
-                out.close();
-                in.close();
-                conn.disconnect();
                 File file = new File(filePath);
                 String cqCode_image = CQCodeUtil.build().getCQCode_image("file://" + file.getAbsolutePath());
                 sender.SENDER.sendPrivateMsg(msg.getQQ(), cqCode_image+"保存图片成功，文件id：" + fileId);
+            }catch (Exception e){
+                sender.SENDER.sendPrivateMsg(msg.getQQ(), "保存图片出错啦，换个表情试试吧");
             }
-        }catch (Exception e){
-            sender.SENDER.sendPrivateMsg(msg.getQQ(), "保存图片出错啦");
+            try {
+                if (null != out){
+                    out.close();
+                }
+                if (null != in){
+                    in.close();
+                }
+                if (null != conn){
+                    conn.disconnect();
+                }
+            }catch (Exception e){
+                System.out.println("添加表情流关闭失败");
+            }
         }
     }
 

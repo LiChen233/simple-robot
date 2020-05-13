@@ -33,7 +33,7 @@ public class SurpriseTimer implements TimeJob {
             //距离群上次说话是多久，转换成分钟
             long min = (now.getTime() - entry.getValue().getTime()) / 1000 / 60;
             //如果有60分钟没人说话了，则可以触发下面的
-            if (min>=60){
+            if (min>=0){
                 File files = new File(PATH);
                 File[] file = files.listFiles();
 

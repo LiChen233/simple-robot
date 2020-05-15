@@ -1,13 +1,15 @@
 package com.forte.demo.dao;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.forte.demo.bean.Person;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 @Mapper
-public interface PersonDao {
-
+public interface PersonDao extends BaseMapper<Person> {
 
     //初始化用户
     @Insert("INSERT INTO person VALUES(#{qq},#{star},#{signin},#{draw},#{signTime})")

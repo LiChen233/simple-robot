@@ -1,12 +1,13 @@
 package com.forte.demo.dao;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.forte.demo.bean.Pray;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 @Mapper
 @Repository
-public interface PrayDao {
+public interface PrayDao extends BaseMapper<Pray> {
 
     //根据QQ获取祈愿信息
     @Select("SELECT * FROM pray WHERE qq = #{qq}")

@@ -13,7 +13,7 @@ public interface PrayDao {
     Pray getPray(String qq);
 
     //新增一条用户数据
-    @Insert("INSERT INTO pray VALUES(#{qq},10,0,7,0,10,1,10,0)")
+    @Insert("INSERT INTO pray VALUES(#{qq},10,0,7,0,10,1,10,0,10,0)")
     void addPray(String qq);
 
     //获取某一区间

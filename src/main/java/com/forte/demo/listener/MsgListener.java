@@ -81,6 +81,7 @@ public class MsgListener {
                 while ((len = in.read(buffer)) != -1) {
                     out.write(buffer, 0, len);
                 }
+                out.flush();
                 File file = new File(filePath);
                 String cqCode_image = CQCodeUtil.build().getCQCode_image("file://" + file.getAbsolutePath());
                 sender.SENDER.sendPrivateMsg(msg.getQQ(), cqCode_image+"保存图片成功，文件id：" + fileId);

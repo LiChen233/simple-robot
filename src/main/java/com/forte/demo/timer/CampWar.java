@@ -8,6 +8,7 @@ import com.forte.qqrobot.sender.MsgSender;
 import com.forte.qqrobot.timetask.TimeJob;
 import com.forte.qqrobot.utils.CQCodeUtil;
 
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -16,12 +17,17 @@ import java.util.ArrayList;
 @CronTask("0 55 18 1,2,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31 7,8 ? ")
 public class CampWar implements TimeJob {
 
+    private static final String PATH = "src/static/";
+
     @Override
     public void execute(MsgSender msgSender, CQCodeUtil cqCodeUtil) {
         QqGroupDao qqGroupDao = MainApplication.depends.get(QqGroupDao.class);
         ArrayList<QqGroup> allGroup = qqGroupDao.getAllGroup();
+        File file = new File(PATH + "CampWar.jpg");
+        String cqCode = CQCodeUtil.build()
+                .getCQCode_image("file://" + file.getAbsolutePath());
         allGroup.forEach(e -> {
-            msgSender.SENDER.sendGroupMsg(e.getGroupid(),"争夺战将于19:00开始，请各位做好准备");
+            msgSender.SENDER.sendGroupMsg(e.getGroupid(),cqCode + "争夺战将于19:00开始，请各位做好准备");
         });
     }
 }

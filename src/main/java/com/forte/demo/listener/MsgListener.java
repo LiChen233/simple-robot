@@ -87,19 +87,20 @@ public class MsgListener {
                 sender.SENDER.sendPrivateMsg(msg.getQQ(), cqCode_image+"保存图片成功，文件id：" + fileId);
             }catch (Exception e){
                 sender.SENDER.sendPrivateMsg(msg.getQQ(), "保存图片出错啦，换个表情试试吧");
-            }
-            try {
-                if (null != out){
-                    out.close();
+            }finally {
+                try {
+                    if (null != out){
+                        out.close();
+                    }
+                    if (null != in){
+                        in.close();
+                    }
+                    if (null != conn){
+                        conn.disconnect();
+                    }
+                }catch (Exception e){
+                    System.out.println("添加表情流关闭失败");
                 }
-                if (null != in){
-                    in.close();
-                }
-                if (null != conn){
-                    conn.disconnect();
-                }
-            }catch (Exception e){
-                System.out.println("添加表情流关闭失败");
             }
         }
     }

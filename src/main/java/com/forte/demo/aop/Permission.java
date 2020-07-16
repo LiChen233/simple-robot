@@ -48,6 +48,9 @@ public class Permission {
         GroupMsg msg = (GroupMsg) joinPoint.getArgs()[0];
         //QQ号
         String qq = msg.getQQ();
+        if(qq.equals("2854196310")){
+            return;
+        }
         //QQ群
         String group = msg.getGroup();
         //获取发送器对象

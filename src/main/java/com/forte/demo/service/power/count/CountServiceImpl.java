@@ -74,6 +74,7 @@ public class CountServiceImpl implements CountService {
     public void increase(Count count) {
         //AOP传进来的是没有日期和id的
         count.setToday(getDate());
+        //查询日志是不是已经有了
         Count temp = countDao.selectOne(new QueryWrapper<>(count));
         if (null==temp){
             Count newGroup = Count.builder()
@@ -97,7 +98,12 @@ public class CountServiceImpl implements CountService {
                     .festivalOne(ZERO)
                     .festivalTen(ZERO)
                     .build();
-            countDao.insert(newGroup);
+            try {
+                countDao.insert(newGroup);
+            }catch (Exception e){
+                //如果日志已经存在，代表出现了并发bug，则在此搜索拿到id
+                count = countDao.selectOne(new QueryWrapper<>(count));
+            }
             count.setId(newGroup.getId());
         }else {
             count.setId(temp.getId());

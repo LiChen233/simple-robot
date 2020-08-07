@@ -49,7 +49,6 @@ public class MsgListener {
 
     private static final String QQ = "2943226427";
 
-    @Check(type = FunEnum.ai_count)
     @Filter(value = "抽奖")
     @Listen(MsgGetTypes.groupMsg)
     public void draw(GroupMsg msg, MsgSender sender) throws ParseException {

@@ -29,6 +29,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -47,6 +48,24 @@ public class MsgListener {
     PrayDao prayDao;
 
     private static final String QQ = "2943226427";
+
+    @Check(type = FunEnum.ai_count)
+    @Filter(value = "抽奖")
+    @Listen(MsgGetTypes.groupMsg)
+    public void draw(GroupMsg msg, MsgSender sender) throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date parse = sdf.parse("2020-08-16 20:00:00");
+        String path = "src/static/";
+        if (parse.before(new Date())){
+            File file = new File(path + "draw.png");
+            String cqCode_image = CQCodeUtil.build().getCQCode_image("file://" + file.getAbsolutePath());
+            sender.SENDER.sendPrivateMsg(msg.getQQ(), "扫描二维码参与抽奖"+cqCode_image);
+        }else {
+            File file = new File(path + "run.png");
+            String cqCode_image = CQCodeUtil.build().getCQCode_image("file://" + file.getAbsolutePath());
+            sender.SENDER.sendPrivateMsg(msg.getQQ(), "扫描二维码查看抽奖结果"+cqCode_image);
+        }
+    }
 
     /**
      * 直接发图片给机器人，然后保存到惊喜图里

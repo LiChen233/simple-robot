@@ -55,15 +55,21 @@ public class MsgListener {
     public void draw(GroupMsg msg, MsgSender sender) throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date parse = sdf.parse("2020-08-16 20:00:00");
+        Date start = sdf.parse("2020-08-08 10:00:00");
+        Date now = new Date();
         String path = "src/static/";
-        if (parse.before(new Date())){
-            File file = new File(path + "draw.png");
-            String cqCode_image = CQCodeUtil.build().getCQCode_image("file://" + file.getAbsolutePath());
-            sender.SENDER.sendPrivateMsg(msg.getQQ(), "扫描二维码参与抽奖"+cqCode_image);
-        }else {
-            File file = new File(path + "run.png");
-            String cqCode_image = CQCodeUtil.build().getCQCode_image("file://" + file.getAbsolutePath());
-            sender.SENDER.sendPrivateMsg(msg.getQQ(), "扫描二维码查看抽奖结果"+cqCode_image);
+        if (start.after(now)){
+            sender.SENDER.sendGroupMsg(msg.getGroup(), "抽奖活动将于8月8日上午10点开始哦");
+        }else{
+            if (parse.after(now)){
+                File file = new File(path + "draw.png");
+                String cqCode_image = CQCodeUtil.build().getCQCode_image("file://" + file.getAbsolutePath());
+                sender.SENDER.sendGroupMsg(msg.getGroup(), "扫描二维码参与抽奖"+cqCode_image);
+            }else {
+                File file = new File(path + "run.png");
+                String cqCode_image = CQCodeUtil.build().getCQCode_image("file://" + file.getAbsolutePath());
+                sender.SENDER.sendGroupMsg(msg.getGroup(), "扫描二维码查看抽奖结果"+cqCode_image);
+            }
         }
     }
 

@@ -225,8 +225,8 @@ public class FindEquipsUtils {
         if (list.get(l1).equals("")){
             return list.get(l0);
         }
-        BufferedImage image1 = ImageUtils.getImg(list.get(l0));
-        BufferedImage image2 = ImageUtils.getImg(list.get(l1));
+        BufferedImage image1 = ImageIO.read(new File(list.get(l0)));
+        BufferedImage image2 = ImageIO.read(new File(list.get(l1)));
 
         //拿到装备图片尺寸
         float img1w = image1.getWidth();

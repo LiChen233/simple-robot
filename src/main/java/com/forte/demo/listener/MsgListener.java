@@ -58,7 +58,7 @@ public class MsgListener {
         Date now = new Date();
         String path = "src/static/";
         if (start.after(now)){
-            sender.SENDER.sendGroupMsg(msg.getGroup(), "抽奖活动将于8月8日上午10点开始哦");
+            sender.SENDER.sendGroupMsg(msg.getGroup(), "抽奖活动于8月8日上午10点开始哦");
         }else{
             if (parse.after(now)){
                 File file = new File(path + "draw.png");

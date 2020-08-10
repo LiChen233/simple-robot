@@ -1,10 +1,13 @@
 package com.forte.demo.utils;
 
 import javax.imageio.ImageIO;
+import javax.net.ssl.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
+import java.security.cert.X509Certificate;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -112,5 +115,41 @@ public class ImageUtils {
             equip = equip.substring(equip.length()-4)+equip.substring(0,equip.length()-4);
         }
         return equip;
+    }
+
+    public static BufferedImage getImg(String imgUrl){
+        try {
+            TrustManager[] trustAllCerts = new TrustManager[] {new X509TrustManager() {
+                public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+                    return null;
+                }
+                public void checkClientTrusted(X509Certificate[] certs, String authType) {
+                }
+                public void checkServerTrusted(X509Certificate[] certs, String authType) {
+                }
+            }
+            };
+
+            SSLContext sc = SSLContext.getInstance("SSL");
+            sc.init(null, trustAllCerts, new java.security.SecureRandom());
+            HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+            HostnameVerifier allHostsValid = new HostnameVerifier(){
+                public boolean verify(String hostname, SSLSession session) {
+                    return true;
+                }
+
+            };
+            HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
+
+            URL url = new URL(imgUrl);
+            HttpsURLConnection conn = (HttpsURLConnection)url.openConnection();
+            SSLSocketFactory sslSocketFactory = sc.getSocketFactory();
+            conn.setSSLSocketFactory(sslSocketFactory);
+
+            return ImageIO.read(conn.getInputStream());
+        }catch (Exception e){
+            System.out.println("忽略https并连接，出错！");
+            return null;
+        }
     }
 }

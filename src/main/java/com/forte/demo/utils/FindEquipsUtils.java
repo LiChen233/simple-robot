@@ -225,8 +225,8 @@ public class FindEquipsUtils {
         if (list.get(l1).equals("")){
             return list.get(l0);
         }
-        BufferedImage image1 = ImageIO.read(new File(list.get(l0)));
-        BufferedImage image2 = ImageIO.read(new File(list.get(l1)));
+        BufferedImage image1 = ImageUtils.getImg(list.get(l0));
+        BufferedImage image2 = ImageUtils.getImg(list.get(l1));
 
         //拿到装备图片尺寸
         float img1w = image1.getWidth();
@@ -406,10 +406,10 @@ public class FindEquipsUtils {
             }else{
                 String seriesPath = series + seriesId + suffix;
                 try {
-                    BufferedImage sericon = ImageIO.read(new URL(seriesPath));
+                    BufferedImage sericon = ImageUtils.getImg(seriesPath);
                     g.drawImage(sericon, l290, l95, l48, l48,null);
                 }catch (Exception e){
-                    BufferedImage sericon = ImageIO.read(new URL(error));
+                    BufferedImage sericon = ImageUtils.getImg(error);
                     g.drawImage(sericon, l290, l95, l48, l48,null);
                 }
                 //装备名称
@@ -421,14 +421,14 @@ public class FindEquipsUtils {
         String damageType = equip.getString("damageType");
         if (null!=damageType){
             damageType = type + damageType + suffix;
-            BufferedImage damageTypeIcon = ImageIO.read(new URL(damageType));
+            BufferedImage damageTypeIcon = ImageUtils.getImg(damageType);
             g.drawImage(damageTypeIcon, l170, l145, l32, l32,null);
         }
 
 
         //装备星级
         Integer rarity = equip.getInteger("rarity");
-        BufferedImage rarityIcon = ImageIO.read(new URL(star));
+        BufferedImage rarityIcon = ImageUtils.getImg(star);
         Integer starWidth = l205;
         for (Integer i = l0; i < rarity; i++) {
             g.drawImage(rarityIcon,starWidth, l145, l29, l29,null);
@@ -670,7 +670,7 @@ public class FindEquipsUtils {
     private static BufferedImage getBufferedImage(String img) throws IOException {
         //System.out.println("图标id"+img);
         if (null==img){
-            return ImageIO.read(new URL(error));
+            return ImageUtils.getImg(error);
         }
         //获取装备图标地址
         if (img.length()==l1){
@@ -681,9 +681,9 @@ public class FindEquipsUtils {
         String eqiconPath = eqImgUrl + img +suffix;
         //拿到图标
         try{
-            return ImageIO.read(new URL(eqiconPath));
+            return ImageUtils.getImg(eqiconPath);
         }catch (Exception e){
-            return ImageIO.read(new URL(error));
+            return ImageUtils.getImg(error);
         }
     }
 
@@ -704,7 +704,7 @@ public class FindEquipsUtils {
         //技能伤害类型
         String prop1damageType = prop1.getString("damageType");
         String prop1damageTypeUrl = type + prop1damageType + ".png";
-        BufferedImage prop1damageTypeIcon = ImageIO.read(new URL(prop1damageTypeUrl));
+        BufferedImage prop1damageTypeIcon = ImageUtils.getImg(prop1damageTypeUrl);
         g.drawImage(prop1damageTypeIcon,prop1title.length()*l36,paramH-l26,l32,l32,null);
         //技能介绍
         g.setColor(GRAY);
